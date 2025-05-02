@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="Ordering.css">
+</head>
+<body>
+    <div class="fixed-nav-container">
+        <!-- Promo Top Bar -->
+        <div class="promo-top-bar">
+            <div class="promo-left">
+                <i class="fas fa-star"></i>
+                <span>Get 5% Off your first order, <span class="promo-code" id="promo-code">Promo: ORDERS</span></span>
+            </div>
+            <div class="promo-center">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Địa chỉ</span>
+                <a href="#" class="change-location" id="change-location">Change location</a>
+            </div>
+            <div class="promo-right">
+                <button class="cart-btn-green" id="cart-toggle">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="cart-count">0</span>
+                    <span class="cart-text">items</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <div class="top-bar" id="sticky-top-bar">
+            <div class="top-bar-left">
+                <span><img src="../image/Foodieland..png" alt="Foodieland Logo" class="logo"></span>
+            </div>
+            <div class="top-bar-right">
+                <div class="nav-tabs">
+                    <a href="Home.html" class="nav-link">Home</a>
+                    <a href="Restaurant.html" class="nav-link">Restaurants</a>
+                    <a href="Ordering.html" class="nav-link track-order">Track Order</a>
+                </div>
+                <button class="btn btn-dark login-btn">
+                    <i class="fas fa-user" style="color: orange;"></i>
+                    Login / Signup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-dropdown" id="cart-dropdown">
+        <div class="cart-header">
+            <h3>My Basket (0)</h3>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your basket is empty</p>
+            </div>
+        </div>
+        <div class="order-summary">
+            <div class="summary-row">
+                <span>Sub Total</span>
+                <span id="dropdown-subtotal">0đ</span>
+            </div>
+            <div class="summary-row">
+                <span>Service Fee</span>
+                <span id="dropdown-service-fee">0đ</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount</span>
+                <span id="dropdown-discount">-0đ</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total to pay</span>
+                <span id="dropdown-total">0đ</span>
+            </div>
+        </div>
+        <button class="view-cart-btn" id="view-full-basket">View Full Basket</button>
+    </div>
+
+    <div class="modal" id="location-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Your Location</h3>
+                <button class="close-modal" id="close-location-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="location-search">
+                    <input type="text" placeholder="Enter your address..." id="location-input">
+                    <button class="search-location-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="saved-locations">
+                    <h4>Saved Locations</h4>
+                    <div class="location-item">
+                        <i class="fas fa-home"></i>
+                        <div class="location-details">
+                            <h5>Home</h5>
+                            <p>Hồ Chí Minh</p>
+                        </div>
+                        <button class="select-location-btn">Select</button>
+                    </div>
+                    <div class="location-item">
+                        <i class="fas fa-building"></i>
+                        <div class="location-details">
+                            <h5>Office</h5>
+                            <p>Hà Nội</p>
+                        </div>
+                        <button class="select-location-btn">Select</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="save-location-btn">Save & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="promo-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Get Your Promo Code</h3>
+                <button class="close-modal" id="close-promo-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="promo-details">
+                    <div class="promo-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="promo-info">
+                        <h4>5% Off Your First Order</h4>
+                        <p>Use code <strong>ORDERS</strong> at checkout</p>
+                        <p class="promo-expiry">Valid until: 31/12/2025</p>
+                    </div>
+                </div>
+                <div class="promo-code-display">
+                    <span>ORDERS</span>
+                    <button class="copy-code-btn" id="copy-code-btn">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="claim-promo-btn">Claim Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="vouchers-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Your Vouchers</h3>
+                <button class="close-modal" id="close-vouchers-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="vouchers-list">
+                    <div class="voucher-item">
+                        <div class="voucher-left">
+                            <div class="voucher-amount">5%</div>
+                            <div class="voucher-type">OFF</div>
+                        </div>
+                        <div class="voucher-middle">
+                            <h4>First Order Discount</h4>
+                            <p>Valid on all orders</p>
+                            <p class="voucher-expiry">Expires: 31/12/2025</p>
+                        </div>
+                        <div class="voucher-right">
+                            <span class="voucher-code">ORDERS</span>
+                            <button class="apply-voucher-btn" data-code="ORDERS">Apply</button>
+                        </div>
+                    </div>
+                    <div class="voucher-item">
+                        <div class="voucher-left">
+                            <div class="voucher-amount">10%</div>
+                            <div class="voucher-type">OFF</div>
+                        </div>
+                        <div class="voucher-middle">
+                            <h4>Weekend Special</h4>
+                            <p>Valid on weekends only</p>
+                            <p class="voucher-expiry">Expires: 31/12/2025</p>
+                        </div>
+                        <div class="voucher-right">
+                            <span class="voucher-code">WEEKEND10</span>
+                            <button class="apply-voucher-btn" data-code="WEEKEND10">Apply</button>
+                        </div>
+                    </div>
+                    <div class="voucher-item">
+                        <div class="voucher-left">
+                            <div class="voucher-amount">50K</div>
+                            <div class="voucher-type">OFF</div>
+                        </div>
+                        <div class="voucher-middle">
+                            <h4>Big Order Discount</h4>
+                            <p>Valid on orders over 500K</p>
+                            <p class="voucher-expiry">Expires: 31/12/2025</p>
+                        </div>
+                        <div class="voucher-right">
+                            <span class="voucher-code">BIG50K</span>
+                            <button class="apply-voucher-btn" data-code="BIG50K">Apply</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="simple-hero">
+        <div class="container">
+            <div class="hero-content animate__animated animate__fadeIn">
+                <div class="hero-text">
+                    <h1>Foodieland in Vietnam</h1>
+                    <div class="service-info">
+                        <div class="service-badge">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Minimum Order: 100.000đ</span>
+                        </div>
+                        <div class="service-badge">
+                            <i class="fas fa-clock"></i>
+                            <span>Service in 10-20 Minutes</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-orange order-btn">
+                        <i class="fas fa-utensils"></i>
+                        Order now
+                    </button>
+                    <div class="open-badge">
+                        <i class="fas fa-clock"></i>
+                        <span>Open until 3:00 AM</span>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="../image/Banner.png" alt="Burger and fries">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="order-section">
+        <div class="container">
+            <h3 class="section-title animate__animated animate__fadeInUp">Order from Foodieland Vietnam</h3>
+            
+            <div class="search-container animate__animated animate__fadeInUp animate__delay-1s">
+                <input type="text" placeholder="Search from menu..." class="search-input" id="menu-search">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+            
+            <div class="order-container">
+
+                <div class="menu-categories animate__animated animate__fadeInLeft animate__delay-1s">
+                    <div class="category-header">
+                        <i class="fas fa-utensils"></i>
+                        <span>Menu</span>
+                    </div>
+                    <div class="category-item selected" data-category="all">
+                        <div class="category-icon">
+                            <i class="fas fa-th-list"></i>
+                        </div>
+                        <span>All Items</span>
+                    </div>
+                    <div class="category-item" data-category="pizzas">
+                        <div class="category-icon">
+                            <i class="fas fa-pizza-slice"></i>
+                        </div>
+                        <span>Pizzas</span>
+                    </div>
+                    <div class="category-item" data-category="garlic-bread">
+                        <div class="category-icon">
+                            <i class="fas fa-bread-slice"></i>
+                        </div>
+                        <span>Garlic Bread</span>
+                    </div>
+                    <div class="category-item" data-category="salads">
+                        <div class="category-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <span>Salads</span>
+                    </div>
+                    <div class="category-item" data-category="cold-drinks">
+                        <div class="category-icon">
+                            <i class="fas fa-glass-whiskey"></i>
+                        </div>
+                        <span>Cold drinks</span>
+                    </div>
+                    <div class="category-item" data-category="desserts">
+                        <div class="category-icon">
+                            <i class="fas fa-ice-cream"></i>
+                        </div>
+                        <span>Desserts</span>
+                    </div>
+                    <div class="category-item" data-category="hot-drinks">
+                        <div class="category-icon">
+                            <i class="fas fa-mug-hot"></i>
+                        </div>
+                        <span>Hot drinks</span>
+                    </div>
+                </div>
+
+                <div class="menu-items animate__animated animate__fadeInUp animate__delay-1s">
+                    <!-- All Items Category -->
+                    <div class="menu-category" id="all">
+                        <div class="menu-page active" data-page="1">
+                            <!-- Pizza Item 1 -->
+                            <div class="menu-item" data-item-id="pizza-1" data-category="pizzas">
+                                <div class="item-details">
+                                    <h4>Pizza</h4>
+                                    <p class="item-description">Delicious pizza with farm-fresh vegetables and premium cheese</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="220000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="260000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="300000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/pizza_1.png" alt="Farm-House Supreme Pizza">
+                                </div>
+                            </div>
+
+                            <!-- Garlic Bread Item 1 -->
+                            <div class="menu-item" data-item-id="garlic-1" data-category="garlic-bread">
+                                <div class="item-details">
+                                    <h4>Garlic Bread</h4>
+                                    <p class="item-description">Freshly baked bread with garlic butter and herbs</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="60000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="80000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="100000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/garlic_bread_1.png" alt="Classic Garlic Bread">
+                                </div>
+                            </div>
+
+                            <!-- Salad Item 1 -->
+                            <div class="menu-item" data-item-id="salad-1" data-category="salads">
+                                <div class="item-details">
+                                    <h4>Caesar Salad</h4>
+                                    <p class="item-description">Fresh romaine lettuce with Caesar dressing, croutons, and parmesan</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="80000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="100000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="120000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/salad_1.png" alt="Caesar Salad">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="menu-page" data-page="2">
+                            <!-- Cold Drink Item 1 -->
+                            <div class="menu-item" data-item-id="cold-1" data-category="cold-drinks">
+                                <div class="item-details">
+                                    <h4>Coca Cola</h4>
+                                    <p class="item-description">Classic cola drink, served chilled</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="330ml" data-price="20000">330ml</button>
+                                            <button class="size-btn active" data-size="500ml" data-price="30000">500ml</button>
+                                            <button class="size-btn" data-size="1L" data-price="45000">1L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/cold_drink_1.png" alt="Coca Cola">
+                                </div>
+                            </div>
+
+                            <!-- Dessert Item 1 -->
+                            <div class="menu-item" data-item-id="dessert-1" data-category="desserts">
+                                <div class="item-details">
+                                    <h4>Chocolate Brownie</h4>
+                                    <p class="item-description">Rich chocolate brownie with vanilla ice cream</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="60000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="80000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="100000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/Desserts_1.png" alt="Chocolate Brownie">
+                                </div>
+                            </div>
+
+                            <!-- Hot Drink Item 1 -->
+                            <div class="menu-item" data-item-id="hot-1" data-category="hot-drinks">
+                                <div class="item-details">
+                                    <h4>Cappuccino</h4>
+                                    <p class="item-description">Espresso with steamed milk and foam</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="45000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="55000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="65000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/drink_1.png" alt="Cappuccino">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pizza Items -->
+                    <div class="menu-category hidden" id="pizzas">
+                        <div class="menu-page active" data-page="1">
+                        <!-- Pizza Item 1 -->
+                        <div class="menu-item" data-item-id="pizza-1" data-category="pizzas">
+                            <div class="item-details">
+                                <h4>Pizza</h4>
+                                <p class="item-description">Delicious pizza with farm-fresh vegetables and premium cheese</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="220000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="260000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="300000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/pizza_1.png" alt="Pizza">
+                            </div>
+                        </div>
+
+                        <!-- Pizza Item 2 -->
+                        <div class="menu-item" data-item-id="pizza-2" data-category="pizzas">
+                            <div class="item-details">
+                                <h4>Pizza</h4>
+                                <p class="item-description">Classic deluxe pizza with pepperoni, bell peppers, and mushrooms</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="210000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="250000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="290000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/pizza_2.png" alt="Deluxe Pizza">
+                            </div>
+                        </div>
+
+                        <!-- Pizza Item 3 -->
+                        <div class="menu-item" data-item-id="pizza-3" data-category="pizzas">
+                            <div class="item-details">
+                                <h4>Traditional Pizza</h4>
+                                <p class="item-description">Traditional Italian pizza with tomato sauce and mozzarella</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="200000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="240000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="280000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/pizza_3.png" alt="Traditional Pizza">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-page" data-page="2">
+                        <!-- Pizza Item 4 -->
+                        <div class="menu-item" data-item-id="pizza-4" data-category="pizzas">
+                            <div class="item-details">
+                                <h4>Pepperoni Pizza</h4>
+                                <p class="item-description">Classic pepperoni pizza with extra cheese</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="210000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="250000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="290000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/pizza_4.png" alt="Pepperoni Pizza">
+                            </div>
+                        </div>
+                        
+                        <!-- Pizza Item 5 -->
+                        <div class="menu-item" data-item-id="pizza-5" data-category="pizzas">
+                            <div class="item-details">
+                                <h4>Vegetarian Pizza</h4>
+                                <p class="item-description">Fresh vegetables on a thin crust with pesto sauce</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="200000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="240000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="280000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/pizza_5.png" alt="Vegetarian Pizza">
+                            </div>
+                        </div>
+
+                        <!-- Pizza Item 6 -->
+                        <div class="menu-item" data-item-id="pizza-5" data-category="pizzas">
+                            <div class="item-details">
+                                <h4>Vegetarian Pizza</h4>
+                                <p class="item-description">Fresh vegetables on a thin crust with pesto sauce</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="200000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="240000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="280000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/pizza_6.png" alt="Vegetarian Pizza">
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+
+                    <!-- Garlic Bread Items -->
+                    <div class="menu-category hidden" id="garlic-bread">
+                        <div class="menu-page active" data-page="1">
+                            <!-- Garlic Bread Item 1 -->
+                            <div class="menu-item" data-item-id="garlic-1" data-category="garlic-bread">
+                                <div class="item-details">
+                                    <h4>Classic Garlic Bread</h4>
+                                    <p class="item-description">Freshly baked bread with garlic butter and herbs</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="60000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="80000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="100000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/garlic_bread_1.png" alt="Classic Garlic Bread">
+                                </div>
+                            </div>
+
+                            <!-- Garlic Bread Item 2 -->
+                            <div class="menu-item" data-item-id="garlic-2" data-category="garlic-bread">
+                                <div class="item-details">
+                                    <h4>Cheese Garlic Bread</h4>
+                                    <p class="item-description">Garlic bread topped with melted mozzarella cheese</p>
+                                    <div class="item-actions">
+                                        <div class="size-options">
+                                            <button class="size-btn" data-size="S" data-price="70000">S</button>
+                                            <button class="size-btn active" data-size="M" data-price="90000">M</button>
+                                            <button class="size-btn" data-size="L" data-price="110000">L</button>
+                                        </div>
+                                        <div class="quantity-control">
+                                            <button class="qty-btn minus">-</button>
+                                            <span class="qty">1</span>
+                                            <button class="qty-btn plus">+</button>
+                                        </div>
+                                        <button class="add-to-cart-btn">Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="item-image">
+                                    <img src="../image/garlic_bread_2.png" alt="Cheese Garlic Bread">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="menu-page" data-page="2">
+                        <!-- Garlic Bread Item 3 -->
+                        <div class="menu-item" data-item-id="garlic-3" data-category="garlic-bread">
+                            <div class="item-details">
+                                <h4>Stuffed Garlic Bread</h4>
+                                <p class="item-description">Garlic bread stuffed with cheese and herbs</p>
+                                <div class="item-actions">
+                                    <div class="size-options">
+                                        <button class="size-btn" data-size="S" data-price="80000">S</button>
+                                        <button class="size-btn active" data-size="M" data-price="100000">M</button>
+                                        <button class="size-btn" data-size="L" data-price="120000">L</button>
+                                    </div>
+                                    <div class="quantity-control">
+                                        <button class="qty-btn minus">-</button>
+                                        <span class="qty">1</span>
+                                        <button class="qty-btn plus">+</button>
+                                    </div>
+                                    <button class="add-to-cart-btn">Add to cart</button>
+                                </div>
+                            </div>
+                            <div class="item-image">
+                                <img src="../image/garlic_bread_3.png" alt="Stuffed Garlic Bread">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+
+                    <!-- Other categories continue similarly -->
+
+                    <div class="pagination">
+                        <button class="page-btn active" data-page="1">1</button>
+                        <button class="page-btn" data-page="2">2</button>
+                        <button class="page-btn" data-page="3">3</button>
+                        <button class="page-btn" data-page="4">4</button>
+                        <button class="page-btn" data-page="5">5</button>
+                    </div>
+                </div>
+
+                <div class="basket-container animate__animated animate__fadeInRight animate__delay-1s" id="basket-sticky">
+                    <div class="minimum-warning">
+                        <span>Minimum Order: 100.000đ</span>
+                    </div>
+                    
+                    <div class="basket-header">
+                        <button class="basket-btn active">
+                            <i class="fas fa-shopping-basket"></i>
+                            My Basket
+                        </button>
+                    </div>
+
+                    <div class="basket-items" id="basket-items">
+
+                        <div class="empty-basket">
+                            <i class="fas fa-shopping-basket"></i>
+                            <p>Your basket is empty</p>
+                        </div>
+                    </div>
+
+                    <div class="order-summary">
+                        <div class="summary-row">
+                            <span>Sub Total</span>
+                            <span id="subtotal">0đ</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Service Fee</span>
+                            <span id="service-fee">0đ</span>
+                        </div>
+                        <div class="summary-row">
+                            <span>Discount</span>
+                            <span id="discount">0đ</span>
+                        </div>
+                        <div class="summary-row total">
+                            <span>Total to pay</span>
+                            <span id="total">0đ</span>
+                        </div>
+                    </div>
+
+                    <div class="free-item-selection">
+                        <button class="free-item-btn" id="choose-free-item">
+                            <span>Choose your free item</span>
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+
+                    <div class="coupon-code">
+                        <button class="coupon-code-btn" id="apply-coupon">
+                            <span>Apply Coupon Code here</span>
+                            <i class="fas fa-chevron-right green-icon"></i>
+                        </button>
+                    </div>
+
+                    <div class="delivery-options-container">
+                        <div class="delivery-option service">
+                            <div class="option-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div class="option-details">
+                                <h4>Service</h4>
+                                <p>Starts at 17:50</p>
+                            </div>
+                        </div>
+                        <div class="delivery-option collection">
+                            <div class="option-icon">
+                                <i class="fas fa-store"></i>
+                            </div>
+                            <div class="option-details">
+                                <h4>Collection</h4>
+                                <p>Starts at 16:50</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="checkout-btn" id="checkout-btn">
+                        <i class="fas fa-arrow-right"></i>
+                        Checkout!
+                    </button>
+
+                    <div class="minimum-order-warning" id="minimum-order-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Minimum service is <span class="min-amount">100.000đ</span>, You must Spend <span class="remaining-amount">100.000đ</span> more for the checkout!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order History Section -->
+    <section class="order-history-section">
+        <div class="container">
+            <div class="order-history-container">
+                <div class="order-history-header">
+                    <h3>Your Order History</h3>
+                    <button class="btn-primary" id="refresh-orders">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                <div class="order-history-tabs">
+                    <div class="order-tab active" data-tab="all">All Orders</div>
+                    <div class="order-tab" data-tab="completed">Completed</div>
+                    <div class="order-tab" data-tab="processing">Processing</div>
+                    <div class="order-tab" data-tab="cancelled">Cancelled</div>
+                </div>
+                <div class="order-list" id="order-list">
+                    <!-- Order items will be dynamically added here -->
+                    <div class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-number">Order #12345</span>
+                            <span class="order-date">March 15, 2025 - 7:30 PM</span>
+                        </div>
+                        <div class="order-summary-row">
+                            <span>3 items</span>
+                            <span class="order-status completed">Completed</span>
+                        </div>
+                        <div class="order-summary-row">
+                            <span>Farm-House Supreme Pizza, Coca Cola, French Fries</span>
+                            <span class="order-total">350.000đ</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="order-action-btn secondary" data-order="12345">Reorder</button>
+                            <button class="order-action-btn primary view-details-btn" data-order="12345">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-number">Order #12346</span>
+                            <span class="order-date">March 14, 2025 - 1:15 PM</span>
+                        </div>
+                        <div class="order-summary-row">
+                            <span>2 items</span>
+                            <span class="order-status processing">Processing</span>
+                        </div>
+                        <div class="order-summary-row">
+                            <span>Deluxe Pizza, Chocolate Brownie</span>
+                            <span class="order-total">330.000đ</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="order-action-btn secondary" data-order="12346">Cancel Order</button>
+                            <button class="order-action-btn primary view-details-btn" data-order="12346">View Details</button>
+                        </div>
+                    </div>
+                    
+                    <div class="order-item">
+                        <div class="order-item-header">
+                            <span class="order-number">Order #12340</span>
+                            <span class="order-date">March 10, 2025 - 8:45 PM</span>
+                        </div>
+                        <div class="order-summary-row">
+                            <span>4 items</span>
+                            <span class="order-status cancelled">Cancelled</span>
+                        </div>
+                        <div class="order-summary-row">
+                            <span>Traditional Pizza, Caesar Salad, Cappuccino, Ice Cream</span>
+                            <span class="order-total">420.000đ</span>
+                        </div>
+                        <div class="order-actions">
+                            <button class="order-action-btn secondary" data-order="12340">Reorder</button>
+                            <button class="order-action-btn primary view-details-btn" data-order="12340">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Details Modal -->
+    <div class="modal order-details-modal" id="order-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Order Details #<span id="detail-order-number">12345</span></h3>
+                <button class="close-modal" id="close-order-details">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-summary-row">
+                    <span>Order Date:</span>
+                    <span id="detail-order-date">March 15, 2025 - 7:30 PM</span>
+                </div>
+                <div class="order-summary-row">
+                    <span>Status:</span>
+                    <span class="order-status completed" id="detail-order-status">Completed</span>
+                </div>
+                <div class="order-summary-row">
+                    <span>Delivery Address:</span>
+                    <span id="detail-delivery-address">123 Nguyen Hue Street, District 1, HCM</span>
+                </div>
+                
+                <div class="order-items-list">
+                    <h4>Order Items</h4>
+                    <div class="order-item-row">
+                        <span class="order-item-name">Farm-House Supreme Pizza (M)</span>
+                        <span class="order-item-quantity">1x</span>
+                        <span class="order-item-price">260.000đ</span>
+                    </div>
+                    <div class="order-item-row">
+                        <span class="order-item-name">Coca Cola (500ml)</span>
+                        <span class="order-item-quantity">1x</span>
+                        <span class="order-item-price">30.000đ</span>
+                    </div>
+                    <div class="order-item-row">
+                        <span class="order-item-name">French Fries (M)</span>
+                        <span class="order-item-quantity">1x</span>
+                        <span class="order-item-price">60.000đ</span>
+                    </div>
+                </div>
+                
+                <div class="order-summary-section">
+                    <div class="order-summary-row">
+                        <span>Sub Total</span>
+                        <span id="detail-subtotal">350.000đ</span>
+                    </div>
+                    <div class="order-summary-row">
+                        <span>Service Fee</span>
+                        <span id="detail-service-fee">17.500đ</span>
+                    </div>
+                    <div class="order-summary-row">
+                        <span>Discount</span>
+                        <span id="detail-discount">-17.500đ</span>
+                    </div>
+                    <div class="order-summary-row total">
+                        <span>Total Paid</span>
+                        <span id="detail-total">350.000đ</span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="close-details-btn">Close</button>
+                <button class="btn-primary" id="reorder-btn">Reorder</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="free-item-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Choose Your Free Item</h3>
+                <button class="close-modal" id="close-free-item-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="free-item-info">You can choose one free item with orders over 300.000đ</p>
+                <div class="free-items-list">
+                    <div class="free-item">
+                        <div class="free-item-image">
+                            <img src="../image/drink_5.png" alt="Coca Cola">
+                        </div>
+                        <div class="free-item-details">
+                            <h4>Coca Cola (330ml)</h4>
+                            <p>Regular price: 20.000đ</p>
+                        </div>
+                        <button class="select-free-item-btn" data-id="free-cola" data-name="Coca Cola (330ml)" data-price="20000">Select</button>
+                    </div>
+                    <div class="free-item">
+                        <div class="free-item-image">
+                            <img src="../image/cold_drink_3.png" alt="French Fries">
+                        </div>
+                        <div class="free-item-details">
+                            <h4>French Fries (Small)</h4>
+                            <p>Regular price: 35.000đ</p>
+                        </div>
+                        <button class="select-free-item-btn" data-id="free-fries" data-name="French Fries (Small)" data-price="35000">Select</button>
+                    </div>
+                    <div class="free-item">
+                        <div class="free-item-image">
+                            <img src="../image/hot_drink_3.png" alt="Ice Cream">
+                        </div>
+                        <div class="free-item-details">
+                            <h4>Vanilla Ice Cream</h4>
+                            <p>Regular price: 25.000đ</p>
+                        </div>
+                        <button class="select-free-item-btn" data-id="free-icecream" data-name="Vanilla Ice Cream" data-price="25000">Select</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-free-item-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-card">
+                    <div class="footer-header">
+                        <i class="fas fa-utensils"></i>
+                        <h3>About Foodieland</h3>
+                    </div>
+                    <div class="footer-content">
+                        <p>Foodieland is a premium food delivery service with a mission to deliver delicious food to your doorstep.</p>
+                        <div class="info-row">
+                            <span>Since</span>
+                            <span>2015</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Branches</span>
+                            <span>12</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-card dark">
+                    <div class="footer-header">
+                        <i class="fas fa-clock"></i>
+                        <h3>Opening Hours</h3>
+                    </div>
+                    <div class="footer-content">
+                        <div class="info-row">
+                            <span>Monday - Friday</span>
+                            <span>8:00 AM - 3:00 AM</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Saturday - Sunday</span>
+                            <span>10:00 AM - 3:00 AM</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Holidays</span>
+                            <span>10:00 AM - 1:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-card">
+                    <div class="footer-header">
+                        <i class="fas fa-phone-alt"></i>
+                        <h3>Contact Us</h3>
+                    </div>
+                    <div class="footer-content">
+                        <div class="info-row">
+                            <span>Phone</span>
+                            <span>+84 123 456 789</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Address</span>
+                            <span>123 Nguyen Hue, District 1, HCMC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add the admin indicator button -->
+    <a href="admin.html" class="admin-indicator-button">
+        <i class="fas fa-user-cog admin-icon"></i>
+        <span>Admin Mode</span>
+    </a>
+
+    <script src="Ordering.js"></script>
+</body>
+</html>
+

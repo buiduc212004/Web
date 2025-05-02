@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodieland Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="admin.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="../image/Foodieland..png" alt="Foodieland Logo" class="logo">
+            </div>
+            <div class="admin-info">
+                <img src="../image/Banner.png" alt="Admin Avatar" class="admin-avatar">
+                <div class="admin-details">
+                    <h3>Admin User</h3>
+                    <p>Admin</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active">
+                        <a href="#dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#orders">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#products">
+                            <i class="fas fa-utensils"></i>
+                            <span>Products</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#categories">
+                            <i class="fas fa-list"></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#promotions">
+                            <i class="fas fa-gift"></i>
+                            <span>Promotions</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#customers">
+                            <i class="fas fa-person"></i>
+                            <span>Customers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="Home.html">
+                            <i class="fas fa-home"></i>
+                            <span>Go to Website</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="signin.html" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content" id="dashboard">
+                <h1 class="page-title">Dashboard</h1>
+                
+                <!-- Stats Cards -->
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Orders</h3>
+                            <p class="stat-number">1,258</p>
+                            <p class="stat-change positive">+15.3% <span>vs last month</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Revenue</h3>
+                            <p class="stat-number">458.5M đ</p>
+                            <p class="stat-change positive">+12.7% <span>vs last month</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Customers</h3>
+                            <p class="stat-number">3,652</p>
+                            <p class="stat-change positive">+8.2% <span>vs last month</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Products</h3>
+                            <p class="stat-number">186</p>
+                            <p class="stat-change positive">+3.8% <span>vs last month</span></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="charts-container">
+                    <div class="chart-card large">
+                        <div class="chart-header">
+                            <h3>Revenue Overview</h3>
+                            <div class="chart-actions">
+                                <select class="chart-period-select" id="revenue-period">
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly" selected>Monthly</option>
+                                    <option value="yearly">Yearly</option>
+                                </select>
+                                <button class="chart-action-btn">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="revenue-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <div class="chart-header">
+                            <h3>Top Categories</h3>
+                            <div class="chart-actions">
+                                <button class="chart-action-btn">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-content">
+                            <canvas id="categories-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Orders -->
+                <div class="recent-orders-container">
+                    <div class="section-header">
+                        <h2>Recent Orders</h2>
+                        <a href="#orders" class="view-all-btn" id="view-all-orders">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="table-container">
+                        <table class="data-table" id="recent-orders-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Orders will be loaded dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="top-products-container">
+                    <div class="section-header">
+                        <h2>Top Products</h2>
+                        <a href="#products" class="view-all-btn" id="view-all-products">View All <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="products-grid" id="top-products-grid">
+                        <!-- Products will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Content -->
+            <div class="content-section hidden" id="orders">
+                <h1 class="page-title">Orders Management</h1>
+                
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label>Filter by Status:</label>
+                        <select class="filter-select" id="order-status-filter">
+                            <option value="all">All Orders</option>
+                            <option value="completed">Completed</option>
+                            <option value="processing">Processing</option>
+                            <option value="delivered">Delivered</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Date Range:</label>
+                        <input type="date" class="date-input" id="start-date">
+                        <span>to</span>
+                        <input type="date" class="date-input" id="end-date">
+                    </div>
+                    <div class="filter-group">
+                        <button class="filter-btn" id="apply-order-filters">
+                            <i class="fas fa-filter"></i>
+                            Apply Filters
+                        </button>
+                        <button class="reset-btn" id="reset-order-filters">
+                            <i class="fas fa-redo"></i>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table" id="orders-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="select-all-checkbox">
+                                </th>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Orders will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination" id="orders-pagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+            </div>
+
+            <!-- Products Content -->
+            <div class="content-section hidden" id="products">
+                <h1 class="page-title">Products Management</h1>
+                
+                <div class="action-bar">
+                    <button class="add-new-btn" id="add-product-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Product
+                    </button>
+                    <div class="filter-group">
+                        <select class="filter-select" id="product-category-filter">
+                            <option value="all">All Categories</option>
+                            <option value="pizzas">Pizzas</option>
+                            <option value="burgers">Burgers</option>
+                            <option value="salads">Salads</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="desserts">Desserts</option>
+                        </select>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search products..." id="product-search">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="products-grid admin-grid" id="products-grid">
+                    <!-- Products will be loaded dynamically -->
+                </div>
+                
+                <div class="pagination" id="products-pagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+            </div>
+
+            <!-- Categories Content -->
+            <div class="content-section hidden" id="categories">
+                <h1 class="page-title">Categories Management</h1>
+                
+                <div class="action-bar">
+                    <button class="add-new-btn" id="add-category-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Category
+                    </button>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search categories..." id="category-search">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table" id="categories-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="select-all-checkbox">
+                                </th>
+                                <th>Category ID</th>
+                                <th>Name</th>
+                                <th>Products</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Categories will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Promotions Content -->
+            <div class="content-section hidden" id="promotions">
+                <h1 class="page-title">Promotions Management</h1>
+                
+                <div class="action-bar">
+                    <button class="add-new-btn" id="add-promotion-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Promotion
+                    </button>
+                    <div class="filter-group">
+                        <select class="filter-select" id="promotion-status-filter">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="expired">Expired</option>
+                        </select>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search promotions..." id="promotion-search">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table" id="promotions-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="select-all-checkbox">
+                                </th>
+                                <th>Promo Code</th>
+                                <th>Description</th>
+                                <th>Discount</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Promotions will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Customers Content -->
+            <div class="content-section hidden" id="customers">
+                <h1 class="page-title">Customers Management</h1>
+                
+                <div class="action-bar">
+                    <button class="add-new-btn" id="add-customer-btn">
+                        <i class="fas fa-plus"></i>
+                        Add New Customer
+                    </button>
+                    <div class="filter-group">
+                        <select class="filter-select" id="customer-status-filter">
+                            <option value="all">All Status</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="search-container">
+                        <input type="text" placeholder="Search customers..." id="customer-search">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="table-container">
+                    <table class="data-table" id="customers-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" class="select-all-checkbox">
+                                </th>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Orders</th>
+                                <th>Total Spent</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Customers will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination" id="customers-pagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Order Details -->
+    <div class="modal" id="order-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Order Details #<span id="order-id"></span></h3>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="order-info">
+                    <div class="info-group">
+                        <h4>Order Information</h4>
+                        <div class="info-row">
+                            <span>Order ID:</span>
+                            <span id="modal-order-id"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Date:</span>
+                            <span id="modal-order-date"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Status:</span>
+                            <span id="modal-order-status"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Payment Method:</span>
+                            <span>Credit Card</span>
+                        </div>
+                    </div>
+                    <div class="info-group">
+                        <h4>Customer Information</h4>
+                        <div class="info-row">
+                            <span>Name:</span>
+                            <span id="modal-customer-name"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Phone:</span>
+                            <span>0383051321</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Address:</span>
+                            <span>Ha Noi</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-items">
+                    <h4>Order Items</h4>
+                    <table class="items-table" id="modal-items-table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Order items will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="order-summary">
+                    <div class="summary-row">
+                        <span>Subtotal:</span>
+                        <span id="modal-subtotal"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Delivery Fee:</span>
+                        <span>20,000 đ</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Discount:</span>
+                        <span id="modal-discount">-0 đ</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total:</span>
+                        <span id="modal-total"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary close-modal">Close</button>
+                <button class="btn-primary" id="update-status-btn">Update Status</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Product -->
+    <div class="modal" id="product-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="product-modal-title">Add New Product</h3>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    <div class="form-group">
+                        <label>Product Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="category" required>
+                            <option value="">Select Category</option>
+                            <option value="pizzas">Pizzas</option>
+                            <option value="burgers">Burgers</option>
+                            <option value="salads">Salads</option>
+                            <option value="drinks">Drinks</option>
+                            <option value="desserts">Desserts</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (đ)</label>
+                        <input type="number" name="price" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Image URL</label>
+                        <input type="text" name="image" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary close-modal">Cancel</button>
+                <button class="btn-primary" id="save-product-btn">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Category -->
+    <div class="modal" id="category-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="category-modal-title">Add New Category</h3>
+                <button class="close-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="category-form">
+                    <div class="form-group">
+                        <label>Category Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select name="status" required>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary close-modal">Cancel</button>
+            <button class="btn-primary" id="save-category-btn">Save Category</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Add/Edit Promotion -->
+<div class="modal" id="promotion-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="promotion-modal-title">Add New Promotion</h3>
+            <button class="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="promotion-form">
+                <div class="form-group">
+                    <label>Promo Code</label>
+                    <input type="text" name="code" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" name="description" required>
+                </div>
+                <div class="form-group">
+                    <label>Discount</label>
+                    <input type="text" name="discount" required placeholder="e.g. 10%">
+                </div>
+                <div class="form-group">
+                    <label>Start Date</label>
+                    <input type="date" name="startDate" required>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" name="endDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" required>
+                        <option value="active">Active</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="expired">Expired</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary close-modal">Cancel</button>
+            <button class="btn-primary" id="save-promotion-btn">Save Promotion</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Add/Edit Customer -->
+<div class="modal" id="customer-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="customer-modal-title">Add New Customer</h3>
+            <button class="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="customer-form">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="address" required>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="status" required>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary close-modal">Cancel</button>
+            <button class="btn-primary" id="save-customer-btn">Save Customer</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for Customer Details -->
+<div class="modal" id="customer-details-modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Customer Details: <span id="customer-name"></span></h3>
+            <button class="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="customer-profile">
+                <div class="customer-avatar-large">
+                    <img src="../image/Banner.png" alt="Customer Avatar" id="modal-customer-avatar">
+                </div>
+                <div class="customer-info-details">
+                    <div class="info-row">
+                        <span>Customer ID:</span>
+                        <span id="modal-customer-id"></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Email:</span>
+                        <span id="modal-customer-email"></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Phone:</span>
+                        <span id="modal-customer-phone"></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Address:</span>
+                        <span id="modal-customer-address"></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Status:</span>
+                        <span id="modal-customer-status"></span>
+                    </div>
+                    <div class="info-row">
+                        <span>Joined Date:</span>
+                        <span id="modal-customer-joined"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="customer-stats">
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Total Orders</h3>
+                        <p class="stat-number" id="modal-customer-orders">0</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Total Spent</h3>
+                        <p class="stat-number" id="modal-customer-spent">0 đ</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="stat-details">
+                        <h3>Last Order</h3>
+                        <p class="stat-number" id="modal-customer-last-order">N/A</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="recent-activity">
+                <h4>Recent Orders</h4>
+                <table class="items-table" id="modal-customer-orders-table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Customer orders will be loaded dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-secondary close-modal">Close</button>
+            <button class="btn-primary" id="edit-customer-btn">Edit Customer</button>
+        </div>
+    </div>
+</div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

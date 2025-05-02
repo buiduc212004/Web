@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Delivery Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="Restaurant.css">
+</head>
+<body>
+    <div class="fixed-nav-container">
+        <!-- Promo Top Bar -->
+        <div class="promo-top-bar">
+            <div class="promo-left">
+                <i class="fas fa-star"></i>
+                <span>Get 5% Off your first order, <span class="promo-code" id="promo-code">Promo: ORDERS</span></span>
+            </div>
+            <div class="promo-center">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Địa chỉ</span>
+                <a href="#" class="change-location" id="change-location">Change location</a>
+            </div>
+            <div class="promo-right">
+                <button class="cart-btn-green" id="cart-toggle">
+                    <i class="fas fa-shopping-basket"></i>
+                    <span class="cart-count">0</span>
+                    <span class="cart-text">items</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Navigation Bar -->
+        <div class="top-bar" id="sticky-top-bar">
+            <div class="top-bar-left">
+                <span><img src="../image/Foodieland..png" alt="Foodieland Logo" class="logo"></span>
+            </div>
+            <div class="top-bar-right">
+                <div class="nav-tabs">
+                    <a href="Home.html" class="nav-link">Home</a>
+                    <a href="Restaurant.html" class="nav-link track-order">Restaurants</a>
+                    <a href="Ordering.html" class="nav-link">Track Order</a>
+                </div>
+                <button class="btn btn-dark login-btn">
+                    <i class="fas fa-user" style="color: orange;"></i>
+                    Login / Signup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-dropdown" id="cart-dropdown">
+        <div class="cart-header">
+            <h3>My Basket (0)</h3>
+            <button class="close-cart" id="close-cart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cart-items">
+            <div class="empty-cart">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your basket is empty</p>
+            </div>
+        </div>
+        <div class="order-summary">
+            <div class="summary-row">
+                <span>Sub Total</span>
+                <span id="dropdown-subtotal">0đ</span>
+            </div>
+            <div class="summary-row">
+                <span>Service Fee</span>
+                <span id="dropdown-service-fee">0đ</span>
+            </div>
+            <div class="summary-row">
+                <span>Discount</span>
+                <span id="dropdown-discount">-0đ</span>
+            </div>
+            <div class="summary-row total">
+                <span>Total to pay</span>
+                <span id="dropdown-total">0đ</span>
+            </div>
+        </div>
+        <button class="view-cart-btn" id="view-full-basket">View Full Basket</button>
+    </div>
+
+    <div class="modal" id="location-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Your Location</h3>
+                <button class="close-modal" id="close-location-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="location-search">
+                    <input type="text" placeholder="Enter your address..." id="location-input">
+                    <button class="search-location-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <div class="saved-locations">
+                    <h4>Saved Locations</h4>
+                    <div class="location-item">
+                        <i class="fas fa-home"></i>
+                        <div class="location-details">
+                            <h5>Home</h5>
+                            <p>Hồ Chí Minh</p>
+                        </div>
+                        <button class="select-location-btn">Select</button>
+                    </div>
+                    <div class="location-item">
+                        <i class="fas fa-building"></i>
+                        <div class="location-details">
+                            <h5>Office</h5>
+                            <p>Hà Nội</p>
+                        </div>
+                        <button class="select-location-btn">Select</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="save-location-btn">Save & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="promo-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Get Your Promo Code</h3>
+                <button class="close-modal" id="close-promo-modal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="promo-details">
+                    <div class="promo-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="promo-info">
+                        <h4>5% Off Your First Order</h4>
+                        <p>Use code <strong>ORDERS</strong> at checkout</p>
+                        <p class="promo-expiry">Valid until: 31/12/2025</p>
+                    </div>
+                </div>
+                <div class="promo-code-display">
+                    <span>ORDERS</span>
+                    <button class="copy-code-btn" id="copy-code-btn">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="claim-promo-btn">Claim Now</button>
+            </div>
+        </div>
+    </div>
+
+    <section class="simple-hero">
+        <div class="container">
+            <div class="hero-content animate__animated animate__fadeIn">
+                <div class="hero-text">
+                    <h1>Foodieland in Vietnam</h1>
+                    <div class="service-info">
+                        <div class="service-badge">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Minimum Order: 100.000đ</span>
+                        </div>
+                        <div class="service-badge">
+                            <i class="fas fa-clock"></i>
+                            <span>Service in 10-20 Minutes</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-orange order-btn">
+                        <i class="fas fa-utensils"></i>
+                        Order now
+                    </button>
+                    <div class="open-badge">
+                        <i class="fas fa-clock"></i>
+                        <span>Open until 3:00 AM</span>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="../image/Banner.png" alt="Burger and fries">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="restaurant-info">
+        <h2>All offer from Foodieland VietNam</h2>
+        <div class="search-container">
+            <input type="text" placeholder="Search from menu..." class="search-input">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+    </section>
+
+    <section class="secondary-tabs">
+        <div class="tabs-container">
+            <button class="tab-btn">Burgers</button>
+            <button class="tab-btn">Salads</button>
+            <button class="tab-btn active">Cold drinks</button>
+            <button class="tab-btn">Desserts</button>
+            <button class="tab-btn">Hot drinks</button>
+        </div>
+    </section>
+
+    <section class="voucher-section">
+        <div class="voucher-header">
+            <h3>Available Vouchers</h3>
+            <button class="claim-all-btn" id="claim-all-btn">Claim All</button>
+        </div>
+        <div class="voucher-container">
+            <!-- Vouchers will be loaded dynamically -->
+        </div>
+    </section>
+
+    <section class="products-section">
+        <h2 class="section-title">Cold Drinks</h2>
+        
+        <div class="products-grid">
+            <!-- Products will be loaded dynamically -->
+        </div>
+        
+        <div class="pagination">
+            <button class="page-btn active" data-page="1">1</button>
+            <button class="page-btn" data-page="2">2</button>
+            <button class="page-btn" data-page="3">3</button>
+            <button class="page-btn" data-page="4">4</button>
+            <button class="page-btn" data-page="5">5</button>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-card">
+                    <div class="footer-header">
+                        <i class="fas fa-utensils"></i>
+                        <h3>About Foodieland</h3>
+                    </div>
+                    <div class="footer-content">
+                        <p>Foodieland is a premium food delivery service with a mission to deliver delicious food to your doorstep.</p>
+                        <div class="info-row">
+                            <span>Since</span>
+                            <span>2015</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Branches</span>
+                            <span>12</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-card dark">
+                    <div class="footer-header">
+                        <i class="fas fa-clock"></i>
+                        <h3>Opening Hours</h3>
+                    </div>
+                    <div class="footer-content">
+                        <div class="info-row">
+                            <span>Monday - Friday</span>
+                            <span>8:00 AM - 3:00 AM</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Saturday - Sunday</span>
+                            <span>10:00 AM - 3:00 AM</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Holidays</span>
+                            <span>10:00 AM - 1:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-card">
+                    <div class="footer-header">
+                        <i class="fas fa-phone-alt"></i>
+                        <h3>Contact Us</h3>
+                    </div>
+                    <div class="footer-content">
+                        <div class="info-row">
+                            <span>Phone</span>
+                            <span>+84 123 456 789</span>
+                        </div>
+                        <div class="info-row">
+                            <span>Address</span>
+                            <span>123 Nguyen Hue, District 1, HCMC</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Add the admin indicator button -->
+    <a href="admin.html" class="admin-indicator-button">
+        <i class="fas fa-user-cog admin-icon"></i>
+        <span>Admin Mode</span>
+    </a>
+
+    <script src="Restaurant.js"></script>
+</body>
+</html>
