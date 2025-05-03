@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
 
 const promotionSchema = new mongoose.Schema({
-  code: {
+  name: {
     type: String,
     required: true,
-    unique: true,
     trim: true
   },
   description: {
     type: String,
     required: true
   },
-  discount: {
+  discountType: {
     type: String,
+    enum: ['percentage', 'fixed'],
     required: true
+  },
+  discountValue: {
+    type: Number,
+    required: true,
+    min: 0
   },
   startDate: {
     type: Date,
@@ -23,13 +28,43 @@ const promotionSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  status: {
+  minOrderAmount: {
+    type: Number,
+    default: 0
+  },
+  maxDiscount: {
+    type: Number
+  },
+  code: {
     type: String,
-    enum: ['active', 'scheduled', 'expired'],
-    default: 'scheduled'
-  }
+    required: true,
+    unique: true,
+    uppercase: true
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  usageLimit: {
+    type: Number,
+    default: null
+  },
+  usedCount: {
+    type: Number,
+    default: 0
+  },
+  applicableProducts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product'
+  }],
+  applicableCategories: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category'
+  }]
 }, {
   timestamps: true
 });
 
-module.exports = mongoose.model('Promotion', promotionSchema); 
+const Promotion = mongoose.model('Promotion', promotionSchema);
+
+module.exports = Promotion; 

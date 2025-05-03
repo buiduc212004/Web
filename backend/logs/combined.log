@@ -1,0 +1,4 @@
+{"level":"info","message":"Server is running on port 5000","timestamp":"2025-05-03T10:24:19.435Z"}
+{"level":"info","message":"Server is running on port 5000","timestamp":"2025-05-03T10:24:36.907Z"}
+{"level":"info","message":"Server is running on port 5000","timestamp":"2025-05-03T10:24:59.553Z"}
+{"level":"info","message":"GET /api/users/login","timestamp":"2025-05-03T10:27:45.392Z"}

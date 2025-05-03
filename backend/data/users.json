@@ -1,0 +1,38 @@
+[
+    {
+        "username": "admin",
+        "email": "admin@restaurant.com",
+        "password": "123456",
+        "fullName": "Quan Ly",
+        "phoneNumber": "0123456789",
+        "address": "123 Duong Admin",
+        "role": "admin",
+        "isActive": true,
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+        "username": "khachhang1",
+        "email": "khachhang1@example.com",
+        "password": "123456",
+        "fullName": "Khach Hang Mot",
+        "phoneNumber": "0123456789",
+        "address": "789 Duong Khach Hang",
+        "role": "customer",
+        "isActive": true,
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+        "username": "khachhang2",
+        "email": "khachhang2@example.com",
+        "password": "123456",
+        "fullName": "Khach Hang Hai",
+        "phoneNumber": "0987654321",
+        "address": "456 Duong Khach Hang",
+        "role": "customer",
+        "isActive": true,
+        "createdAt": "2024-01-01T00:00:00.000Z",
+        "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+] 

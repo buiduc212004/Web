@@ -4,20 +4,25 @@ const categorySchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true,
-    unique: true
+    unique: true,
+    trim: true
   },
-  products: {
-    type: Number,
-    default: 0
-  },
-  status: {
+  description: {
     type: String,
-    enum: ['active', 'inactive'],
-    default: 'active'
+    required: true
+  },
+  image: {
+    type: String,
+    required: true
+  },
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, {
   timestamps: true
 });
 
-module.exports = mongoose.model('Category', categorySchema); 
+const Category = mongoose.model('Category', categorySchema);
+
+module.exports = Category; 
