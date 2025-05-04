@@ -1,0 +1,21 @@
+2025-05-04T19:58:15.088Z [info]: Server running on port 5000
+2025-05-04T19:58:21.884Z [info]: GET /api/foods
+2025-05-04T19:58:43.601Z [info]: GET /api/restaurants
+2025-05-04T19:58:59.053Z [info]: POST /api/restaurants
+2025-05-04T19:59:03.557Z [info]: GET /api/restaurants
+2025-05-04T20:01:50.736Z [info]: Server running on port 5000
+2025-05-04T20:04:38.437Z [info]: GET /api/foods
+2025-05-04T20:11:16.903Z [info]: Server running on port 5000
+2025-05-04T20:11:25.108Z [info]: GET /
+2025-05-04T20:11:39.937Z [info]: GET /api/foods
+2025-05-04T20:11:40.027Z [info]: GET /favicon.ico
+2025-05-04T20:11:46.642Z [info]: GET /restaurant
+2025-05-04T20:12:10.179Z [info]: GET /api/orders
+2025-05-04T20:12:10.220Z [info]: GET /api/foods
+2025-05-04T20:12:10.270Z [info]: GET /api/customers
+2025-05-04T20:12:59.013Z [info]: GET /api/orders
+2025-05-04T20:12:59.041Z [info]: GET /api/foods
+2025-05-04T20:12:59.082Z [info]: GET /api/customers
+2025-05-04T20:13:01.561Z [info]: GET /api/orders
+2025-05-04T20:13:01.581Z [info]: GET /api/foods
+2025-05-04T20:13:01.591Z [info]: GET /api/customers

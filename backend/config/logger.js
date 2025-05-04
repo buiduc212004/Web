@@ -1,36 +1,13 @@
-const winston = require('winston');
-const path = require('path');
-
-const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json()
-    ),
-    transports: [
-        // Ghi log vào file
-        new winston.transports.File({ 
-            filename: path.join(__dirname, '../logs/error.log'), 
-            level: 'error' 
-        }),
-        new winston.transports.File({ 
-            filename: path.join(__dirname, '../logs/combined.log') 
-        }),
-        // Ghi log vào console
-        new winston.transports.Console({
-            format: winston.format.combine(
-                winston.format.colorize(),
-                winston.format.simple()
-            )
-        })
-    ]
+const { createLogger, format, transports } = require('winston');
+const logger = createLogger({
+  level: 'info',
+  format: format.combine(
+    format.timestamp(),
+    format.printf(({ timestamp, level, message }) => `${timestamp} [${level}]: ${message}`)
+  ),
+  transports: [
+    new transports.Console(),
+    new transports.File({ filename: 'logs/app.log' })
+  ]
 });
-
-// Nếu không phải môi trường production, ghi log debug
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-        format: winston.format.simple()
-    }));
-}
-
 module.exports = logger; 

@@ -1,4 +1,18 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  let foods = [];
+  try {
+    const res = await fetch('http://localhost:5000/api/foods');
+    foods = await res.json();
+  } catch (e) {
+    // fallback sample data nếu fetch lỗi
+    foods = [
+      { id: "combo-1", name: "Mixed Tropical Fruit Salad with Superfood Berries", price: 120000, category: "all", image: "../image/Combo_1.png", rating: 4.8, reviews: 74 },
+      // ... các món mẫu khác ...
+    ];
+  }
+  // Phân trang foods trên client, render ra giao diện như cũ
+  // ...
+
   // Cart data structure
   const cart = {
     items: [],

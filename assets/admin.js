@@ -1,21 +1,44 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Sample data
-    const orders = [
-        { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 19:30', items: 3, amount: 350000, status: 'completed' },
-        { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 18:45', items: 4, amount: 420000, status: 'processing' },
-        { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 17:20', items: 2, amount: 280000, status: 'delivered' },
-        { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 16:10', items: 5, amount: 520000, status: 'cancelled' },
-        { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 15:30', items: 3, amount: 380000, status: 'completed' }
-    ];
-
-    const products = [
-        { id: 'product-1', name: 'Pizza', category: 'Pizzas', price: 260000, rating: 4.8, sales: 235, image: '../image/pizza_1.png', status: 'active', badge: 'Top Seller' },
-        { id: 'product-2', name: 'Burger', category: 'Burgers', price: 180000, rating: 4.7, sales: 198, image: '../image/combo_6.png', status: 'active' },
-        { id: 'product-3', name: 'Caesar Salad', category: 'Salads', price: 100000, rating: 4.6, sales: 156, image: '../image/salad_1.png', status: 'active' },
-        { id: 'product-4', name: 'Coca Cola', category: 'Drinks', price: 30000, rating: 4.5, sales: 142, image: '../image/drink_1.png', status: 'active' },
-        { id: 'product-5', name: 'Chocolate Brownie', category: 'Desserts', price: 80000, rating: 4.7, sales: 128, image: '../image/deals_1.png', status: 'active' },
-        { id: 'product-6', name: 'Garlic Bread', category: 'Sides', price: 80000, rating: 4.4, sales: 115, image: '../image/garlic_bread_1.png', status: 'inactive' }
-    ];
+document.addEventListener('DOMContentLoaded', async function() {
+    let orders = [];
+    let products = [];
+    let customers = [];
+    try {
+        const resOrders = await fetch('http://localhost:5000/api/orders');
+        orders = await resOrders.json();
+    } catch (e) {
+        orders = [
+            { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 19:30', items: 3, amount: 350000, status: 'completed' },
+            { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 18:45', items: 4, amount: 420000, status: 'processing' },
+            { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 17:20', items: 2, amount: 280000, status: 'delivered' },
+            { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 16:10', items: 5, amount: 520000, status: 'cancelled' },
+            { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 15:30', items: 3, amount: 380000, status: 'completed' }
+        ];
+    }
+    try {
+        const resProducts = await fetch('http://localhost:5000/api/foods');
+        products = await resProducts.json();
+    } catch (e) {
+        products = [
+            { id: 'product-1', name: 'Pizza', category: 'Pizzas', price: 260000, rating: 4.8, sales: 235, image: '../image/pizza_1.png', status: 'active', badge: 'Top Seller' },
+            { id: 'product-2', name: 'Burger', category: 'Burgers', price: 180000, rating: 4.7, sales: 198, image: '../image/combo_6.png', status: 'active' },
+            { id: 'product-3', name: 'Caesar Salad', category: 'Salads', price: 100000, rating: 4.6, sales: 156, image: '../image/salad_1.png', status: 'active' },
+            { id: 'product-4', name: 'Coca Cola', category: 'Drinks', price: 30000, rating: 4.5, sales: 142, image: '../image/drink_1.png', status: 'active' },
+            { id: 'product-5', name: 'Chocolate Brownie', category: 'Desserts', price: 80000, rating: 4.7, sales: 128, image: '../image/deals_1.png', status: 'active' },
+            { id: 'product-6', name: 'Garlic Bread', category: 'Sides', price: 80000, rating: 4.4, sales: 115, image: '../image/garlic_bread_1.png', status: 'inactive' }
+        ];
+    }
+    try {
+        const resCustomers = await fetch('http://localhost:5000/api/customers');
+        customers = await resCustomers.json();
+    } catch (e) {
+        customers = [
+            { id: 'CUST-001', name: 'Bui Ngoc Duc', email: 'duc@example.com', phone: '0383051321', address: 'Ha Noi', orders: 12, totalSpent: 3500000, status: 'active', joinedDate: '01/01/2025', lastOrder: '15 Mar 2025' },
+            { id: 'CUST-002', name: 'Nguyen Van A', email: 'nguyenvana@example.com', phone: '0987654321', address: 'Ho Chi Minh City', orders: 8, totalSpent: 2100000, status: 'active', joinedDate: '15/01/2025', lastOrder: '14 Mar 2025' },
+            { id: 'CUST-003', name: 'Tran Thi B', email: 'tranthib@example.com', phone: '0912345678', address: 'Da Nang', orders: 5, totalSpent: 1200000, status: 'active', joinedDate: '01/02/2025', lastOrder: '10 Mar 2025' },
+            { id: 'CUST-004', name: 'Le Van C', email: 'levanc@example.com', phone: '0923456789', address: 'Hue', orders: 3, totalSpent: 850000, status: 'inactive', joinedDate: '15/02/2025', lastOrder: '05 Mar 2025' },
+            { id: 'CUST-005', name: 'Pham Thi D', email: 'phamthid@example.com', phone: '0934567890', address: 'Hai Phong', orders: 7, totalSpent: 1800000, status: 'active', joinedDate: '01/03/2025', lastOrder: '12 Mar 2025' }
+        ];
+    }
 
     const categories = [
         { id: '#CAT-001', name: 'Pizzas', products: 24, status: 'active' },
@@ -30,70 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
         { code: 'WEEKEND10', description: '10% Off Weekend Orders', discount: '10%', startDate: '01/01/2025', endDate: '31/12/2025', status: 'active' },
         { code: 'SUMMER25', description: '25% Off Summer Special', discount: '25%', startDate: '01/06/2025', endDate: '31/08/2025', status: 'scheduled' },
         { code: 'NEWYEAR20', description: '20% Off New Year Special', discount: '20%', startDate: '25/12/2024', endDate: '10/01/2025', status: 'expired' }
-    ];
-
-    // Sample customers data
-    const customers = [
-        { 
-            id: 'CUST-001', 
-            name: 'Bui Ngoc Duc', 
-            email: 'duc@example.com', 
-            phone: '0383051321', 
-            address: 'Ha Noi', 
-            orders: 12, 
-            totalSpent: 3500000, 
-            status: 'active',
-            joinedDate: '01/01/2025',
-            lastOrder: '15 Mar 2025'
-        },
-        { 
-            id: 'CUST-002', 
-            name: 'Nguyen Van A', 
-            email: 'nguyenvana@example.com', 
-            phone: '0987654321', 
-            address: 'Ho Chi Minh City', 
-            orders: 8, 
-            totalSpent: 2100000, 
-            status: 'active',
-            joinedDate: '15/01/2025',
-            lastOrder: '14 Mar 2025'
-        },
-        { 
-            id: 'CUST-003', 
-            name: 'Tran Thi B', 
-            email: 'tranthib@example.com', 
-            phone: '0912345678', 
-            address: 'Da Nang', 
-            orders: 5, 
-            totalSpent: 1200000, 
-            status: 'active',
-            joinedDate: '01/02/2025',
-            lastOrder: '10 Mar 2025'
-        },
-        { 
-            id: 'CUST-004', 
-            name: 'Le Van C', 
-            email: 'levanc@example.com', 
-            phone: '0923456789', 
-            address: 'Hue', 
-            orders: 3, 
-            totalSpent: 850000, 
-            status: 'inactive',
-            joinedDate: '15/02/2025',
-            lastOrder: '05 Mar 2025'
-        },
-        { 
-            id: 'CUST-005', 
-            name: 'Pham Thi D', 
-            email: 'phamthid@example.com', 
-            phone: '0934567890', 
-            address: 'Hai Phong', 
-            orders: 7, 
-            totalSpent: 1800000, 
-            status: 'active',
-            joinedDate: '01/03/2025',
-            lastOrder: '12 Mar 2025'
-        }
     ];
 
     // Variables to track edit mode and current item being edited
@@ -1623,7 +1582,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadProductsGrid();
         loadCategoriesTable();
         loadPromotionsTable();
-        loadCustomersTable(); // Add this line
+        loadCustomersTable();
         initCharts();
     }
     
