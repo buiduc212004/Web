@@ -1,59 +1,84 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    let orders = [];
-    let products = [];
-    let customers = [];
-    try {
-        const resOrders = await fetch('http://localhost:5000/api/orders');
-        orders = await resOrders.json();
-    } catch (e) {
-        orders = [
-            { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 19:30', items: 3, amount: 350000, status: 'completed' },
-            { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 18:45', items: 4, amount: 420000, status: 'processing' },
-            { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 17:20', items: 2, amount: 280000, status: 'delivered' },
-            { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 16:10', items: 5, amount: 520000, status: 'cancelled' },
-            { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 15:30', items: 3, amount: 380000, status: 'completed' }
-        ];
-    }
-    try {
-        const resProducts = await fetch('http://localhost:5000/api/foods');
-        products = await resProducts.json();
-    } catch (e) {
-        products = [
-            { id: 'product-1', name: 'Pizza', category: 'Pizzas', price: 260000, rating: 4.8, sales: 235, image: '../image/pizza_1.png', status: 'active', badge: 'Top Seller' },
-            { id: 'product-2', name: 'Burger', category: 'Burgers', price: 180000, rating: 4.7, sales: 198, image: '../image/combo_6.png', status: 'active' },
-            { id: 'product-3', name: 'Caesar Salad', category: 'Salads', price: 100000, rating: 4.6, sales: 156, image: '../image/salad_1.png', status: 'active' },
-            { id: 'product-4', name: 'Coca Cola', category: 'Drinks', price: 30000, rating: 4.5, sales: 142, image: '../image/drink_1.png', status: 'active' },
-            { id: 'product-5', name: 'Chocolate Brownie', category: 'Desserts', price: 80000, rating: 4.7, sales: 128, image: '../image/deals_1.png', status: 'active' },
-            { id: 'product-6', name: 'Garlic Bread', category: 'Sides', price: 80000, rating: 4.4, sales: 115, image: '../image/garlic_bread_1.png', status: 'inactive' }
-        ];
-    }
-    try {
-        const resCustomers = await fetch('http://localhost:5000/api/customers');
-        customers = await resCustomers.json();
-    } catch (e) {
-        customers = [
-            { id: 'CUST-001', name: 'Bui Ngoc Duc', email: 'duc@example.com', phone: '0383051321', address: 'Ha Noi', orders: 12, totalSpent: 3500000, status: 'active', joinedDate: '01/01/2025', lastOrder: '15 Mar 2025' },
-            { id: 'CUST-002', name: 'Nguyen Van A', email: 'nguyenvana@example.com', phone: '0987654321', address: 'Ho Chi Minh City', orders: 8, totalSpent: 2100000, status: 'active', joinedDate: '15/01/2025', lastOrder: '14 Mar 2025' },
-            { id: 'CUST-003', name: 'Tran Thi B', email: 'tranthib@example.com', phone: '0912345678', address: 'Da Nang', orders: 5, totalSpent: 1200000, status: 'active', joinedDate: '01/02/2025', lastOrder: '10 Mar 2025' },
-            { id: 'CUST-004', name: 'Le Van C', email: 'levanc@example.com', phone: '0923456789', address: 'Hue', orders: 3, totalSpent: 850000, status: 'inactive', joinedDate: '15/02/2025', lastOrder: '05 Mar 2025' },
-            { id: 'CUST-005', name: 'Pham Thi D', email: 'phamthid@example.com', phone: '0934567890', address: 'Hai Phong', orders: 7, totalSpent: 1800000, status: 'active', joinedDate: '01/03/2025', lastOrder: '12 Mar 2025' }
-        ];
+    // Load data from localStorage first, fallback to API/mock data
+    let orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+    let products = JSON.parse(localStorage.getItem('allProducts') || '[]');
+    let categories = JSON.parse(localStorage.getItem('allCategories') || '[]');
+    let promotions = JSON.parse(localStorage.getItem('allPromotions') || '[]');
+    let customers = JSON.parse(localStorage.getItem('allCustomers') || '[]');
+
+    // If no data in localStorage, load from API/mock data
+    if (orders.length === 0) {
+        try {
+            const resOrders = await fetch('http://localhost:5000/api/orders');
+            orders = await resOrders.json();
+            localStorage.setItem('allOrders', JSON.stringify(orders));
+        } catch (e) {
+            orders = [
+                { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 19:30', items: 3, amount: 350000, status: 'completed' },
+                { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 18:45', items: 4, amount: 420000, status: 'processing' },
+                { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 17:20', items: 2, amount: 280000, status: 'delivered' },
+                { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 16:10', items: 5, amount: 520000, status: 'cancelled' },
+                { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 15:30', items: 3, amount: 380000, status: 'completed' }
+            ];
+            localStorage.setItem('allOrders', JSON.stringify(orders));
+        }
     }
 
-    const categories = [
-        { id: '#CAT-001', name: 'Pizzas', products: 24, status: 'active' },
-        { id: '#CAT-002', name: 'Burgers', products: 18, status: 'active' },
-        { id: '#CAT-003', name: 'Salads', products: 12, status: 'active' },
-        { id: '#CAT-004', name: 'Drinks', products: 20, status: 'active' },
-        { id: '#CAT-005', name: 'Desserts', products: 15, status: 'active' }
-    ];
+    if (products.length === 0) {
+        try {
+            const resProducts = await fetch('http://localhost:5000/api/foods');
+            products = await resProducts.json();
+            localStorage.setItem('allProducts', JSON.stringify(products));
+        } catch (e) {
+            products = [
+                { id: 'product-1', name: 'Pizza', category: 'Pizzas', price: 260000, rating: 4.8, sales: 235, image: '../image/pizza_1.png', status: 'active', badge: 'Top Seller' },
+                { id: 'product-2', name: 'Burger', category: 'Burgers', price: 180000, rating: 4.7, sales: 198, image: '../image/combo_6.png', status: 'active' },
+                { id: 'product-3', name: 'Caesar Salad', category: 'Salads', price: 100000, rating: 4.6, sales: 156, image: '../image/salad_1.png', status: 'active' },
+                { id: 'product-4', name: 'Coca Cola', category: 'Drinks', price: 30000, rating: 4.5, sales: 142, image: '../image/drink_1.png', status: 'active' },
+                { id: 'product-5', name: 'Chocolate Brownie', category: 'Desserts', price: 80000, rating: 4.7, sales: 128, image: '../image/deals_1.png', status: 'active' },
+                { id: 'product-6', name: 'Garlic Bread', category: 'Sides', price: 80000, rating: 4.4, sales: 115, image: '../image/garlic_bread_1.png', status: 'inactive' }
+            ];
+            localStorage.setItem('allProducts', JSON.stringify(products));
+        }
+    }
 
-    const promotions = [
-        { code: 'ORDERS', description: '5% Off First Order', discount: '5%', startDate: '01/01/2025', endDate: '31/12/2025', status: 'active' },
-        { code: 'WEEKEND10', description: '10% Off Weekend Orders', discount: '10%', startDate: '01/01/2025', endDate: '31/12/2025', status: 'active' },
-        { code: 'SUMMER25', description: '25% Off Summer Special', discount: '25%', startDate: '01/06/2025', endDate: '31/08/2025', status: 'scheduled' },
-        { code: 'NEWYEAR20', description: '20% Off New Year Special', discount: '20%', startDate: '25/12/2024', endDate: '10/01/2025', status: 'expired' }
-    ];
+    if (customers.length === 0) {
+        try {
+            const resCustomers = await fetch('http://localhost:5000/api/customers');
+            customers = await resCustomers.json();
+            localStorage.setItem('allCustomers', JSON.stringify(customers));
+        } catch (e) {
+            customers = [
+                { id: 'CUST-001', name: 'Bui Ngoc Duc', email: 'duc@example.com', phone: '0383051321', address: 'Ha Noi', orders: 12, totalSpent: 3500000, status: 'active', joinedDate: '01/01/2025', lastOrder: '15 Mar 2025' },
+                { id: 'CUST-002', name: 'Nguyen Van A', email: 'nguyenvana@example.com', phone: '0987654321', address: 'Ho Chi Minh City', orders: 8, totalSpent: 2100000, status: 'active', joinedDate: '15/01/2025', lastOrder: '14 Mar 2025' },
+                { id: 'CUST-003', name: 'Tran Thi B', email: 'tranthib@example.com', phone: '0912345678', address: 'Da Nang', orders: 5, totalSpent: 1200000, status: 'active', joinedDate: '01/02/2025', lastOrder: '10 Mar 2025' },
+                { id: 'CUST-004', name: 'Le Van C', email: 'levanc@example.com', phone: '0923456789', address: 'Hue', orders: 3, totalSpent: 850000, status: 'inactive', joinedDate: '15/02/2025', lastOrder: '05 Mar 2025' },
+                { id: 'CUST-005', name: 'Pham Thi D', email: 'phamthid@example.com', phone: '0934567890', address: 'Hai Phong', orders: 7, totalSpent: 1800000, status: 'active', joinedDate: '01/03/2025', lastOrder: '12 Mar 2025' }
+            ];
+            localStorage.setItem('allCustomers', JSON.stringify(customers));
+        }
+    }
+
+    if (categories.length === 0) {
+        categories = [
+            { id: '#CAT-001', name: 'Pizzas', products: 24, status: 'active' },
+            { id: '#CAT-002', name: 'Burgers', products: 18, status: 'active' },
+            { id: '#CAT-003', name: 'Salads', products: 12, status: 'active' },
+            { id: '#CAT-004', name: 'Drinks', products: 20, status: 'active' },
+            { id: '#CAT-005', name: 'Desserts', products: 15, status: 'active' }
+        ];
+        localStorage.setItem('allCategories', JSON.stringify(categories));
+    }
+
+    if (promotions.length === 0) {
+        promotions = [
+            { code: 'ORDERS', description: '5% Off First Order', discount: '5%', startDate: '01/01/2025', endDate: '31/12/2025', status: 'active' },
+            { code: 'WEEKEND10', description: '10% Off Weekend Orders', discount: '10%', startDate: '01/01/2025', endDate: '31/12/2025', status: 'active' },
+            { code: 'SUMMER25', description: '25% Off Summer Special', discount: '25%', startDate: '01/06/2025', endDate: '31/08/2025', status: 'scheduled' },
+            { code: 'NEWYEAR20', description: '20% Off New Year Special', discount: '20%', startDate: '25/12/2024', endDate: '10/01/2025', status: 'expired' }
+        ];
+        localStorage.setItem('allPromotions', JSON.stringify(promotions));
+    }
 
     // Variables to track edit mode and current item being edited
     let currentEditMode = 'add';
@@ -222,45 +247,61 @@ document.addEventListener('DOMContentLoaded', async function() {
         const tbody = recentOrdersTable.querySelector('tbody');
         tbody.innerHTML = '';
         
-        orders.slice(0, 5).forEach(order => {
+        // Lấy 5 đơn hàng mới nhất từ allOrders
+        const recentOrders = orders.slice(0, 5);
+        
+        recentOrders.forEach(order => {
+            if (!order.id) {
+                console.error('Order without ID found:', order);
+                return;
+            }
+            
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${order.id}</td>
                 <td>
                     <div class="customer-info">
                         <img src="../image/Banner.png" alt="Customer Avatar" class="customer-avatar">
-                        <span>${order.customer}</span>
+                        <span>${order.customer || 'Khách hàng'}</span>
                     </div>
                 </td>
-                <td>${order.date}</td>
-                <td>${formatPrice(order.amount)}</td>
+                <td>${order.date || order.dateTimeStr}</td>
+                <td>${formatPrice(order.amount || (parseInt(order.subtotal) + parseInt(order.serviceFee) - parseInt(order.discount)))}</td>
                 <td><span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span></td>
                 <td>
                     <div class="action-buttons">
                         <button class="action-btn view-btn" data-id="${order.id}"><i class="fas fa-eye"></i></button>
                         <button class="action-btn edit-btn" data-id="${order.id}"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" data-id="${order.id}"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             `;
             tbody.appendChild(tr);
         });
         
-        // Add event listeners to view and edit buttons
-        const viewBtns = recentOrdersTable.querySelectorAll('.view-btn');
-        const editBtns = recentOrdersTable.querySelectorAll('.edit-btn');
-        
-        viewBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+        // Gán lại event listeners cho các nút action
+        tbody.querySelectorAll('.view-btn').forEach(btn => {
+            btn.onclick = function() {
                 const orderId = this.getAttribute('data-id');
+                if (!orderId) return;
                 openOrderDetailsModal(orderId);
-            });
+            };
         });
-        
-        editBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+        tbody.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.onclick = function() {
                 const orderId = this.getAttribute('data-id');
-                openOrderDetailsModal(orderId);
-            });
+                if (!orderId) return;
+                openOrderDetailsModal(orderId, 'edit');
+            };
+        });
+        tbody.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = function() {
+                const orderId = this.getAttribute('data-id');
+                if (!orderId) return;
+                if (confirm(`Are you sure you want to delete order ${orderId}?`)) {
+                    deleteOrder(orderId);
+                }
+            };
         });
     }
     
@@ -316,6 +357,21 @@ document.addEventListener('DOMContentLoaded', async function() {
         tbody.innerHTML = '';
         
         orders.forEach(order => {
+            if (!order.id) {
+                console.error('Order without ID found:', order);
+                return;
+            }
+            let itemsHtml = '';
+            if (order.items && Array.isArray(order.items)) {
+                itemsHtml = order.items.map(item => `
+                    <div class="order-product">
+                        <img src="${item.image}" alt="${item.name}" class="order-product-img" style="width:32px;height:32px;object-fit:cover;border-radius:4px;margin-right:4px;">
+                        <span>${item.name} (${item.size}) x${item.quantity} - ${formatPrice(item.price)}</span>
+                    </div>
+                `).join('');
+            } else {
+                itemsHtml = order.itemNames || '';
+            }
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>
@@ -325,12 +381,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                 <td>
                     <div class="customer-info">
                         <img src="../image/Banner.png" alt="Customer Avatar" class="customer-avatar">
-                        <span>${order.customer}</span>
+                        <span>${order.customer || 'Khách hàng'}</span>
                     </div>
                 </td>
-                <td>${order.date}</td>
-                <td>${order.items} items</td>
-                <td>${formatPrice(order.amount)}</td>
+                <td>${order.date || order.dateTimeStr}</td>
+                <td>${order.items || order.itemsCount} items</td>
+                <td>${itemsHtml}</td>
+                <td>${formatPrice(order.amount || (parseInt(order.subtotal) + parseInt(order.serviceFee) - parseInt(order.discount)))}</td>
                 <td><span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span></td>
                 <td>
                     <div class="action-buttons">
@@ -343,39 +400,29 @@ document.addEventListener('DOMContentLoaded', async function() {
             tbody.appendChild(tr);
         });
         
-        // Add event listeners to action buttons
-        const viewBtns = ordersTable.querySelectorAll('.view-btn');
-        const editBtns = ordersTable.querySelectorAll('.edit-btn');
-        const deleteBtns = ordersTable.querySelectorAll('.delete-btn');
-        
-        viewBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+        // Gán lại event listeners cho các nút action
+        tbody.querySelectorAll('.view-btn').forEach(btn => {
+            btn.onclick = function() {
                 const orderId = this.getAttribute('data-id');
+                if (!orderId) return;
                 openOrderDetailsModal(orderId);
-            });
+            };
         });
-        
-        editBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+        tbody.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.onclick = function() {
                 const orderId = this.getAttribute('data-id');
+                if (!orderId) return;
                 openOrderDetailsModal(orderId, 'edit');
-            });
+            };
         });
-        
-        deleteBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
+        tbody.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.onclick = function() {
                 const orderId = this.getAttribute('data-id');
+                if (!orderId) return;
                 if (confirm(`Are you sure you want to delete order ${orderId}?`)) {
-                    // Find the index of the order to delete
-                    const orderIndex = orders.findIndex(o => o.id === orderId);
-                    if (orderIndex !== -1) {
-                        // Remove the order from the array
-                        orders.splice(orderIndex, 1);
-                        // Remove the row from the table
-                        this.closest('tr').remove();
-                    }
+                    deleteOrder(orderId);
                 }
-            });
+            };
         });
         
         // Generate pagination
@@ -611,44 +658,68 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Populate modal with order details
         document.getElementById('order-id').textContent = orderId;
         document.getElementById('modal-order-id').textContent = orderId;
-        document.getElementById('modal-order-date').textContent = order.date;
-        document.getElementById('modal-order-status').innerHTML = `<span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span>`;
-        document.getElementById('modal-customer-name').textContent = order.customer;
-        document.getElementById('modal-subtotal').textContent = formatPrice(order.amount - 20000);
-        document.getElementById('modal-total').textContent = formatPrice(order.amount);
+        document.getElementById('modal-order-date').textContent = order.date || order.dateTimeStr;
         
-        // Sample order items
-        const itemsTable = document.getElementById('modal-items-table').querySelector('tbody');
-        itemsTable.innerHTML = '';
+        // Status field - show as select in edit mode
+        const statusField = document.getElementById('modal-order-status');
+        if (statusField) {
+            if (mode === 'edit') {
+                statusField.innerHTML = `
+                    <select class="form-control" id="status-select">
+                        <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
+                        <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
+                        <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                        <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                    </select>
+                `;
+            } else {
+                statusField.innerHTML = `<span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span>`;
+            }
+        }
         
-        // Add sample items
-        const sampleItems = [
-            { name: 'Pizza', size: 'Medium', price: 260000, quantity: 1 },
-            { name: 'Coca Cola', size: '500ml', price: 30000, quantity: 2 },
-            { name: 'Garlic Bread', size: 'Small', price: 60000, quantity: 1 }
-        ];
+        // Customer name field - show as input in edit mode
+        const customerField = document.getElementById('modal-customer-name');
+        if (customerField) {
+            if (mode === 'edit') {
+                customerField.innerHTML = `
+                    <input type="text" class="form-control" id="customer-input" value="${order.customer || 'Khách hàng'}">
+                `;
+            } else {
+                customerField.textContent = order.customer || 'Khách hàng';
+            }
+        }
         
-        sampleItems.forEach(item => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td>
-                    <div class="product-info">
-                        <img src="https://via.placeholder.com/50x50?text=${item.name}" alt="${item.name}" class="product-thumbnail">
-                        <div>
-                            <h5>${item.name}</h5>
-                            <p>Size: ${item.size}</p>
-                        </div>
-                    </div>
-                </td>
-                <td>${formatPrice(item.price)}</td>
-                <td>${item.quantity}</td>
-                <td>${formatPrice(item.price * item.quantity)}</td>
-            `;
-            itemsTable.appendChild(tr);
+        document.getElementById('modal-subtotal').textContent = formatPrice(order.subtotal || (order.amount - 20000));
+        document.getElementById('modal-total').textContent = formatPrice(order.amount || (parseInt(order.subtotal) + parseInt(order.serviceFee) - parseInt(order.discount)));
+        
+        // Show/hide edit controls based on mode
+        const editControls = document.querySelectorAll('.edit-control');
+        editControls.forEach(control => {
+            control.style.display = mode === 'edit' ? 'block' : 'none';
         });
+        
+        // Update save button text and visibility
+        const saveBtn = document.getElementById('save-order-btn');
+        if (saveBtn) {
+            saveBtn.style.display = mode === 'edit' ? 'block' : 'none';
+            saveBtn.textContent = 'Save Changes';
+        }
         
         // Show the modal
         orderDetailsModal.classList.add('show');
+
+        // Trong openOrderDetailsModal, hiển thị danh sách món chi tiết nếu có
+        if (order && order.items && Array.isArray(order.items)) {
+            const modalItems = document.getElementById('modal-order-items');
+            if (modalItems) {
+                modalItems.innerHTML = order.items.map(item => `
+                    <div class="order-product">
+                        <img src="${item.image}" alt="${item.name}" class="order-product-img" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin-right:8px;">
+                        <span>${item.name} (${item.size}) x${item.quantity} - ${formatPrice(item.price)}</span>
+                    </div>
+                `).join('');
+            }
+        }
     }
     
     // Open Product Modal
@@ -1588,4 +1659,146 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Call initialization function
     initDashboard();
+
+    // Update save functions to save to localStorage
+    function saveOrder(orderData) {
+        const orderIndex = orders.findIndex(o => o.id === orderData.id);
+        if (orderIndex !== -1) {
+            orders[orderIndex] = orderData;
+        } else {
+            orders.push(orderData);
+        }
+        localStorage.setItem('allOrders', JSON.stringify(orders));
+    }
+
+    function saveProduct(productData) {
+        const productIndex = products.findIndex(p => p.id === productData.id);
+        if (productIndex !== -1) {
+            products[productIndex] = productData;
+        } else {
+            products.push(productData);
+        }
+        localStorage.setItem('allProducts', JSON.stringify(products));
+    }
+
+    function saveCategory(categoryData) {
+        const categoryIndex = categories.findIndex(c => c.id === categoryData.id);
+        if (categoryIndex !== -1) {
+            categories[categoryIndex] = categoryData;
+        } else {
+            categories.push(categoryData);
+        }
+        localStorage.setItem('allCategories', JSON.stringify(categories));
+    }
+
+    function savePromotion(promotionData) {
+        const promotionIndex = promotions.findIndex(p => p.code === promotionData.code);
+        if (promotionIndex !== -1) {
+            promotions[promotionIndex] = promotionData;
+        } else {
+            promotions.push(promotionData);
+        }
+        localStorage.setItem('allPromotions', JSON.stringify(promotions));
+    }
+
+    function saveCustomer(customerData) {
+        const customerIndex = customers.findIndex(c => c.id === customerData.id);
+        if (customerIndex !== -1) {
+            customers[customerIndex] = customerData;
+        } else {
+            customers.push(customerData);
+        }
+        localStorage.setItem('allCustomers', JSON.stringify(customers));
+    }
+
+    // Update delete functions to save to localStorage
+    function deleteOrder(orderId) {
+        if (!orderId) {
+            console.error('Order ID is required for deletion');
+            return;
+        }
+        
+        // Find the order index
+        const orderIndex = orders.findIndex(o => o.id === orderId);
+        if (orderIndex === -1) {
+            console.error(`Order with ID ${orderId} not found`);
+            return;
+        }
+        
+        // Remove the order
+        orders.splice(orderIndex, 1);
+        
+        // Update localStorage
+        localStorage.setItem('allOrders', JSON.stringify(orders));
+        
+        // Show success message
+        alert(`Order ${orderId} has been deleted successfully`);
+        
+        // Reload tables
+        loadRecentOrders();
+        loadOrdersTable();
+    }
+
+    function deleteProduct(productId) {
+        products = products.filter(p => p.id !== productId);
+        localStorage.setItem('allProducts', JSON.stringify(products));
+    }
+
+    function deleteCategory(categoryId) {
+        categories = categories.filter(c => c.id !== categoryId);
+        localStorage.setItem('allCategories', JSON.stringify(categories));
+    }
+
+    function deletePromotion(promoCode) {
+        promotions = promotions.filter(p => p.code !== promoCode);
+        localStorage.setItem('allPromotions', JSON.stringify(promotions));
+    }
+
+    function deleteCustomer(customerId) {
+        customers = customers.filter(c => c.id !== customerId);
+        localStorage.setItem('allCustomers', JSON.stringify(customers));
+    }
+
+    // Update save order functionality
+    const saveOrderBtn = document.getElementById('save-order-btn');
+    if (saveOrderBtn) {
+        saveOrderBtn.addEventListener('click', function() {
+            if (currentEditMode === 'edit' && currentOrderId) {
+                const order = orders.find(o => o.id === currentOrderId);
+                if (order) {
+                    // Get updated values from modal
+                    const statusSelect = document.getElementById('status-select');
+                    const customerInput = document.getElementById('customer-input');
+                    
+                    if (statusSelect) order.status = statusSelect.value;
+                    if (customerInput) order.customer = customerInput.value;
+                    
+                    // Save changes
+                    saveOrder(order);
+                    
+                    // Reload tables
+                    loadRecentOrders();
+                    loadOrdersTable();
+                    
+                    // Close modal
+                    orderDetailsModal.classList.remove('show');
+                    
+                    // Show success message
+                    alert(`Order ${currentOrderId} has been updated successfully`);
+                }
+            }
+        });
+    }
+
+    // Theo dõi thay đổi localStorage để reload bảng đơn hàng khi có đơn mới/hủy từ khách hàng
+    let lastOrdersData = localStorage.getItem('allOrders');
+    setInterval(() => {
+        const currentOrdersData = localStorage.getItem('allOrders');
+        if (currentOrdersData !== lastOrdersData) {
+            orders = JSON.parse(currentOrdersData || '[]');
+            loadRecentOrders();
+            loadOrdersTable();
+            lastOrdersData = currentOrdersData;
+        }
+    }, 2000); // Kiểm tra mỗi 2 giây
 });

@@ -907,14 +907,10 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Add item to cart
   function addItemToCart(id, name, category, size, price, quantity, image, isFree = false) {
-    // Check if item already exists in cart
     const existingItemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-
     if (existingItemIndex !== -1) {
-      // Update quantity if item exists
       cart.items[existingItemIndex].quantity += quantity
     } else {
-      // Add new item if it doesn't exist
       cart.items.push({
         id,
         name,
@@ -927,63 +923,49 @@ document.addEventListener("DOMContentLoaded", async () => {
         isFree,
       })
     }
-
-    // Update cart UI
+    localStorage.setItem('cart', JSON.stringify(cart))
     updateCartUI()
-
-    // Update cart totals
     updateCartTotals()
-
-    // Check minimum order
+    updateCartCount()
     checkMinimumOrder()
-
-    // Check if eligible for vouchers
     checkVoucherEligibility()
-
-    // Show notification
     showNotification(`${name} added to cart!`)
   }
 
   // Update cart UI
   function updateCartUI() {
-    // Clear current items
     cartItems.innerHTML = ""
-
     if (cart.items.length === 0) {
-      // Show empty cart message
       cartItems.innerHTML = `
-          <div class="empty-cart">
-            <i class="fas fa-shopping-basket"></i>
-            <p>Your basket is empty</p>
-          </div>
-        `
+        <div class="empty-cart">
+          <i class="fas fa-shopping-basket"></i>
+          <p>Your basket is empty</p>
+        </div>
+      `
     } else {
-      // Add each item to the cart
       cart.items.forEach((item) => {
         const cartItem = document.createElement("div")
         cartItem.className = "cart-item"
         cartItem.innerHTML = `
-            <div class="item-info">
-              <div class="item-icon orange">
-                <i class="fas fa-${getCategoryIcon(item.category)}"></i>
-              </div>
-              <div class="item-details">
-                <h4>${item.name}${item.isFree ? " (Free)" : ""}</h4>
-                <p>Size: ${item.size}</p>
-              </div>
+          <div class="item-info">
+            <div class="item-icon orange">
+              <i class="fas fa-${getCategoryIcon(item.category)}"></i>
             </div>
-            <div class="item-quantity">
-              <span>x${item.quantity}</span>
+            <div class="item-details">
+              <h4>${item.name}${item.isFree ? " (Free)" : ""}</h4>
+              <p>Size: ${item.size}</p>
             </div>
-            <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
-            <button class="remove-btn" data-id="${item.id}" data-size="${item.size}">
-              <i class="fas fa-times"></i>
-            </button>
-          `
+          </div>
+          <div class="item-quantity">
+            <span>x${item.quantity}</span>
+          </div>
+          <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
+          <button class="remove-btn" data-id="${item.id}" data-size="${item.size}">
+            <i class="fas fa-times"></i>
+          </button>
+        `
         cartItems.appendChild(cartItem)
       })
-
-      // Add event listeners to remove buttons
       const removeButtons = document.querySelectorAll(".remove-btn")
       removeButtons.forEach((button) => {
         button.addEventListener("click", function () {
@@ -993,35 +975,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
       })
     }
-
-    // Update cart count
     updateCartCount()
   }
 
   // Remove item from cart
   function removeItemFromCart(id, size) {
     const itemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-
     if (itemIndex !== -1) {
-      // Get item name for notification
       const itemName = cart.items[itemIndex].name
-
-      // Remove item
       cart.items.splice(itemIndex, 1)
-
-      // Update cart UI
+      localStorage.setItem('cart', JSON.stringify(cart))
       updateCartUI()
-
-      // Update cart totals
       updateCartTotals()
-
-      // Check minimum order
       checkMinimumOrder()
-
-      // Check voucher eligibility
       checkVoucherEligibility()
-
-      // Show notification
       showNotification(`${itemName} removed from cart`)
     }
   }
@@ -1031,14 +998,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cartCount = document.querySelector(".cart-count")
     const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0)
     cartCount.textContent = totalItems
-
-    // Update cart dropdown title
     const cartTitle = document.querySelector(".cart-header h3")
     if (cartTitle) {
       cartTitle.textContent = `My Basket (${totalItems})`
     }
-
-    // Add pulse animation to cart button
     cartToggle.classList.add("pulse")
     setTimeout(() => {
       cartToggle.classList.remove("pulse")
@@ -1047,15 +1010,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Update cart totals
   function updateCartTotals() {
-    // Calculate subtotal
-    cart.subtotal = cart.items.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
-
-    // Calculate service fee (5% of subtotal)
+    cart.subtotal = cart.items.reduce((total, item) => total + item.price * item.quantity, 0)
     cart.serviceFee = cart.subtotal > 0 ? Math.round(cart.subtotal * 0.05) : 0
-
-    // Calculate discount based on applied voucher
     if (cart.appliedVoucher) {
       if (cart.appliedVoucher.type === "percentage") {
         cart.discount = Math.round(cart.subtotal * (cart.appliedVoucher.value / 100))
@@ -1065,11 +1021,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     } else {
       cart.discount = 0
     }
-
-    // Calculate total
     cart.total = cart.subtotal + cart.serviceFee - cart.discount
-
-    // Update UI in dropdown
     document.getElementById("dropdown-subtotal").textContent = formatPrice(cart.subtotal)
     document.getElementById("dropdown-service-fee").textContent = formatPrice(cart.serviceFee)
     document.getElementById("dropdown-discount").textContent = `-${formatPrice(cart.discount)}`
@@ -1184,4 +1136,3 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 })
-

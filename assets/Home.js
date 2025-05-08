@@ -24,6 +24,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     appliedVoucher: null,
   }
 
+  // Load cart from localStorage
+  const savedCart = localStorage.getItem('cart');
+  if (savedCart) {
+    const parsedCart = JSON.parse(savedCart);
+    cart.items = parsedCart.items;
+    cart.subtotal = parsedCart.subtotal;
+    cart.serviceFee = parsedCart.serviceFee;
+    cart.discount = parsedCart.discount;
+    cart.total = parsedCart.total;
+    cart.freeItem = parsedCart.freeItem;
+    cart.appliedVoucher = parsedCart.appliedVoucher;
+  }
+
   // Minimum order amount
   const minimumOrderAmount = 100000
 
@@ -359,6 +372,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Load first page of default category
     loadComboItems("all", 1)
     setupEventListeners()
+
+    // Initialize cart UI
+    updateCartUI();
+    updateCartTotals();
+    updateCartCount();
   }
 
   // Toggle cart dropdown
@@ -607,6 +625,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
     }
 
+    // Save cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+
     // Update cart UI
     updateCartUI()
 
@@ -684,6 +705,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       // Remove item
       cart.items.splice(itemIndex, 1)
+
+      // Save cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
 
       // Update cart UI
       updateCartUI()

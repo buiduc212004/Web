@@ -10,6 +10,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       appliedVoucher: null,
     }
   
+    // Load cart from localStorage
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+      const parsedCart = JSON.parse(savedCart);
+      cart.items = parsedCart.items;
+      cart.subtotal = parsedCart.subtotal;
+      cart.serviceFee = parsedCart.serviceFee;
+      cart.discount = parsedCart.discount;
+      cart.total = parsedCart.total;
+      cart.freeItem = parsedCart.freeItem;
+      cart.appliedVoucher = parsedCart.appliedVoucher;
+    }
+  
     // Minimum order amount
     const minimumOrderAmount = 100000
   
@@ -188,6 +201,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         })
       }
   
+      // Save cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+  
       // Update cart UI
       updateCartUI()
   
@@ -316,6 +332,9 @@ document.addEventListener("DOMContentLoaded", async () => {
   
         // Remove item
         cart.items.splice(itemIndex, 1)
+  
+        // Save cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
   
         // If it was a free item, reset the free item status
         if (isFreeItem) {
@@ -520,28 +539,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
   
     // Cancel order functionality
-    const cancelOrderBtns = document.querySelectorAll(".order-action-btn.secondary[data-order]")
-    cancelOrderBtns.forEach((button) => {
-      if (button.textContent.trim() === "Cancel Order") {
-        button.addEventListener("click", function () {
-          const orderNumber = this.getAttribute("data-order")
-          const orderItem = this.closest(".order-item")
-          const statusElement = orderItem.querySelector(".order-status")
-  
-          if (statusElement.textContent.toLowerCase() === "processing") {
-            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>'
-  
-            // Simulate cancellation
-            setTimeout(() => {
-              statusElement.textContent = "Cancelled"
-              statusElement.className = "order-status cancelled"
-              this.textContent = "Reorder"
-              showNotification(`Order #${orderNumber} cancelled successfully!`)
-            }, 1500)
-          }
-        })
+    const orderList = document.getElementById("order-list");
+    orderList.addEventListener("click", function(e) {
+      if (e.target.classList.contains("secondary") && e.target.textContent.trim() === "Cancel Order") {
+        const orderItem = e.target.closest(".order-item");
+        const orderNumber = orderItem.querySelector(".order-number").textContent.replace("Order #", "");
+        // Cập nhật trạng thái trong orderHistory
+        let orderHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+        const historyIndex = orderHistory.findIndex(o => o.orderNumber == orderNumber);
+        if (historyIndex !== -1) {
+          orderHistory[historyIndex].status = 'cancelled';
+          localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+        }
+        // Cập nhật trạng thái trong allOrders
+        let allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+        const allIndex = allOrders.findIndex(o => o.orderNumber == orderNumber || o.id == orderNumber);
+        if (allIndex !== -1) {
+          allOrders[allIndex].status = 'cancelled';
+          localStorage.setItem('allOrders', JSON.stringify(allOrders));
+        }
+        // Cập nhật giao diện
+        renderOrderHistoryFromStorage();
+        showNotification(`Order #${orderNumber} cancelled successfully!`);
       }
-    })
+    });
   
     // Reorder functionality
     document.addEventListener("click", (event) => {
@@ -746,6 +767,38 @@ document.addEventListener("DOMContentLoaded", async () => {
           }, 1500)
         }
       })
+  
+      // Tạo object đơn hàng mới
+      const orderData = {
+        orderNumber,
+        dateTimeStr,
+        itemsCount: cart.items.length,
+        itemNames,
+        items: cart.items.map(item => ({
+          id: item.id,
+          name: item.name,
+          image: item.image,
+          size: item.size,
+          price: item.price,
+          quantity: item.quantity,
+          category: item.category
+        })),
+        subtotal: cart.subtotal,
+        serviceFee: cart.serviceFee,
+        discount: cart.discount,
+        total: cart.total, // Lưu số, không format
+        status: "processing"
+      };
+      // Lấy lịch sử cũ, thêm đơn mới vào đầu mảng
+      const orderHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+      orderHistory.unshift(orderData);
+      localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+      // Thêm vào allOrders cho admin
+      const allOrders = JSON.parse(localStorage.getItem('allOrders') || '[]');
+      allOrders.unshift(orderData);
+      localStorage.setItem('allOrders', JSON.stringify(allOrders));
+      // Render lại lịch sử
+      renderOrderHistoryFromStorage();
     }
   
     // Function to show order details
@@ -1040,6 +1093,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     // Phân trang foods trên client, render ra giao diện như cũ
     // ...
+
+    // Initialize cart UI
+    updateCartUI();
+    updateCartTotals();
+    updateCartCount();
+
+    // 1. Khi load trang, đọc lịch sử đơn hàng từ localStorage và render lại
+    renderOrderHistoryFromStorage();
   })
   
   // Add this code after the existing pagination-related code in your script.js file
@@ -1084,5 +1145,35 @@ document.addEventListener("DOMContentLoaded", async () => {
       })
     })
   })
+  
+  // 1. Khi load trang, đọc lịch sử đơn hàng từ localStorage và render lại
+  function renderOrderHistoryFromStorage() {
+    const orderList = document.getElementById("order-list");
+    orderList.innerHTML = "";
+    const orderHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
+    orderHistory.forEach(order => {
+      const orderItem = document.createElement("div");
+      orderItem.className = "order-item";
+      orderItem.innerHTML = `
+        <div class="order-item-header">
+          <span class="order-number">Order #${order.orderNumber}</span>
+          <span class="order-date">${order.dateTimeStr}</span>
+        </div>
+        <div class="order-summary-row">
+          <span>${order.itemsCount} items</span>
+          <span class="order-status ${order.status}">${order.status.charAt(0).toUpperCase() + order.status.slice(1)}</span>
+        </div>
+        <div class="order-summary-row">
+          <span>${order.itemNames}</span>
+          <span class="order-total">${order.total}</span>
+        </div>
+        <div class="order-actions">
+          <button class="order-action-btn secondary" data-order="${order.orderNumber}">Cancel Order</button>
+          <button class="order-action-btn primary view-details-btn" data-order="${order.orderNumber}">View Details</button>
+        </div>
+      `;
+      orderList.appendChild(orderItem);
+    });
+  }
   
   
