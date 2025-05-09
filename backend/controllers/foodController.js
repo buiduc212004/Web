@@ -17,10 +17,15 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getById = async (req, res) => {
+  // Validate id là số nguyên hợp lệ
+  const id = parseInt(req.params.id, 10);
+  if (isNaN(id) || id <= 0) {
+    return res.status(400).json({ error: "Invalid id. Id must be a positive integer." });
+  }
   try {
     const pool = await sql.connect();
     const result = await pool.request()
-      .input('Id', sql.Int, req.params.id)
+      .input('Id', sql.Int, id)
       .query('SELECT * FROM Food WHERE Id = @Id');
     if (result.recordset.length === 0) return res.status(404).json({ error: 'Not found' });
     res.json(result.recordset[0]);

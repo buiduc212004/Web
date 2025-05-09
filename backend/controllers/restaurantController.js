@@ -47,15 +47,21 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const { Name, Address, Phone } = req.body;
+  const name = req.body.name;
+  const description = req.body.description;
+  const phone_number = req.body.phone_number;
+  const opening_hours = req.body.opening_hours;
+  const status = req.body.status;
   try {
     const pool = await sql.connect();
     const result = await pool.request()
-      .input('Id', sql.Int, req.params.id)
-      .input('Name', sql.NVarChar, Name)
-      .input('Address', sql.NVarChar, Address)
-      .input('Phone', sql.NVarChar, Phone)
-      .query('UPDATE Restaurant SET Name=@Name, Address=@Address, Phone=@Phone WHERE Id=@Id');
+      .input('id', sql.Int, req.params.id)
+      .input('name', sql.NVarChar, name)
+      .input('description', sql.NVarChar, description)
+      .input('phone_number', sql.NVarChar, phone_number)
+      .input('opening_hours', sql.NVarChar, opening_hours)
+      .input('status', sql.NVarChar, status)
+      .query('UPDATE Restaurant SET name=@name, description=@description, phone_number=@phone_number, opening_hours=@opening_hours, status=@status WHERE id=@id');
     if (result.rowsAffected[0] === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Restaurant updated' });
   } catch (err) {

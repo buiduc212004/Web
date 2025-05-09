@@ -12,8 +12,23 @@ const logger = require('./config/logger');
 
 const app = express();
 
+// Cấu hình CORS
 app.use(cors());
-app.use(express.json());
+
+// Cấu hình middleware để parse JSON
+app.use(express.json({ 
+  verify: (req, res, buf) => {
+    try {
+      JSON.parse(buf);
+    } catch(e) {
+      res.status(400).json({ error: 'Invalid JSON' });
+      throw new Error('Invalid JSON');
+    }
+  }
+}));
+
+// Cấu hình middleware để parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.originalUrl}`);
@@ -27,6 +42,12 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 // Thêm các route khác nếu có
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  logger.error(err.stack);
+  res.status(500).json({ error: 'Something broke!' });
+});
 
 const PORT = process.env.PORT || 5000;
 const startServer = async () => {

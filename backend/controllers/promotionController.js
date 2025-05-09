@@ -47,16 +47,21 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const { Name, Discount, StartDate, EndDate } = req.body;
+  const name = req.body.name;
+  const discount_percentage = req.body.discount_percentage;
+  const min_order_value = req.body.min_order_value;
+  const max_discount_amount = req.body.max_discount_amount;
+  const status = req.body.status;
   try {
     const pool = await sql.connect();
     const result = await pool.request()
-      .input('Id', sql.Int, req.params.id)
-      .input('Name', sql.NVarChar, Name)
-      .input('Discount', sql.Float, Discount)
-      .input('StartDate', sql.DateTime, StartDate)
-      .input('EndDate', sql.DateTime, EndDate)
-      .query('UPDATE Promotions SET Name=@Name, Discount=@Discount, StartDate=@StartDate, EndDate=@EndDate WHERE Id=@Id');
+      .input('id', sql.Int, req.params.id)
+      .input('name', sql.NVarChar, name)
+      .input('discount_percentage', sql.Float, discount_percentage)
+      .input('min_order_value', sql.Float, min_order_value)
+      .input('max_discount_amount', sql.Float, max_discount_amount)
+      .input('status', sql.NVarChar, status)
+      .query('UPDATE Promotions SET name=@name, discount_percentage=@discount_percentage, min_order_value=@min_order_value, max_discount_amount=@max_discount_amount, status=@status WHERE id=@id');
     if (result.rowsAffected[0] === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Promotion updated' });
   } catch (err) {
