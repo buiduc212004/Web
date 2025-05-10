@@ -1,27 +1,22 @@
+import {
+  cart,
+  loadCart,
+  saveCart,
+  addItemToCart,
+  removeItemFromCart,
+  updateCartUI,
+  updateCartTotals,
+  getCategoryIcon,
+  formatPrice,
+  updateBasketUI
+} from './cart.js';
+
 document.addEventListener("DOMContentLoaded", async () => {
-    // Cart data structure
-    const cart = {
-      items: [],
-      subtotal: 0,
-      serviceFee: 0,
-      discount: 0,
-      total: 0,
-      freeItem: null,
-      appliedVoucher: null,
-    }
-  
     // Load cart from localStorage
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-      const parsedCart = JSON.parse(savedCart);
-      cart.items = parsedCart.items;
-      cart.subtotal = parsedCart.subtotal;
-      cart.serviceFee = parsedCart.serviceFee;
-      cart.discount = parsedCart.discount;
-      cart.total = parsedCart.total;
-      cart.freeItem = parsedCart.freeItem;
-      cart.appliedVoucher = parsedCart.appliedVoucher;
-    }
+    loadCart();
+    updateCartUI();
+    updateCartTotals();
+    updateBasketUI();
   
     // Minimum order amount
     const minimumOrderAmount = 100000
@@ -177,237 +172,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         showNotification(`${itemName} added to basket!`)
       })
     })
-  
-    // Function to add item to cart
-    function addItemToCart(id, name, category, size, price, quantity, image, isFree = false) {
-      // Check if item already exists in cart
-      const existingItemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-  
-      if (existingItemIndex !== -1) {
-        // Update quantity if item exists
-        cart.items[existingItemIndex].quantity += quantity
-      } else {
-        // Add new item if it doesn't exist
-        cart.items.push({
-          id,
-          name,
-          category,
-          size,
-          price: isFree ? 0 : price,
-          originalPrice: price,
-          quantity,
-          image,
-          isFree,
-        })
-      }
-  
-      // Save cart to localStorage
-      localStorage.setItem('cart', JSON.stringify(cart));
-  
-      // Update cart UI
-      updateCartUI()
-  
-      // Update cart totals
-      updateCartTotals()
-  
-      // Check minimum order
-      checkMinimumOrder()
-  
-      // Check if free item is available
-      checkFreeItemAvailability()
-    }
-  
-    // Function to update cart UI
-    function updateCartUI() {
-      const cartItemsContainer = document.getElementById("basket-items")
-      const cartDropdownItems = document.getElementById("cart-items")
-  
-      // Clear current items
-      cartItemsContainer.innerHTML = ""
-      cartDropdownItems.innerHTML = ""
-  
-      if (cart.items.length === 0) {
-        // Show empty cart message
-        cartItemsContainer.innerHTML = `
-                  <div class="empty-basket">
-                      <i class="fas fa-shopping-basket"></i>
-                      <p>Your basket is empty</p>
-                  </div>
-              `
-  
-        cartDropdownItems.innerHTML = `
-                  <div class="empty-cart">
-                      <i class="fas fa-shopping-basket"></i>
-                      <p>Your basket is empty</p>
-                  </div>
-              `
-      } else {
-        // Add each item to the cart
-        cart.items.forEach((item) => {
-          // Create basket item
-          const basketItem = document.createElement("div")
-          basketItem.className = "basket-item"
-          basketItem.innerHTML = `
-                      <div class="item-info">
-                          <div class="item-icon orange">
-                              <i class="fas fa-${getCategoryIcon(item.category)}"></i>
-                          </div>
-                          <div class="item-details">
-                              <h4>${item.name}${item.isFree ? " (Free)" : ""}</h4>
-                              <p>Size: ${item.size}</p>
-                          </div>
-                      </div>
-                      <div class="item-quantity">
-                          <span>x${item.quantity}</span>
-                      </div>
-                      <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
-                      <button class="remove-btn" data-id="${item.id}" data-size="${item.size}">
-                          <i class="fas fa-times"></i>
-                      </button>
-                  `
-  
-          // Create cart dropdown item
-          const cartItem = document.createElement("div")
-          cartItem.className = "cart-item"
-          cartItem.innerHTML = `
-                      <div class="item-info">
-                          <div class="item-icon orange">
-                              <i class="fas fa-${getCategoryIcon(item.category)}"></i>
-                          </div>
-                          <div class="item-details">
-                              <h4>${item.name}${item.isFree ? " (Free)" : ""}</h4>
-                              <p>Size: ${item.size}</p>
-                          </div>
-                      </div>
-                      <div class="item-quantity">
-                          <span>x${item.quantity}</span>
-                      </div>
-                      <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
-                      <button class="remove-btn" data-id="${item.id}" data-size="${item.size}">
-                          <i class="fas fa-times"></i>
-                      </button>
-                  `
-  
-          // Add to containers
-          cartItemsContainer.appendChild(basketItem)
-          cartDropdownItems.appendChild(cartItem)
-        })
-  
-        // Add event listeners to remove buttons
-        const removeButtons = document.querySelectorAll(".remove-btn")
-        removeButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            const itemId = this.getAttribute("data-id")
-            const itemSize = this.getAttribute("data-size")
-            removeItemFromCart(itemId, itemSize)
-  
-            // Add fade out animation
-            const basketItem = this.closest(".basket-item")
-            if (basketItem) {
-              basketItem.classList.add("fade-out")
-  
-              // Remove after animation completes
-              setTimeout(() => {
-                updateCartUI()
-              }, 300)
-            } else {
-              updateCartUI()
-            }
-          })
-        })
-      }
-  
-      // Update cart count
-      updateCartCount()
-    }
-  
-    // Function to remove item from cart
-    function removeItemFromCart(id, size) {
-      const itemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-  
-      if (itemIndex !== -1) {
-        // Get item name for notification
-        const itemName = cart.items[itemIndex].name
-        const isFreeItem = cart.items[itemIndex].isFree
-  
-        // Remove item
-        cart.items.splice(itemIndex, 1)
-  
-        // Save cart to localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
-  
-        // If it was a free item, reset the free item status
-        if (isFreeItem) {
-          cart.freeItem = null
-        }
-  
-        // Update cart totals
-        updateCartTotals()
-  
-        // Check minimum order
-        checkMinimumOrder()
-  
-        // Check if free item is available
-        checkFreeItemAvailability()
-  
-        // Show notification
-        showNotification(`${itemName} removed from basket`)
-      }
-    }
-  
-    // Function to update cart count
-    function updateCartCount() {
-      const cartCount = document.querySelector(".cart-count")
-      const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0)
-      cartCount.textContent = totalItems
-  
-      // Update cart dropdown title
-      const cartTitle = document.querySelector(".cart-header h3")
-      cartTitle.textContent = `My Basket (${totalItems})`
-  
-      // Add pulse animation to cart button
-      cartToggle.classList.add("pulse")
-      setTimeout(() => {
-        cartToggle.classList.remove("pulse")
-      }, 500)
-    }
-  
-    // Function to update cart totals
-    function updateCartTotals() {
-      // Calculate subtotal (excluding free items)
-      cart.subtotal = cart.items.reduce((total, item) => {
-        return total + item.price * item.quantity
-      }, 0)
-  
-      // Calculate service fee (5% of subtotal)
-      cart.serviceFee = cart.subtotal > 0 ? Math.round(cart.subtotal * 0.05) : 0
-  
-      // Calculate discount based on applied voucher
-      if (cart.appliedVoucher) {
-        if (cart.appliedVoucher.type === "percentage") {
-          cart.discount = Math.round(cart.subtotal * (cart.appliedVoucher.value / 100))
-        } else if (cart.appliedVoucher.type === "fixed") {
-          cart.discount = cart.appliedVoucher.value
-        }
-      } else {
-        cart.discount = 0
-      }
-  
-      // Calculate total
-      cart.total = cart.subtotal + cart.serviceFee - cart.discount
-  
-      // Update UI in basket
-      document.getElementById("subtotal").textContent = formatPrice(cart.subtotal)
-      document.getElementById("service-fee").textContent = formatPrice(cart.serviceFee)
-      document.getElementById("discount").textContent = `-${formatPrice(cart.discount)}`
-      document.getElementById("total").textContent = formatPrice(cart.total)
-  
-      // Update UI in dropdown
-      document.getElementById("dropdown-subtotal").textContent = formatPrice(cart.subtotal)
-      document.getElementById("dropdown-service-fee").textContent = formatPrice(cart.serviceFee)
-      document.getElementById("dropdown-discount").textContent = `-${formatPrice(cart.discount)}`
-      document.getElementById("dropdown-total").textContent = formatPrice(cart.total)
-    }
   
     // Function to check minimum order
     function checkMinimumOrder() {
@@ -650,6 +414,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           cart.appliedVoucher = null
           updateCartUI()
           updateCartTotals()
+          updateBasketUI()
           checkMinimumOrder()
   
           // Reset after 2 seconds
@@ -1035,22 +800,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   
     // Helper function to show notification
     function showNotification(message) {
-      // Create notification element if it doesn't exist
-      let notification = document.querySelector(".notification")
-      if (!notification) {
-        notification = document.createElement("div")
-        notification.className = "notification"
-        document.body.appendChild(notification)
-      }
-  
-      // Set message and show
-      notification.textContent = message
-      notification.classList.add("show")
-  
-      // Hide after 3 seconds
+      const notification = document.createElement("div");
+      notification.className = "notification";
+      notification.textContent = message;
+      document.body.appendChild(notification);
+
       setTimeout(() => {
-        notification.classList.remove("show")
-      }, 3000)
+        notification.classList.add("show");
+      }, 100);
+
+      setTimeout(() => {
+        notification.classList.remove("show");
+        setTimeout(() => {
+          document.body.removeChild(notification);
+        }, 300);
+      }, 3000);
     }
   
     // Initialize minimum order check

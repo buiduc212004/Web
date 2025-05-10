@@ -1,3 +1,22 @@
+import {
+  cart,
+  loadCart,
+  saveCart,
+  addItemToCart,
+  removeItemFromCart,
+  updateCartUI,
+  updateCartTotals,
+  getCategoryIcon,
+  formatPrice,
+  updateBasketUI
+} from './cart.js';
+
+// Load cart from localStorage and update UI immediately
+loadCart();
+updateCartUI();
+updateCartTotals();
+updateBasketUI();
+
 document.addEventListener("DOMContentLoaded", async () => {
   let foods = [];
   try {
@@ -6,23 +25,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (e) {
     // fallback sample data nếu fetch lỗi
     foods = [
-      { id: "pizza-1", name: "Pizza Margherita", price: 120000, category: "pizza", image: "../image/pizza_1.png", rating: 4.8, reviews: 74 },
+      { id: "combo-1", name: "Mixed Tropical Fruit Salad with Superfood Berries", price: 120000, category: "all", image: "../image/Combo_1.png", rating: 4.8, reviews: 74 },
       // ... các món mẫu khác ...
     ];
   }
   // Phân trang foods trên client, render ra giao diện như cũ
   // ...
-
-  // Cart data structure
-  const cart = {
-    items: [],
-    subtotal: 0,
-    serviceFee: 0,
-    discount: 0,
-    total: 0,
-    freeItem: null,
-    appliedVoucher: null,
-  }
 
   // Minimum order amount
   const minimumOrderAmount = 100000
@@ -465,6 +473,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           1,
           productCard.querySelector("img").src,
         )
+        updateBasketUI()
       }
     })
 
@@ -905,129 +914,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     return card
   }
 
-  // Add item to cart
-  function addItemToCart(id, name, category, size, price, quantity, image, isFree = false) {
-    const existingItemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-    if (existingItemIndex !== -1) {
-      cart.items[existingItemIndex].quantity += quantity
-    } else {
-      cart.items.push({
-        id,
-        name,
-        category,
-        size,
-        price: isFree ? 0 : price,
-        originalPrice: price,
-        quantity,
-        image,
-        isFree,
-      })
-    }
-    localStorage.setItem('cart', JSON.stringify(cart))
-    updateCartUI()
-    updateCartTotals()
-    updateCartCount()
-    checkMinimumOrder()
-    checkVoucherEligibility()
-    showNotification(`${name} added to cart!`)
-  }
-
-  // Update cart UI
-  function updateCartUI() {
-    cartItems.innerHTML = ""
-    if (cart.items.length === 0) {
-      cartItems.innerHTML = `
-        <div class="empty-cart">
-          <i class="fas fa-shopping-basket"></i>
-          <p>Your basket is empty</p>
-        </div>
-      `
-    } else {
-      cart.items.forEach((item) => {
-        const cartItem = document.createElement("div")
-        cartItem.className = "cart-item"
-        cartItem.innerHTML = `
-          <div class="item-info">
-            <div class="item-icon orange">
-              <i class="fas fa-${getCategoryIcon(item.category)}"></i>
-            </div>
-            <div class="item-details">
-              <h4>${item.name}${item.isFree ? " (Free)" : ""}</h4>
-              <p>Size: ${item.size}</p>
-            </div>
-          </div>
-          <div class="item-quantity">
-            <span>x${item.quantity}</span>
-          </div>
-          <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
-          <button class="remove-btn" data-id="${item.id}" data-size="${item.size}">
-            <i class="fas fa-times"></i>
-          </button>
-        `
-        cartItems.appendChild(cartItem)
-      })
-      const removeButtons = document.querySelectorAll(".remove-btn")
-      removeButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-          const itemId = this.getAttribute("data-id")
-          const itemSize = this.getAttribute("data-size")
-          removeItemFromCart(itemId, itemSize)
-        })
-      })
-    }
-    updateCartCount()
-  }
-
-  // Remove item from cart
-  function removeItemFromCart(id, size) {
-    const itemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-    if (itemIndex !== -1) {
-      const itemName = cart.items[itemIndex].name
-      cart.items.splice(itemIndex, 1)
-      localStorage.setItem('cart', JSON.stringify(cart))
-      updateCartUI()
-      updateCartTotals()
-      checkMinimumOrder()
-      checkVoucherEligibility()
-      showNotification(`${itemName} removed from cart`)
-    }
-  }
-
-  // Update cart count
-  function updateCartCount() {
-    const cartCount = document.querySelector(".cart-count")
-    const totalItems = cart.items.reduce((total, item) => total + item.quantity, 0)
-    cartCount.textContent = totalItems
-    const cartTitle = document.querySelector(".cart-header h3")
-    if (cartTitle) {
-      cartTitle.textContent = `My Basket (${totalItems})`
-    }
-    cartToggle.classList.add("pulse")
-    setTimeout(() => {
-      cartToggle.classList.remove("pulse")
-    }, 500)
-  }
-
-  // Update cart totals
-  function updateCartTotals() {
-    cart.subtotal = cart.items.reduce((total, item) => total + item.price * item.quantity, 0)
-    cart.serviceFee = cart.subtotal > 0 ? Math.round(cart.subtotal * 0.05) : 0
-    if (cart.appliedVoucher) {
-      if (cart.appliedVoucher.type === "percentage") {
-        cart.discount = Math.round(cart.subtotal * (cart.appliedVoucher.value / 100))
-      } else if (cart.appliedVoucher.type === "fixed") {
-        cart.discount = cart.appliedVoucher.value
-      }
-    } else {
-      cart.discount = 0
-    }
-    cart.total = cart.subtotal + cart.serviceFee - cart.discount
-    document.getElementById("dropdown-subtotal").textContent = formatPrice(cart.subtotal)
-    document.getElementById("dropdown-service-fee").textContent = formatPrice(cart.serviceFee)
-    document.getElementById("dropdown-discount").textContent = `-${formatPrice(cart.discount)}`
-    document.getElementById("dropdown-total").textContent = formatPrice(cart.total)
-  }
-
   // Check minimum order
   function checkMinimumOrder() {
     if (cart.subtotal < minimumOrderAmount && cart.items.length > 0) {
@@ -1069,49 +955,26 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     updateCartTotals()
-  }
-
-  // Helper function to get category icon
-  function getCategoryIcon(category) {
-    const icons = {
-      all: "utensils",
-      pizza: "pizza-slice",
-      salads: "leaf",
-      burgers: "hamburger",
-      drinks: "glass-water",
-      cold: "glass-water",
-      hot: "mug-hot",
-      desserts: "ice-cream",
-      sushi: "fish",
-      others: "utensils",
-      deals: "percentage",
-    }
-
-    return icons[category] || "utensils"
-  }
-
-  // Helper function to format price
-  function formatPrice(price) {
-    return `${Math.round(price).toLocaleString()}đ`
+    saveCart()
+    updateBasketUI()
   }
 
   // Show notification
   function showNotification(message) {
-    // Create notification element if it doesn't exist
-    let notification = document.querySelector(".notification")
-    if (!notification) {
-      notification = document.createElement("div")
-      notification.className = "notification"
-      document.body.appendChild(notification)
-    }
-
-    // Set message and show
+    const notification = document.createElement("div")
+    notification.className = "notification"
     notification.textContent = message
-    notification.classList.add("show")
+    document.body.appendChild(notification)
 
-    // Hide after 3 seconds
+    setTimeout(() => {
+      notification.classList.add("show")
+    }, 100)
+
     setTimeout(() => {
       notification.classList.remove("show")
+      setTimeout(() => {
+        document.body.removeChild(notification)
+      }, 300)
     }, 3000)
   }
 

@@ -1,3 +1,15 @@
+import {
+  cart,
+  loadCart,
+  saveCart,
+  addItemToCart,
+  removeItemFromCart,
+  updateCartUI,
+  updateCartTotals,
+  getCategoryIcon,
+  formatPrice
+} from './cart.js';
+
 document.addEventListener("DOMContentLoaded", async () => {
   let foods = [];
   try {
@@ -13,29 +25,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Phân trang foods trên client, render ra giao diện như cũ
   // ...
 
-  // Cart data structure
-  const cart = {
-    items: [],
-    subtotal: 0,
-    serviceFee: 0,
-    discount: 0,
-    total: 0,
-    freeItem: null,
-    appliedVoucher: null,
-  }
-
   // Load cart from localStorage
-  const savedCart = localStorage.getItem('cart');
-  if (savedCart) {
-    const parsedCart = JSON.parse(savedCart);
-    cart.items = parsedCart.items;
-    cart.subtotal = parsedCart.subtotal;
-    cart.serviceFee = parsedCart.serviceFee;
-    cart.discount = parsedCart.discount;
-    cart.total = parsedCart.total;
-    cart.freeItem = parsedCart.freeItem;
-    cart.appliedVoucher = parsedCart.appliedVoucher;
-  }
+  loadCart();
 
   // Minimum order amount
   const minimumOrderAmount = 100000
@@ -579,151 +570,29 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Add to cart from combo section
   function addToCart(button) {
-    const id = button.getAttribute("data-id")
-    const name = button.getAttribute("data-name")
-    const price = Number.parseInt(button.getAttribute("data-price"))
-    const category = button.getAttribute("data-category")
+    const id = button.getAttribute("data-id");
+    const name = button.getAttribute("data-name");
+    const price = Number.parseInt(button.getAttribute("data-price"));
+    const category = button.getAttribute("data-category");
+    // Lấy đúng đường dẫn ảnh từ DOM
+    const card = button.closest(".combo-card");
+    const img = card ? card.querySelector("img") : null;
+    const image = img ? img.getAttribute("src") : "/placeholder.svg?height=80&width=80";
 
     // Add animation
-    button.classList.add("added")
-    const originalText = button.textContent
-    button.textContent = "Added!"
+    button.classList.add("added");
+    const originalText = button.textContent;
+    button.textContent = "Added!";
 
-    // Reset after animation
     setTimeout(() => {
-      button.classList.remove("added")
-      button.textContent = originalText
-    }, 1500)
+      button.classList.remove("added");
+      button.textContent = originalText;
+    }, 1500);
 
-    // Add to cart
-    addItemToCart(id, name, category, "Regular", price, 1, "/placeholder.svg?height=80&width=80")
+    // Add to cart với ảnh đúng
+    addItemToCart(id, name, category, "Regular", price, 1, image);
 
-    // Show notification
-    showNotification(`${name} added to cart!`)
-  }
-
-  // Add item to cart
-  function addItemToCart(id, name, category, size, price, quantity, image, isFree = false) {
-    // Check if item already exists in cart
-    const existingItemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-
-    if (existingItemIndex !== -1) {
-      // Update quantity if item exists
-      cart.items[existingItemIndex].quantity += quantity
-    } else {
-      // Add new item if it doesn't exist
-      cart.items.push({
-        id,
-        name,
-        category,
-        size,
-        price: isFree ? 0 : price,
-        originalPrice: price,
-        quantity,
-        image,
-        isFree,
-      })
-    }
-
-    // Save cart to localStorage
-    localStorage.setItem('cart', JSON.stringify(cart));
-
-    // Update cart UI
-    updateCartUI()
-
-    // Update cart totals
-    updateCartTotals()
-
-    // Check minimum order
-    checkMinimumOrder()
-
-    // Check if eligible for vouchers
-    checkVoucherEligibility()
-  }
-
-  // Update cart UI
-  function updateCartUI() {
-    // Clear current items
-    cartItems.innerHTML = ""
-
-    if (cart.items.length === 0) {
-      // Show empty cart message
-      cartItems.innerHTML = `
-                  <div class="empty-cart">
-                      <i class="fas fa-shopping-basket"></i>
-                      <p>Your basket is empty</p>
-                  </div>
-              `
-    } else {
-      // Add each item to the cart
-      cart.items.forEach((item) => {
-        const cartItem = document.createElement("div")
-        cartItem.className = "cart-item"
-        cartItem.innerHTML = `
-                      <div class="item-info">
-                          <div class="item-icon orange">
-                              <i class="fas fa-${getCategoryIcon(item.category)}"></i>
-                          </div>
-                          <div class="item-details">
-                              <h4>${item.name}${item.isFree ? " (Free)" : ""}</h4>
-                              <p>Size: ${item.size}</p>
-                          </div>
-                      </div>
-                      <div class="item-quantity">
-                          <span>x${item.quantity}</span>
-                      </div>
-                      <div class="item-price">${formatPrice(item.price * item.quantity)}</div>
-                      <button class="remove-btn" data-id="${item.id}" data-size="${item.size}">
-                          <i class="fas fa-times"></i>
-                      </button>
-                  `
-        cartItems.appendChild(cartItem)
-      })
-
-      // Add event listeners to remove buttons
-      const removeButtons = document.querySelectorAll(".remove-btn")
-      removeButtons.forEach((button) => {
-        button.addEventListener("click", function () {
-          const itemId = this.getAttribute("data-id")
-          const itemSize = this.getAttribute("data-size")
-          removeItemFromCart(itemId, itemSize)
-        })
-      })
-    }
-
-    // Update cart count
-    updateCartCount()
-  }
-
-  // Remove item from cart
-  function removeItemFromCart(id, size) {
-    const itemIndex = cart.items.findIndex((item) => item.id === id && item.size === size)
-
-    if (itemIndex !== -1) {
-      // Get item name for notification
-      const itemName = cart.items[itemIndex].name
-
-      // Remove item
-      cart.items.splice(itemIndex, 1)
-
-      // Save cart to localStorage
-      localStorage.setItem('cart', JSON.stringify(cart));
-
-      // Update cart UI
-      updateCartUI()
-
-      // Update cart totals
-      updateCartTotals()
-
-      // Check minimum order
-      checkMinimumOrder()
-
-      // Check voucher eligibility
-      checkVoucherEligibility()
-
-      // Show notification
-      showNotification(`${itemName} removed from cart`)
-    }
+    showNotification(`${name} added to cart!`);
   }
 
   // Update cart count
@@ -743,37 +612,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     setTimeout(() => {
       cartToggle.classList.remove("pulse")
     }, 500)
-  }
-
-  // Update cart totals
-  function updateCartTotals() {
-    // Calculate subtotal
-    cart.subtotal = cart.items.reduce((total, item) => {
-      return total + item.price * item.quantity
-    }, 0)
-
-    // Calculate service fee (5% of subtotal)
-    cart.serviceFee = cart.subtotal > 0 ? Math.round(cart.subtotal * 0.05) : 0
-
-    // Calculate discount based on applied voucher
-    if (cart.appliedVoucher) {
-      if (cart.appliedVoucher.type === "percentage") {
-        cart.discount = Math.round(cart.subtotal * (cart.appliedVoucher.value / 100))
-      } else if (cart.appliedVoucher.type === "fixed") {
-        cart.discount = cart.appliedVoucher.value
-      }
-    } else {
-      cart.discount = 0
-    }
-
-    // Calculate total
-    cart.total = cart.subtotal + cart.serviceFee - cart.discount
-
-    // Update UI in dropdown
-    document.getElementById("dropdown-subtotal").textContent = formatPrice(cart.subtotal)
-    document.getElementById("dropdown-service-fee").textContent = formatPrice(cart.serviceFee)
-    document.getElementById("dropdown-discount").textContent = `-${formatPrice(cart.discount)}`
-    document.getElementById("dropdown-total").textContent = formatPrice(cart.total)
   }
 
   // Check minimum order
@@ -814,43 +652,25 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     updateCartTotals()
-  }
-
-  // Helper function to get category icon
-  function getCategoryIcon(category) {
-    const icons = {
-      all: "utensils",
-      vegan: "leaf",
-      sushi: "fish",
-      others: "hamburger",
-      deals: "percentage",
-    }
-
-    return icons[category] || "utensils"
-  }
-
-  // Helper function to format price
-  function formatPrice(price) {
-    return `${Math.round(price).toLocaleString()}đ`
+    saveCart()
   }
 
   // Show notification
   function showNotification(message) {
-    // Create notification element if it doesn't exist
-    let notification = document.querySelector(".notification")
-    if (!notification) {
-      notification = document.createElement("div")
-      notification.className = "notification"
-      document.body.appendChild(notification)
-    }
-
-    // Set message and show
+    const notification = document.createElement("div")
+    notification.className = "notification"
     notification.textContent = message
-    notification.classList.add("show")
+    document.body.appendChild(notification)
 
-    // Hide after 3 seconds
+    setTimeout(() => {
+      notification.classList.add("show")
+    }, 100)
+
     setTimeout(() => {
       notification.classList.remove("show")
+      setTimeout(() => {
+        document.body.removeChild(notification)
+      }, 300)
     }, 3000)
   }
 

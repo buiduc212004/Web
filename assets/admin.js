@@ -1192,7 +1192,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Save Product Button
     const saveProductBtn = document.getElementById('save-product-btn');
     if (saveProductBtn) {
-        saveProductBtn.addEventListener('click', function() {
+        saveProductBtn.addEventListener('click', async function() {
             const productForm = document.getElementById('product-form');
             
             // Validate form
@@ -1200,50 +1200,76 @@ document.addEventListener('DOMContentLoaded', async function() {
                 productForm.reportValidity();
                 return;
             }
-            
-            // Get form data
-            const formData = {
-                name: productForm.elements['name'].value,
-                category: productForm.elements['category'].value,
-                price: parseInt(productForm.elements['price'].value),
-                image: productForm.elements['image'].value,
-                status: productForm.elements['status'].value
-            };
-            
-            if (currentEditMode === 'edit' && currentProductId) {
-                // Update existing product
-                const productIndex = products.findIndex(p => p.id === currentProductId);
-                if (productIndex !== -1) {
-                    // Update product data while preserving other properties
-                    products[productIndex] = {
-                        ...products[productIndex],
-                        ...formData
-                    };
-                    
-                    console.log('Product updated:', products[productIndex]);
-                }
-            } else {
-                // Add new product
-                const newProduct = {
-                    id: 'product-' + (products.length + 1),
-                    ...formData,
-                    rating: 0,
-                    sales: 0
-                };
+
+            try {
+                // Get form data
+                const formData = new FormData();
+                formData.append('name', productForm.elements['name'].value);
+                formData.append('category', productForm.elements['category'].value);
+                formData.append('price', productForm.elements['price'].value);
+                formData.append('status', productForm.elements['status'].value);
                 
-                products.push(newProduct);
-                console.log('New product added:', newProduct);
+                // Handle image upload
+                const imageFile = productForm.elements['image'].files[0];
+                if (imageFile) {
+                    formData.append('image', imageFile);
+                }
+
+                let response;
+                if (currentEditMode === 'edit' && currentProductId) {
+                    // Update existing product
+                    formData.append('id', currentProductId);
+                    response = await fetch('/api/foods/' + currentProductId, {
+                        method: 'PUT',
+                        body: formData
+                    });
+                } else {
+                    // Add new product
+                    response = await fetch('/api/foods', {
+                        method: 'POST',
+                        body: formData
+                    });
+                }
+
+                if (!response.ok) {
+                    throw new Error('Failed to save product');
+                }
+
+                const result = await response.json();
+                
+                // Close modal
+                productModal.classList.remove('show');
+                
+                // Reset edit mode
+                currentEditMode = 'add';
+                currentProductId = null;
+                
+                // Reload products grid
+                loadProductsGrid();
+            } catch (error) {
+                console.error('Error saving product:', error);
+                alert('Failed to save product. Please try again.');
             }
-            
-            // Close modal
-            productModal.classList.remove('show');
-            
-            // Reset edit mode
-            currentEditMode = 'add';
-            currentProductId = null;
-            
-            // Reload products grid
-            loadProductsGrid();
+        });
+    }
+
+    // Add image preview functionality
+    const imageInput = document.querySelector('input[name="image"]');
+    const imagePreview = document.querySelector('.image-preview');
+    
+    if (imageInput && imagePreview) {
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.querySelector('img').src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
         });
     }
 

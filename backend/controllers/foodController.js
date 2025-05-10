@@ -35,8 +35,12 @@ exports.getById = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { Name, Price, category } = req.body;
+  console.log('Food create body:', req.body);
   try {
+    const { Name, Price, category } = req.body;
+    if (!Name || !Price || !category) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     await pool.request()
       .input('Name', sql.NVarChar, Name)
@@ -50,8 +54,12 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const { Name, Price, category } = req.body;
+  console.log('Food update body:', req.body);
   try {
+    const { Name, Price, category } = req.body;
+    if (!Name || !Price || !category) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     const result = await pool.request()
       .input('Id', sql.Int, req.params.id)

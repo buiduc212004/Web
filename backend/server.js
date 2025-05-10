@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 const foodRoutes = require('./routes/food');
@@ -7,6 +8,7 @@ const customerRoutes = require('./routes/customer');
 const orderRoutes = require('./routes/order');
 const promotionRoutes = require('./routes/promotion');
 const restaurantRoutes = require('./routes/restaurant');
+const uploadRoutes = require('./routes/upload');
 const logger = require('./config/logger');
 // Thêm các route khác nếu có
 
@@ -30,6 +32,9 @@ app.use(express.json({
 // Cấu hình middleware để parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
+// Cấu hình static file serving cho thư mục uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 app.use((req, res, next) => {
   logger.info(`${req.method} ${req.originalUrl}`);
   next();
@@ -41,6 +46,7 @@ app.use('/api/customers', customerRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/restaurants', restaurantRoutes);
+app.use('/api/upload', uploadRoutes);
 // Thêm các route khác nếu có
 
 // Error handling middleware

@@ -30,8 +30,12 @@ exports.getById = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { name, description, phone_number, opening_hours, status } = req.body;
+  console.log('Restaurant create body:', req.body);
   try {
+    const { name, description, phone_number, opening_hours, status } = req.body;
+    if (!name || !description || !phone_number || !opening_hours || !status) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     await pool.request()
       .input('name', sql.NVarChar, name)
@@ -47,12 +51,12 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const name = req.body.name;
-  const description = req.body.description;
-  const phone_number = req.body.phone_number;
-  const opening_hours = req.body.opening_hours;
-  const status = req.body.status;
+  console.log('Restaurant update body:', req.body);
   try {
+    const { name, description, phone_number, opening_hours, status } = req.body;
+    if (!name || !description || !phone_number || !opening_hours || !status) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     const result = await pool.request()
       .input('id', sql.Int, req.params.id)

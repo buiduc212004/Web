@@ -30,8 +30,12 @@ exports.getById = async (req, res) => {
 };
 
 exports.create = async (req, res) => {
-  const { name, discount_percentage, min_order_value, max_discount_amount, status } = req.body;
+  console.log('Promotion create body:', req.body);
   try {
+    const { name, discount_percentage, min_order_value, max_discount_amount, status } = req.body;
+    if (!name || !discount_percentage || !min_order_value || !max_discount_amount || !status) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     await pool.request()
       .input('name', sql.NVarChar, name)
@@ -47,12 +51,12 @@ exports.create = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const name = req.body.name;
-  const discount_percentage = req.body.discount_percentage;
-  const min_order_value = req.body.min_order_value;
-  const max_discount_amount = req.body.max_discount_amount;
-  const status = req.body.status;
+  console.log('Promotion update body:', req.body);
   try {
+    const { name, discount_percentage, min_order_value, max_discount_amount, status } = req.body;
+    if (!name || !discount_percentage || !min_order_value || !max_discount_amount || !status) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     const result = await pool.request()
       .input('id', sql.Int, req.params.id)

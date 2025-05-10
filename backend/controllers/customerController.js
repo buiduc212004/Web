@@ -30,8 +30,12 @@ exports.getById = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-  const { name, phone_number, address } = req.body;
+  console.log('Customer update body:', req.body);
   try {
+    const { name, phone_number, address } = req.body;
+    if (!name || !phone_number || !address) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
     const pool = await sql.connect();
     const result = await pool.request()
       .input('Id', sql.Int, req.params.id)
