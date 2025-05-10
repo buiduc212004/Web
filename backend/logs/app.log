@@ -760,3 +760,102 @@
 2025-05-10T03:26:27.521Z [info]: GET /api/foods
 2025-05-10T03:26:30.167Z [info]: GET /api/foods
 2025-05-10T03:26:36.013Z [info]: GET /api/foods
+2025-05-10T03:26:47.038Z [info]: GET /api/foods
+2025-05-10T03:27:07.229Z [info]: GET /api/foods
+2025-05-10T03:27:57.313Z [info]: GET /api/foods
+2025-05-10T03:28:09.720Z [info]: GET /api/foods
+2025-05-10T03:28:18.409Z [info]: GET /api/foods
+2025-05-10T03:28:21.678Z [info]: GET /api/foods
+2025-05-10T03:28:27.455Z [info]: GET /api/foods
+2025-05-10T03:28:27.965Z [info]: GET /api/foods
+2025-05-10T03:29:22.864Z [info]: GET /api/foods
+2025-05-10T03:29:27.029Z [info]: GET /api/foods
+2025-05-10T03:33:57.417Z [info]: GET /api/foods
+2025-05-10T04:12:32.918Z [info]: Server running on port 5000
+2025-05-10T04:12:39.225Z [info]: GET /
+2025-05-10T04:12:39.935Z [info]: GET /
+2025-05-10T04:17:04.887Z [info]: GET /uploads/logo.png
+2025-05-10T04:17:06.031Z [info]: GET /uploads/logo.png
+2025-05-10T04:17:09.479Z [info]: GET /uploads/logo.png
+2025-05-10T04:17:14.232Z [info]: POST /api/upload
+2025-05-10T04:17:14.233Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-10T04:17:14.234Z [info]: [UPLOAD] Created uploads directory
+2025-05-10T04:17:14.234Z [error]: [UPLOAD] No file uploaded
+2025-05-10T04:17:14.377Z [info]: GET /uploads/logo.png
+2025-05-10T04:17:28.364Z [info]: GET /uploads/logo.png
+2025-05-10T04:19:49.510Z [info]: GET /uploads/logo.png
+2025-05-10T04:20:03.869Z [info]: GET /uploads/logo.png
+2025-05-10T04:20:05.348Z [info]: POST /api/upload
+2025-05-10T04:20:05.353Z [error]: Error: Unexpected field
+2025-05-10T04:20:29.316Z [info]: GET /uploads/logo.png
+2025-05-10T04:39:51.326Z [info]: POST /api/upload
+2025-05-10T04:39:51.328Z [error]: Error: Unexpected field
+2025-05-10T04:39:52.421Z [info]: POST /api/upload
+2025-05-10T04:39:52.422Z [error]: Error: Unexpected field
+2025-05-10T04:40:32.036Z [info]: POST /api/upload
+2025-05-10T04:40:32.036Z [error]: Error: Unexpected field
+2025-05-10T04:40:32.863Z [info]: POST /api/upload
+2025-05-10T04:40:32.864Z [error]: Error: Unexpected field
+2025-05-10T04:41:59.530Z [info]: POST /api/upload
+2025-05-10T04:41:59.530Z [error]: Error: Unexpected field
+2025-05-10T04:43:07.494Z [info]: POST /api/upload
+2025-05-10T04:43:07.496Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-10T04:43:07.497Z [info]: [UPLOAD] Uploads directory exists
+2025-05-10T04:43:07.497Z [info]: [UPLOAD] File details:
+2025-05-10T04:43:07.497Z [info]: [UPLOAD] Image URL:
+2025-05-10T04:43:07.498Z [info]: [UPLOAD] Full file path:
+2025-05-10T04:43:07.498Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-10T04:43:07.498Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-10T04:43:13.323Z [info]: GET /uploads/logo.png
+2025-05-10T04:43:13.967Z [info]: GET /uploads/logo.png
+2025-05-10T04:43:17.955Z [info]: GET /uploads/logo.png
+2025-05-10T04:43:39.076Z [info]: Server running on port 5000
+2025-05-10T04:43:40.594Z [info]: GET /uploads/logo.png
+2025-05-10T04:43:45.516Z [info]: GET /uploads/logo.png
+2025-05-10T04:43:58.717Z [info]: GET /uploads/logo.png
+2025-05-10T04:43:58.895Z [info]: GET /uploads/logo.png
+2025-05-10T04:44:20.134Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:44:23.321Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:44:23.915Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:44:26.346Z [info]: POST /api/upload
+2025-05-10T04:44:26.352Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-10T04:44:26.353Z [info]: [UPLOAD] Uploads directory exists
+2025-05-10T04:44:26.353Z [info]: [UPLOAD] File details:
+2025-05-10T04:44:26.354Z [info]: [UPLOAD] Image URL:
+2025-05-10T04:44:26.354Z [info]: [UPLOAD] Full file path:
+2025-05-10T04:44:26.355Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-10T04:44:26.355Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-10T04:44:26.519Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:44:29.286Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:44:30.734Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:44:58.418Z [info]: POST /api/upload
+2025-05-10T04:44:58.421Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-10T04:44:58.421Z [info]: [UPLOAD] Uploads directory exists
+2025-05-10T04:44:58.422Z [info]: [UPLOAD] File details:
+2025-05-10T04:44:58.422Z [info]: [UPLOAD] Image URL:
+2025-05-10T04:44:58.422Z [info]: [UPLOAD] Full file path:
+2025-05-10T04:44:58.422Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-10T04:44:58.422Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-10T04:44:58.580Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:45:02.583Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:45:17.977Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:46:20.211Z [info]: POST /api/upload
+2025-05-10T04:46:20.217Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-10T04:46:20.218Z [info]: [UPLOAD] Uploads directory exists
+2025-05-10T04:46:20.219Z [info]: [UPLOAD] File details:
+2025-05-10T04:46:20.219Z [info]: [UPLOAD] Image URL:
+2025-05-10T04:46:20.220Z [info]: [UPLOAD] Full file path:
+2025-05-10T04:46:20.221Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-10T04:46:20.221Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-10T04:46:20.393Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:46:26.299Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:46:40.432Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:46:58.050Z [info]: GET /uploads/Foodieland.png
+2025-05-10T04:47:48.861Z [info]: POST /api/upload
+2025-05-10T04:47:48.863Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-10T04:47:48.863Z [info]: [UPLOAD] Uploads directory exists
+2025-05-10T04:47:48.863Z [info]: [UPLOAD] File details:
+2025-05-10T04:47:48.863Z [info]: [UPLOAD] Image URL:
+2025-05-10T04:47:48.863Z [info]: [UPLOAD] Full file path:
+2025-05-10T04:47:48.864Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-10T04:47:48.864Z [info]: [UPLOAD] ====== Image upload completed successfully ======

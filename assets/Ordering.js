@@ -11,6 +11,29 @@ import {
   updateBasketUI
 } from './cart.js';
 
+// Kết nối WebSocket
+const socket = io('http://localhost:3000');
+
+// Xác thực socket connection
+socket.on('connect', () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        socket.emit('authenticate', token);
+    }
+});
+
+// Xử lý cập nhật trạng thái đơn hàng
+socket.on('order_status_changed', (data) => {
+    updateOrderStatus(data.orderId, data.status);
+    showNotification('Cập nhật đơn hàng', `Đơn hàng của bạn đã được cập nhật: ${data.status}`);
+});
+
+// Xử lý tin nhắn từ admin
+socket.on('admin_message', (message) => {
+    showChatMessage(message);
+    showNotification('Tin nhắn từ admin', message.content);
+});
+
 document.addEventListener("DOMContentLoaded", async () => {
     // Load cart from localStorage
     loadCart();
@@ -799,22 +822,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     })
   
     // Helper function to show notification
-    function showNotification(message) {
-      const notification = document.createElement("div");
-      notification.className = "notification";
-      notification.textContent = message;
-      document.body.appendChild(notification);
+    function showNotification(title, message) {
+      if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+          if (permission === 'granted') {
+            new Notification(title, {
+              body: message,
+              icon: 'image/logo.png'
+            });
+          }
+        });
+      }
 
-      setTimeout(() => {
-        notification.classList.add("show");
-      }, 100);
-
-      setTimeout(() => {
-        notification.classList.remove("show");
-        setTimeout(() => {
-          document.body.removeChild(notification);
-        }, 300);
-      }, 3000);
+      // Hiển thị toast notification
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification';
+      toast.innerHTML = `
+        <div class="toast-header">
+          <strong>${title}</strong>
+          <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+        </div>
+        <div class="toast-body">${message}</div>
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 5000);
     }
   
     // Initialize minimum order check
@@ -865,12 +896,34 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 1. Khi load trang, đọc lịch sử đơn hàng từ localStorage và render lại
     renderOrderHistoryFromStorage();
-  })
+
+    // Thêm hiệu ứng loading cho các nút
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            if (!this.classList.contains('loading')) {
+                this.classList.add('loading');
+                setTimeout(() => this.classList.remove('loading'), 1000);
+            }
+        });
+    });
+
+    // Thêm hiệu ứng hover cho menu items
+    const menuItems = document.querySelectorAll('.menu-item');
+    menuItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+        });
+        item.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+})
   
-  // Add this code after the existing pagination-related code in your script.js file
+// Add this code after the existing pagination-related code in your script.js file
   
-  // Pagination functionality
-  document.addEventListener("DOMContentLoaded", () => {
+// Pagination functionality
+document.addEventListener("DOMContentLoaded", () => {
     const pageBtns = document.querySelectorAll(".page-btn")
     const menuPages = document.querySelectorAll(".menu-page")
   
@@ -908,10 +961,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         }, 500)
       })
     })
-  })
+})
   
-  // 1. Khi load trang, đọc lịch sử đơn hàng từ localStorage và render lại
-  function renderOrderHistoryFromStorage() {
+// 1. Khi load trang, đọc lịch sử đơn hàng từ localStorage và render lại
+function renderOrderHistoryFromStorage() {
     const orderList = document.getElementById("order-list");
     orderList.innerHTML = "";
     const orderHistory = JSON.parse(localStorage.getItem('orderHistory') || '[]');
@@ -938,6 +991,144 @@ document.addEventListener("DOMContentLoaded", async () => {
       `;
       orderList.appendChild(orderItem);
     });
-  }
+}
+  
+// Hàm cập nhật trạng thái đơn hàng
+function updateOrderStatus(orderId, status) {
+    const orderElement = document.querySelector(`[data-order-id="${orderId}"]`);
+    if (orderElement) {
+        const statusBadge = orderElement.querySelector('.order-status');
+        statusBadge.textContent = status;
+        statusBadge.className = `order-status badge ${getStatusClass(status)}`;
+    }
+}
+
+// Hàm lấy class CSS cho trạng thái
+function getStatusClass(status) {
+    const statusClasses = {
+        'pending': 'bg-warning',
+        'processing': 'bg-info',
+        'completed': 'bg-success',
+        'cancelled': 'bg-danger'
+    };
+    return statusClasses[status] || 'bg-secondary';
+}
+
+// Hàm gửi đơn hàng
+async function submitOrder(orderData) {
+    try {
+        const response = await fetch('http://localhost:3000/api/orders', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Gửi thông báo qua WebSocket
+            socket.emit('new_order', data);
+            showNotification('Thành công', 'Đơn hàng của bạn đã được đặt thành công');
+            return data;
+        } else {
+            throw new Error(data.message || 'Failed to place order');
+        }
+    } catch (error) {
+        console.error('Error placing order:', error);
+        showNotification('Lỗi', 'Không thể đặt đơn hàng');
+        throw error;
+    }
+}
+
+// Hàm gửi tin nhắn cho admin
+function sendMessageToAdmin(message) {
+    socket.emit('chat_message', {
+        content: message,
+        timestamp: new Date().toISOString()
+    });
+}
+
+// Thêm CSS cho notifications và animations
+const style = document.createElement('style');
+style.textContent = `
+    .toast-notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        padding: 16px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .order-item {
+        background: white;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+
+    .order-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .order-status {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+    }
+
+    .btn {
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    .menu-item {
+        transition: all 0.3s ease;
+    }
+
+    .menu-item:hover {
+        transform: scale(1.02);
+    }
+
+    .cart-item {
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+`;
+document.head.appendChild(style);
   
   

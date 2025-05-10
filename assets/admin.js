@@ -1827,4 +1827,231 @@ document.addEventListener('DOMContentLoaded', async function() {
             lastOrdersData = currentOrdersData;
         }
     }, 2000); // Kiểm tra mỗi 2 giây
+
+    // Kết nối WebSocket
+    const socket = io('http://localhost:3000');
+
+    // Xác thực socket connection
+    socket.on('connect', () => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            socket.emit('authenticate', token);
+        }
+    });
+
+    // Xử lý thông báo đơn hàng mới
+    socket.on('order_notification', (data) => {
+        if (data.type === 'new_order') {
+            showNotification('Đơn hàng mới', `Đơn hàng #${data.order.id} vừa được đặt`);
+            updateOrderList(); // Cập nhật danh sách đơn hàng
+        }
+    });
+
+    // Xử lý cập nhật trạng thái đơn hàng
+    socket.on('order_update', (data) => {
+        updateOrderStatus(data.orderId, data.status);
+        showNotification('Cập nhật đơn hàng', `Đơn hàng #${data.orderId} đã được cập nhật`);
+    });
+
+    // Xử lý tin nhắn từ user
+    socket.on('user_message', (message) => {
+        showChatMessage(message);
+        showNotification('Tin nhắn mới', `Tin nhắn từ user #${message.userId}`);
+    });
+
+    // Hàm hiển thị thông báo
+    function showNotification(title, message) {
+        if ('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    new Notification(title, {
+                        body: message,
+                        icon: 'image/logo.png'
+                    });
+                }
+            });
+        }
+
+        // Hiển thị toast notification
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.innerHTML = `
+            <div class="toast-header">
+                <strong>${title}</strong>
+                <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 5000);
+    }
+
+    // Hàm cập nhật trạng thái đơn hàng
+    function updateOrderStatus(orderId, status) {
+        const orderElement = document.querySelector(`[data-order-id="${orderId}"]`);
+        if (orderElement) {
+            const statusBadge = orderElement.querySelector('.order-status');
+            statusBadge.textContent = status;
+            statusBadge.className = `order-status badge ${getStatusClass(status)}`;
+        }
+    }
+
+    // Hàm lấy class CSS cho trạng thái
+    function getStatusClass(status) {
+        const statusClasses = {
+            'pending': 'bg-warning',
+            'processing': 'bg-info',
+            'completed': 'bg-success',
+            'cancelled': 'bg-danger'
+        };
+        return statusClasses[status] || 'bg-secondary';
+    }
+
+    // Hàm cập nhật danh sách đơn hàng
+    async function updateOrderList() {
+        try {
+            const response = await fetch('http://localhost:3000/api/orders', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            const orders = await response.json();
+            renderOrders(orders);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            showNotification('Lỗi', 'Không thể cập nhật danh sách đơn hàng');
+        }
+    }
+
+    // Hàm render danh sách đơn hàng
+    function renderOrders(orders) {
+        const orderList = document.getElementById('order-list');
+        if (!orderList) return;
+
+        orderList.innerHTML = orders.map(order => `
+            <div class="order-item" data-order-id="${order.id}">
+                <div class="order-header">
+                    <h5>Đơn hàng #${order.id}</h5>
+                    <span class="order-status badge ${getStatusClass(order.status)}">${order.status}</span>
+                </div>
+                <div class="order-body">
+                    <p>Khách hàng: ${order.customerName}</p>
+                    <p>Thời gian: ${new Date(order.createdAt).toLocaleString()}</p>
+                    <p>Tổng tiền: ${order.total.toLocaleString('vi-VN')}đ</p>
+                </div>
+                <div class="order-actions">
+                    <button class="btn btn-primary btn-sm" onclick="viewOrderDetails(${order.id})">
+                        <i class="fas fa-eye"></i> Chi tiết
+                    </button>
+                    <button class="btn btn-success btn-sm" onclick="updateOrderStatus(${order.id}, 'processing')">
+                        <i class="fas fa-cog"></i> Xử lý
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="updateOrderStatus(${order.id}, 'cancelled')">
+                        <i class="fas fa-times"></i> Hủy
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // Hàm xem chi tiết đơn hàng
+    function viewOrderDetails(orderId) {
+        // Implement order details view
+    }
+
+    // Hàm cập nhật trạng thái đơn hàng
+    async function updateOrderStatus(orderId, status) {
+        try {
+            const response = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status })
+            });
+
+            if (response.ok) {
+                socket.emit('order_status_update', { orderId, status });
+                showNotification('Thành công', 'Cập nhật trạng thái đơn hàng thành công');
+            } else {
+                throw new Error('Failed to update order status');
+            }
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            showNotification('Lỗi', 'Không thể cập nhật trạng thái đơn hàng');
+        }
+    }
+
+    // Thêm CSS cho notifications
+    const style = document.createElement('style');
+    style.textContent = `
+        .toast-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            padding: 16px;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .order-item {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .order-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .order-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-sm {
+            padding: 4px 8px;
+            font-size: 0.875rem;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Khởi tạo
+    document.addEventListener('DOMContentLoaded', () => {
+        updateOrderList();
+        // Cập nhật danh sách đơn hàng mỗi 30 giây
+        setInterval(updateOrderList, 30000);
+    });
 });

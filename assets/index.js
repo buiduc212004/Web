@@ -68,11 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Get form data
             const fullname = this.querySelector('input[name="fullname"]').value;
-            const email = this.querySelector('input[name="email"]').value;
+            const phone_number = this.querySelector('input[name="phone_number"]').value;
             const password = this.querySelector('input[name="password"]').value;
             
             // Simulate form submission
-            console.log('Sign Up Form Submitted:', { fullname, email, password });
+            console.log('Sign Up Form Submitted:', { fullname, phone_number, password });
             
             // Show success message and redirect to sign in
             showSuccessMessage(this, 'Account created successfully! Redirecting to login...', function() {

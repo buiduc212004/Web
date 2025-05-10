@@ -22,7 +22,7 @@ const uploadImage = async (req, res) => {
 
         if (!req.file) {
             logger.error('[UPLOAD] No file uploaded');
-            return res.status(400).json({ message: 'No file uploaded' });
+            return res.status(400).json({ message: 'No file uploaded', error: 'No file in request. Kiểm tra key form-data phải là image.' });
         }
 
         // Log thông tin file
@@ -60,7 +60,8 @@ const uploadImage = async (req, res) => {
         });
     } catch (error) {
         logger.error('[UPLOAD] Error uploading file:', error);
-        res.status(500).json({ message: 'Error uploading file' });
+        // Trả về lỗi chi tiết hơn cho client
+        res.status(500).json({ message: 'Error uploading file', error: error.message, stack: error.stack });
     }
 };
 
