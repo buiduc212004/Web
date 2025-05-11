@@ -3,6 +3,7 @@
  */
 
 const API_URL = 'http://localhost:5000/api';
+export const LOADING_IMAGE = '../image/loading.gif';
 
 /**
  * Lấy ảnh chính của một đối tượng theo loại và ID

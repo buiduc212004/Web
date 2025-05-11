@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin.css">
     <script src="customer-handler.js"></script>
+    <script src="image-utils.js" type="module"></script>
 </head>
 <body>
     <div class="admin-container">
@@ -165,29 +166,40 @@
 
             <!-- Orders Content -->
             <div class="content-section hidden" id="orders">
-                <h1 class="page-title">Orders Management</h1>
+                <div class="orders-management-header">
+                    <h1>Orders Management</h1>
+                </div>
                 
-                <div class="filter-container">
+                <div class="filters-container">
                     <div class="filter-group">
-                        <label>Filter by Status:</label>
-                        <select class="filter-select" id="order-status-filter">
+                        <span class="filter-label">Filter by Status:</span>
+                        <select class="status-filter-select" id="order-status-filter">
                             <option value="all">All Orders</option>
-                            <option value="completed">Completed</option>
+                            <option value="pending">Pending</option>
                             <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
                             <option value="delivered">Delivered</option>
                             <option value="cancelled">Cancelled</option>
                         </select>
                     </div>
+                    
                     <div class="filter-group">
-                        <label>Date Range:</label>
-                        <input type="date" class="date-input" id="start-date">
-                        <span>to</span>
-                        <input type="date" class="date-input" id="end-date">
+                        <span class="filter-label">Date Range:</span>
+                        <div class="date-range-inputs">
+                            <input type="date" id="start-date" class="date-input" placeholder="Start Date">
+                            <span class="date-separator">to</span>
+                            <input type="date" id="end-date" class="date-input" placeholder="End Date">
+                        </div>
                     </div>
-                    <div class="filter-group">
-                        <button class="filter-btn" id="apply-order-filters">
+                    
+                    <div class="filter-actions">
+                        <button class="apply-filters-btn" id="apply-order-filters">
                             <i class="fas fa-filter"></i>
                             Apply Filters
+                        </button>
+                        <button class="reset-filters-btn" id="reset-order-filters">
+                            <i class="fas fa-undo"></i>
+                            Reset
                         </button>
                     </div>
                 </div>
@@ -202,7 +214,7 @@
                                 <th>Order ID</th>
                                 <th>Customer</th>
                                 <th>Items</th>
-                                <th>Amount</th>
+                                <th>Total</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -211,10 +223,6 @@
                             <!-- Orders will be loaded dynamically -->
                         </tbody>
                     </table>
-                </div>
-                
-                <div class="pagination" id="orders-pagination">
-                    <!-- Pagination will be generated dynamically -->
                 </div>
             </div>
 
@@ -244,10 +252,6 @@
                 
                 <div class="products-grid" id="products-grid">
                     <!-- Products will be loaded dynamically -->
-                </div>
-                
-                <div class="pagination-container" id="products-pagination">
-                    <!-- Pagination will be generated dynamically -->
                 </div>
             </div>
 
@@ -299,9 +303,8 @@
                     <div class="filter-group">
                         <select class="filter-select" id="promotion-status-filter">
                             <option value="all">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="scheduled">Scheduled</option>
-                            <option value="expired">Expired</option>
+                            <option value="Hoat Dong">Active</option>
+                            <option value="Khong Hoat Dong">Expired</option>
                         </select>
                     </div>
                     <div class="search-container">
@@ -310,7 +313,7 @@
                     </div>
                 </div>
                 
-                <div class="table-container">
+                <div class="table-container promotion-table-container">
                     <table class="data-table" id="promotions-table">
                         <thead>
                             <tr>
@@ -338,7 +341,7 @@
                 <h1 class="page-title">Customers Management</h1>
                 
                 <div class="action-bar">
-                    <button class="add-new-btn" id="add-customer-btn" onclick="openCustomerModal('add')">
+                    <button class="add-new-btn" id="add-customer-btn" style="display: none;">
                         <i class="fas fa-plus"></i>
                         Add New Customer
                     </button>
@@ -376,10 +379,6 @@
                             <!-- Customers will be loaded dynamically -->
                         </tbody>
                     </table>
-                </div>
-                
-                <div class="pagination" id="customers-pagination">
-                    <!-- Pagination will be generated dynamically -->
                 </div>
             </div>
         </div>
@@ -641,7 +640,7 @@
 
 <!-- Modal for Add/Edit Promotion -->
 <div class="modal" id="promotion-modal">
-    <div class="modal-content">
+    <div class="modal-content promotion-modal-content">
         <div class="modal-header">
             <h3 id="promotion-modal-title">Add New Promotion</h3>
             <button class="close-modal">
@@ -651,27 +650,47 @@
         <div class="modal-body">
             <form id="promotion-form">
                 <div class="form-group">
-                    <label>Promo Code</label>
-                    <input type="text" name="code" required>
+                    <label>
+                        <i class="fas fa-ticket-alt"></i>
+                        Promo Code
+                    </label>
+                    <input type="text" name="code" required placeholder="Enter promotion code">
                 </div>
                 <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" name="description" required>
+                    <label>
+                        <i class="fas fa-info-circle"></i>
+                        Description
+                    </label>
+                    <input type="text" name="description" required placeholder="Enter promotion description">
                 </div>
                 <div class="form-group">
-                    <label>Discount</label>
+                    <label>
+                        <i class="fas fa-percent"></i>
+                        Discount
+                    </label>
                     <input type="text" name="discount" required placeholder="e.g. 10%">
                 </div>
-                <div class="form-group">
-                    <label>Start Date</label>
-                    <input type="date" name="startDate" required>
+                <div class="date-range-group">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-calendar-alt"></i>
+                            Start Date
+                        </label>
+                        <input type="date" name="startDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-calendar-alt"></i>
+                            End Date
+                        </label>
+                        <input type="date" name="endDate" required>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>End Date</label>
-                    <input type="date" name="endDate" required>
-                </div>
-                <div class="form-group">
-                    <label>Status</label>
+                    <label>
+                        <i class="fas fa-toggle-on"></i>
+                        Status
+                    </label>
                     <select name="status" required>
                         <option value="active">Active</option>
                         <option value="scheduled">Scheduled</option>
@@ -827,7 +846,7 @@
     </div>
 </div>
 
-    <script src="admin.js"></script>
+    <script src="admin.js" type="module"></script>
     <script src="customer-handler.js"></script>
 </body>
 </html>

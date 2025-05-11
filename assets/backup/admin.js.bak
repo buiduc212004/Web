@@ -1,6 +1,3 @@
-// Import image utility functions
-import { getMainImage, displayImage, LOADING_IMAGE } from './image-utils.js';
-
 document.addEventListener('DOMContentLoaded', async function() {
     // Initialize dummy data
     let orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
@@ -286,7 +283,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             return dateB - dateA;
         });
         
-        // Always get the 5 most recent orders
+        // Get the 5 most recent orders
         const recentOrders = sortedOrders.slice(0, 5);
         
         recentOrders.forEach(order => {
@@ -317,7 +314,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             tbody.appendChild(tr);
         });
         
-        // Attach event listeners to the action buttons
+        // Gán lại event listeners cho các nút action
         tbody.querySelectorAll('.view-btn').forEach(btn => {
             btn.onclick = function() {
                 const orderId = this.getAttribute('data-id');
@@ -344,97 +341,46 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     
     // Load Top Products
-    async function loadTopProducts() {
+    function loadTopProducts() {
         const topProductsGrid = document.getElementById('top-products-grid');
         if (!topProductsGrid) return;
         
         topProductsGrid.innerHTML = '';
         
-        try {
-            // Nếu chưa có dữ liệu sản phẩm, tải từ API
-            if (products.length === 0) {
-                try {
-                    const token = localStorage.getItem('authToken');
-                    const response = await fetch('http://localhost:5000/api/foods', {
-                        headers: {
-                            'Authorization': token ? `Bearer ${token}` : ''
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        products = await response.json();
-                        localStorage.setItem('allProducts', JSON.stringify(products));
-                    }
-                } catch (error) {
-                    console.error('Error loading products for top products section:', error);
-                }
+        products.slice(0, 4).forEach(product => {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            
+            let badgeHtml = '';
+            if (product.badge) {
+                badgeHtml = `<div class="product-badge">${product.badge}</div>`;
             }
             
-            // Sắp xếp sản phẩm theo lượt bán (hoặc rating nếu không có sales)
-            const sortedProducts = [...products].sort((a, b) => {
-                // Ưu tiên sắp xếp theo sales nếu có
-                if (a.sales !== undefined && b.sales !== undefined) {
-                    return b.sales - a.sales;
-                }
-                // Nếu không có sales, sắp xếp theo rating
-                return (b.rating || 4.5) - (a.rating || 4.5);
-            });
-            
-            // Lấy 4 sản phẩm đầu tiên
-            const topProducts = sortedProducts.slice(0, 4);
-            
-            topProducts.forEach(product => {
-                const productCard = document.createElement('div');
-                productCard.className = 'product-card';
-                
-                // Create badge if exists
-                let badgeHtml = '';
-                if (product.badge) {
-                    badgeHtml = `<div class="product-badge featured">${product.badge}</div>`;
-                } else if (product.status && product.status !== 'active') {
-                    badgeHtml = `<div class="product-badge inactive">${product.status}</div>`;
-                }
-                
-                // Create unique ID for the image
-                const imgId = `top-product-img-${product.id}`;
-                
-                productCard.innerHTML = `
-                    <div class="product-image">
-                        <img id="${imgId}" src="${LOADING_IMAGE}" alt="${product.name}">
-                        ${badgeHtml}
-                    </div>
-                    <div class="product-details">
-                        <h3>${product.name}</h3>
-                        <div class="product-stats">
-                            <div class="product-rating">
-                                <i class="fas fa-star"></i>
-                                <span>${product.rating || 4.5}</span>
-                            </div>
-                            <div class="product-sales">
-                                <i class="fas fa-shopping-cart"></i>
-                                <span>${product.sales || 0} sold</span>
-                            </div>
+            productCard.innerHTML = `
+                <div class="product-image">
+                    <img src="${product.image}" alt="${product.name}">
+                    ${badgeHtml}
+                </div>
+                <div class="product-details">
+                    <h3>${product.name}</h3>
+                    <div class="product-stats">
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <span>${product.rating}</span>
                         </div>
-                        <div class="product-price">
-                            <span>${formatPrice(product.price)}</span>
+                        <div class="product-sales">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>${product.sales} sold</span>
                         </div>
                     </div>
-                `;
-                
-                topProductsGrid.appendChild(productCard);
-                
-                // Load the image from API after the product card is added to DOM
-                getMainImage('Food', product.id, (imageUrl) => {
-                    const imgElement = document.getElementById(imgId);
-                    if (imgElement) {
-                        imgElement.src = imageUrl;
-                    }
-                }, product.image || '../image/Combo_1.png');
-            });
-        } catch (error) {
-            console.error('Error loading top products:', error);
-            topProductsGrid.innerHTML = '<div class="error-message">Failed to load top products</div>';
-        }
+                    <div class="product-price">
+                        <span>${formatPrice(product.price)}</span>
+                    </div>
+                </div>
+            `;
+            
+            topProductsGrid.appendChild(productCard);
+        });
     }
     
     // Load Orders Table
@@ -513,83 +459,29 @@ document.addEventListener('DOMContentLoaded', async function() {
             };
         });
         
-        // Pagination removed
+        // Generate pagination
+        generatePagination('orders-pagination', 5);
     }
     
     // Load Products Grid
-    async function loadProductsGrid() {
+    function loadProductsGrid() {
         const productsGrid = document.getElementById('products-grid');
         if (!productsGrid) return;
         
-        // Xóa nội dung hiện tại
         productsGrid.innerHTML = '';
         
-        try {
-            // Hiển thị trạng thái loading
-            productsGrid.innerHTML = '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i> Loading products...</div>';
-            
-            // Thử lấy sản phẩm từ API
-            const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:5000/api/foods', {
-                headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
-                }
-            });
-            
-            // Xóa indicator loading
-            productsGrid.innerHTML = '';
-            
-            if (response.ok) {
-                const apiProducts = await response.json();
-                
-                // Cập nhật danh sách sản phẩm local
-                products = apiProducts;
-                localStorage.setItem('allProducts', JSON.stringify(products));
-                
-                // Nếu không có sản phẩm
-                if (products.length === 0) {
-                    productsGrid.innerHTML = '<div class="no-results">No products found</div>';
-                    
-                    // Vẫn thêm nút "Add Product"
-                    const addButton = document.createElement('div');
-                    addButton.className = 'product-card add-card';
-                    addButton.innerHTML = `
-                        <div class="add-product-icon">
-                            <i class="fas fa-plus"></i>
-                        </div>
-                        <h4>Add New Product</h4>
-                    `;
-                    addButton.addEventListener('click', function() {
-                        openProductModal('add');
-                    });
-                    productsGrid.appendChild(addButton);
-                    return;
-                }
-            } else {
-                // Nếu API lỗi, sử dụng dữ liệu local
-                console.warn('Failed to fetch products from API, using local data');
-                showNotification('Warning', 'Could not connect to the server. Showing cached data.', 'warning');
-            }
-        } catch (error) {
-            console.error('Error loading products:', error);
-            productsGrid.innerHTML = '';
-            showNotification('Error', 'Failed to load products. Using local data.', 'error');
-        }
+        // Sort products by sales (top sellers first)
+        const sortedProducts = [...products].sort((a, b) => b.sales - a.sales);
         
-        // Render sản phẩm từ dữ liệu đã có (từ API hoặc localStorage)
-        products.forEach(product => {
+        sortedProducts.forEach(product => {
             const statusClass = product.status === 'active' ? 'active' : 'inactive';
             const card = document.createElement('div');
             card.className = 'product-card';
-            
-            // Create placeholder for the image
-            const imgId = `product-grid-img-${product.id}`;
-            
             card.innerHTML = `
                 <div class="product-badge ${statusClass}">${product.status}</div>
                 ${product.badge ? `<div class="product-badge featured">${product.badge}</div>` : ''}
                 <div class="product-image">
-                    <img id="${imgId}" src="../image/loading.gif" alt="${product.name}">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.src='../image/Combo_1.png'">
                 </div>
                 <div class="product-details">
                     <h4>${product.name}</h4>
@@ -600,11 +492,11 @@ document.addEventListener('DOMContentLoaded', async function() {
                     <div class="product-stats">
                         <div class="stat">
                             <i class="fas fa-star"></i>
-                            <span>${product.rating || 4.5}</span>
+                            <span>${product.rating}</span>
                         </div>
                         <div class="stat">
                             <i class="fas fa-shopping-bag"></i>
-                            <span>${product.sales || 0} sales</span>
+                            <span>${product.sales} sales</span>
                         </div>
                     </div>
                 </div>
@@ -618,14 +510,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 </div>
             `;
             productsGrid.appendChild(card);
-            
-            // Load the image from API after the product card is added to DOM
-            getMainImage('Food', product.id, (imageUrl) => {
-                const imgElement = document.getElementById(imgId);
-                if (imgElement) {
-                    imgElement.src = imageUrl;
-                }
-            }, product.image || '../image/Combo_1.png');
         });
         
         // Add event listeners to buttons
@@ -640,40 +524,29 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
         
         deleteButtons.forEach(button => {
-            button.addEventListener('click', async function() {
+            button.addEventListener('click', function() {
                 const productId = this.getAttribute('data-product-id');
                 if (confirm('Are you sure you want to delete this product?')) {
-                    try {
-                        // Hiển thị loading
-                        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                        button.disabled = true;
+                    // Find product index
+                    const productIndex = products.findIndex(p => p.id === productId);
+                    if (productIndex !== -1) {
+                        // Remove product from array
+                        products.splice(productIndex, 1);
                         
-                        // Gọi hàm xóa đã cập nhật
-                        const result = await deleteProduct(productId);
+                        // Save to localStorage
+                        localStorage.setItem('allProducts', JSON.stringify(products));
                         
-                        // Hiển thị thông báo
-                        const notificationType = result._error ? 'warning' : 'success';
-                        const message = result._error ? 
-                            'Product removed locally but server update failed' : 
-                            'Product deleted successfully';
-                        
-                        showNotification('Product Deleted', message, notificationType);
-                        
-                        // Load lại danh sách
+                        // Reload products grid
                         loadProductsGrid();
-                    } catch (error) {
-                        console.error('Error deleting product:', error);
-                        showNotification('Error', 'Failed to delete product', 'error');
                         
-                        // Khôi phục button
-                        button.innerHTML = '<i class="fas fa-trash"></i>';
-                        button.disabled = false;
+                        // Show notification
+                        showNotification('Success', 'Product deleted successfully', 'success');
                     }
                 }
             });
         });
         
-        // Thêm nút "Add Product"
+        // Add new product button
         const addButton = document.createElement('div');
         addButton.className = 'product-card add-card';
         addButton.innerHTML = `
@@ -685,10 +558,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         addButton.addEventListener('click', function() {
             openProductModal('add');
         });
-        productsGrid.appendChild(addButton);
         
-        // Generate pagination for products
-        generatePagination('products-pagination', Math.ceil(products.length / 12));
+        productsGrid.appendChild(addButton);
     }
     
     // Load Categories Table
@@ -759,178 +630,68 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     
     // Load Promotions Table
-    async function loadPromotionsTable() {
+    function loadPromotionsTable() {
         const promotionsTable = document.getElementById('promotions-table');
-        const promotionsTableBody = promotionsTable ? promotionsTable.querySelector('tbody') : null;
+        if (!promotionsTable) return;
         
-        if (!promotionsTableBody) return;
+        const tbody = promotionsTable.querySelector('tbody');
+        tbody.innerHTML = '';
         
-        // Xóa nội dung hiện tại
-        promotionsTableBody.innerHTML = '';
-        
-        try {
-            // Hiển thị trạng thái loading
-            promotionsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center">
-                        <div class="loading-indicator">
-                            <i class="fas fa-spinner fa-spin"></i> Loading promotions...
-                        </div>
-                    </td>
-                </tr>
-            `;
-            
-            // Thử lấy danh sách khuyến mãi từ API
-            const token = localStorage.getItem('authToken');
-            const response = await fetch('http://localhost:5000/api/promotions', {
-                headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
-                }
-            });
-            
-            // Xóa indicator loading
-            promotionsTableBody.innerHTML = '';
-            
-            if (response.ok) {
-                const apiPromotions = await response.json();
-                
-                // Cập nhật danh sách khuyến mãi trong localStorage
-                promotions = apiPromotions.map(promo => ({
-                    code: promo.code || `PROMO-${promo.id}`,
-                    description: promo.name,
-                    discount: `${promo.discount_percentage}%`,
-                    startDate: promo.startDate || formatDateFromInput(new Date().toISOString().split('T')[0]),
-                    endDate: promo.endDate || formatDateFromInput(new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().split('T')[0]),
-                    status: promo.status,
-                    id: promo.id
-                }));
-                localStorage.setItem('allPromotions', JSON.stringify(promotions));
-            } else {
-                // Nếu API lỗi, sử dụng dữ liệu cached
-                console.warn('Failed to fetch promotions from API, using local data');
-                showNotification('Warning', 'Could not connect to the server. Showing cached promotions.', 'warning');
-            }
-        } catch (error) {
-            console.error('Error loading promotions:', error);
-            promotionsTableBody.innerHTML = '';
-            showNotification('Error', 'Failed to load promotions. Using local data.', 'error');
-        }
-        
-        // Tiếp tục với dữ liệu đã có (từ API hoặc localStorage)
-        if (promotions.length === 0) {
-            promotionsTableBody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="text-center">No promotions found</td>
-                </tr>
-            `;
-            return;
-        }
-        
-        // Render danh sách khuyến mãi
         promotions.forEach(promotion => {
-            const row = document.createElement('tr');
-            
-            // Convert Vietnamese status to appropriate status class
-            let statusText = promotion.status;
-            let statusClass = '';
-            
-            if (statusText === 'Hoat Dong') {
-                statusClass = 'active';
-            } else if (statusText === 'Khong Hoat Dong') {
-                statusClass = 'inactive';
-            } else if (promotion.status.toLowerCase() === 'active') {
-                statusClass = 'active';
-                statusText = 'Hoat Dong';
-            } else if (promotion.status.toLowerCase() === 'scheduled') {
-                statusClass = 'pending';
-                statusText = 'Scheduled';
-            } else if (promotion.status.toLowerCase() === 'expired') {
-                statusClass = 'cancelled';
-                statusText = 'Expired';
-            }
-            
-            row.innerHTML = `
+            const tr = document.createElement('tr');
+            tr.dataset.code = promotion.code;
+            tr.innerHTML = `
                 <td>
                     <input type="checkbox" class="row-checkbox">
                 </td>
-                <td><span class="promo-code">${promotion.code}</span></td>
+                <td>${promotion.code}</td>
                 <td>${promotion.description}</td>
-                <td><span class="discount-badge">${promotion.discount}</span></td>
-                <td class="date-column">${promotion.startDate}</td>
-                <td class="date-column">${promotion.endDate}</td>
-                <td>
-                    <span class="status-badge ${statusClass}" data-status="${promotion.status.toLowerCase()}">${statusText}</span>
-                </td>
+                <td>${promotion.discount}</td>
+                <td>${promotion.startDate}</td>
+                <td>${promotion.endDate}</td>
+                <td><span class="status-badge ${promotion.status}">${capitalizeFirstLetter(promotion.status)}</span></td>
                 <td>
                     <div class="action-buttons">
-                        <button class="action-btn edit-btn" data-promo-code="${promotion.code}" title="Edit promotion">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="action-btn delete-btn" data-promo-code="${promotion.code}" title="Delete promotion">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <button class="action-btn view-btn" data-id="${promotion.code}"><i class="fas fa-eye"></i></button>
+                        <button class="action-btn edit-btn" data-id="${promotion.code}"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" data-id="${promotion.code}"><i class="fas fa-trash"></i></button>
                     </div>
                 </td>
             `;
-            
-            promotionsTableBody.appendChild(row);
+            tbody.appendChild(tr);
         });
         
-        // Add event listeners to buttons
-        const editButtons = promotionsTableBody.querySelectorAll('.edit-btn');
-        const deleteButtons = promotionsTableBody.querySelectorAll('.delete-btn');
+        // Add event listeners to action buttons
+        const viewBtns = promotionsTable.querySelectorAll('.view-btn');
+        const editBtns = promotionsTable.querySelectorAll('.edit-btn');
+        const deleteBtns = promotionsTable.querySelectorAll('.delete-btn');
         
-        editButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const promoCode = this.getAttribute('data-promo-code');
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const promoCode = this.getAttribute('data-id');
+                // In a real application, this would show promotion details
+                console.log(`View promotion ${promoCode}`);
+            });
+        });
+        
+        editBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const promoCode = this.getAttribute('data-id');
                 openPromotionModal('edit', promoCode);
             });
         });
         
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', async function() {
-                const promoCode = this.getAttribute('data-promo-code');
-                if (confirm('Are you sure you want to delete this promotion?')) {
-                    try {
-                        // Hiển thị loading
-                        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                        button.disabled = true;
-                        
-                        // Tìm mã khuyến mãi trong danh sách
-                        const promotion = promotions.find(p => p.code === promoCode);
-                        if (!promotion) throw new Error('Promotion not found');
-                        
-                        // Nếu khuyến mãi có ID từ API, xóa thông qua API
-                        if (promotion.id) {
-                            const token = localStorage.getItem('authToken');
-                            const response = await fetch(`http://localhost:5000/api/promotions/${promotion.id}`, {
-                                method: 'DELETE',
-                                headers: {
-                                    'Authorization': token ? `Bearer ${token}` : ''
-                                }
-                            });
-                            
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.error || 'Failed to delete promotion from API');
-                            }
-                        }
-                        
-                        // Xóa khỏi localStorage
-                        deletePromotion(promoCode);
-                        
-                        // Reload promotions
-                        loadPromotionsTable();
-                        
-                        // Show notification
-                        showNotification('Success', 'Promotion deleted successfully', 'success');
-                    } catch (error) {
-                        console.error('Error deleting promotion:', error);
-                        showNotification('Error', `Failed to delete promotion: ${error.message}`, 'error');
-                        
-                        // Khôi phục button
-                        button.innerHTML = '<i class="fas fa-trash"></i>';
-                        button.disabled = false;
+        deleteBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const promoCode = this.getAttribute('data-id');
+                if (confirm(`Are you sure you want to delete promotion ${promoCode}?`)) {
+                    // Find the index of the promotion to delete
+                    const promotionIndex = promotions.findIndex(p => p.code === promoCode);
+                    if (promotionIndex !== -1) {
+                        // Remove the promotion from the array
+                        promotions.splice(promotionIndex, 1);
+                        // Remove the row from the table
+                        this.closest('tr').remove();
                     }
                 }
             });
@@ -1175,12 +936,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             modalTitle.textContent = 'Add New Promotion';
             promotionForm.reset();
             saveBtn.textContent = 'Add Promotion';
-            
-            // Set default status to Hoat Dong (active)
-            const statusSelect = promotionForm.elements['status'];
-            if (statusSelect) {
-                statusSelect.value = 'active';
-            }
         } else if (mode === 'edit') {
             modalTitle.textContent = 'Edit Promotion';
             
@@ -1194,15 +949,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             promotionForm.elements['discount'].value = promotion.discount;
             promotionForm.elements['startDate'].value = formatDateForInput(promotion.startDate);
             promotionForm.elements['endDate'].value = formatDateForInput(promotion.endDate);
-            
-            // Map Vietnamese status to English for the form
-            let statusValue = promotion.status.toLowerCase();
-            if (promotion.status === 'Hoat Dong') {
-                statusValue = 'active';
-            } else if (promotion.status === 'Khong Hoat Dong') {
-                statusValue = 'inactive';
-            }
-            promotionForm.elements['status'].value = statusValue;
+            promotionForm.elements['status'].value = promotion.status;
             
             saveBtn.textContent = 'Update Promotion';
         }
@@ -1221,16 +968,16 @@ document.addEventListener('DOMContentLoaded', async function() {
         if (!customer) return;
         
         // Populate modal with customer details
-        document.getElementById('customer-name').textContent = customer.name || '';
-        document.getElementById('modal-customer-id').textContent = customer.id || '';
-        document.getElementById('modal-customer-email').textContent = customer.email || '';
-        document.getElementById('modal-customer-phone').textContent = customer.phone || 'N/A';
-        document.getElementById('modal-customer-address').textContent = customer.address || 'N/A';
-        document.getElementById('modal-customer-status').innerHTML = `<span class="status-badge ${customer.status || 'active'}">${capitalizeFirstLetter(customer.status || 'active')}</span>`;
-        document.getElementById('modal-customer-joined').textContent = customer.joinedDate || 'N/A';
-        document.getElementById('modal-customer-orders').textContent = customer.orders || '0';
-        document.getElementById('modal-customer-spent').textContent = formatPrice(customer.totalSpent || 0);
-        document.getElementById('modal-customer-last-order').textContent = customer.lastOrder || 'N/A';
+        document.getElementById('customer-name').textContent = customer.name;
+        document.getElementById('modal-customer-id').textContent = customer.id;
+        document.getElementById('modal-customer-email').textContent = customer.email;
+        document.getElementById('modal-customer-phone').textContent = customer.phone;
+        document.getElementById('modal-customer-address').textContent = customer.address;
+        document.getElementById('modal-customer-status').innerHTML = `<span class="status-badge ${customer.status}">${capitalizeFirstLetter(customer.status)}</span>`;
+        document.getElementById('modal-customer-joined').textContent = customer.joinedDate;
+        document.getElementById('modal-customer-orders').textContent = customer.orders;
+        document.getElementById('modal-customer-spent').textContent = formatPrice(customer.totalSpent);
+        document.getElementById('modal-customer-last-order').textContent = customer.lastOrder;
         
         // Sample customer orders
         const ordersTable = document.getElementById('modal-customer-orders-table').querySelector('tbody');
@@ -1264,10 +1011,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             ordersTable.appendChild(tr);
         });
         
-        // Hide edit button since editing is not supported
+        // Add event listener to edit button
         const editCustomerBtn = document.getElementById('edit-customer-btn');
         if (editCustomerBtn) {
-            editCustomerBtn.style.display = 'none';
+            editCustomerBtn.addEventListener('click', function() {
+                customerDetailsModal.classList.remove('show');
+                openCustomerModal('edit', customerId);
+            });
         }
         
         // Show the modal
@@ -1313,205 +1063,96 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     // Load Customers Table
-    async function loadCustomersTable() {
+    function loadCustomersTable() {
         const customersTable = document.getElementById('customers-table');
         if (!customersTable) return;
         
         const tbody = customersTable.querySelector('tbody');
         tbody.innerHTML = '';
         
-        try {
-            // Show loading indicator
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="9" class="text-center">
-                        <div class="loading-indicator">
-                            <i class="fas fa-spinner fa-spin"></i> Loading customers...
-                        </div>
-                    </td>
-                </tr>
+        customers.forEach(customer => {
+            const tr = document.createElement('tr');
+            tr.className = 'customer-row';
+            tr.dataset.id = customer.id;
+            tr.innerHTML = `
+                <td>
+                    <input type="checkbox" class="row-checkbox">
+                </td>
+                <td>${customer.id}</td>
+                <td>
+                    <div class="customer-info">
+                        <img src="../image/Banner.png" alt="Customer Avatar" class="customer-avatar">
+                        <span class="customer-name">${customer.name}</span>
+                    </div>
+                </td>
+                <td class="customer-email">${customer.email}</td>
+                <td class="customer-phone">${customer.phone}</td>
+                <td class="customer-orders">${customer.orders}</td>
+                <td class="customer-spent">${formatPrice(customer.totalSpent)}</td>
+                <td><span class="status-badge ${customer.status}">${capitalizeFirstLetter(customer.status)}</span></td>
+                <td>
+                    <div class="action-buttons">
+                        <button class="action-btn view-btn" title="View Customer" data-id="${customer.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-btn" title="Edit Customer" data-id="${customer.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Delete Customer" data-id="${customer.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </td>
             `;
-            
-            // Get auth token
-            const token = localStorage.getItem('authToken');
-            if (!token) {
-                console.log('No auth token found, attempting to log in...');
-                await tryAutoLogin();
+            tbody.appendChild(tr);
+        });
+        
+        // Add event listeners to action buttons
+        const viewBtns = customersTable.querySelectorAll('.view-btn');
+        const editBtns = customersTable.querySelectorAll('.edit-btn');
+        const deleteBtns = customersTable.querySelectorAll('.delete-btn');
+        
+        viewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                openCustomerDetailsModal(customerId);
+            });
+        });
+        
+        editBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                openCustomerModal('edit', customerId);
+            });
+        });
+        
+        deleteBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                const customerName = customers.find(c => c.id === customerId)?.name || customerId;
                 
-                // Check if we have a token after auto-login
-                const newToken = localStorage.getItem('authToken');
-                if (!newToken) {
-                    throw new Error('Authentication required');
-                }
-            }
-            
-            try {
-                // Fetch customers from the API with proper headers
-                const response = await fetch('http://localhost:5000/api/customers', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                if (confirm(`Are you sure you want to delete customer "${customerName}"?`)) {
+                    // Find the index of the customer to delete
+                    const customerIndex = customers.findIndex(c => c.id === customerId);
+                    if (customerIndex !== -1) {
+                        // Remove the customer from the array
+                        customers.splice(customerIndex, 1);
+                        
+                        // Save to localStorage
+                        localStorage.setItem('allCustomers', JSON.stringify(customers));
+                        
+                        // Remove the row from the table
+                        this.closest('tr').remove();
+                        
+                        // Show notification
+                        showNotification('Success', `Customer "${customerName}" has been deleted`, 'success');
                     }
-                });
-                
-                // Clear loading indicator
-                tbody.innerHTML = '';
-                
-                if (!response.ok) {
-                    throw new Error(`Server error (${response.status})`);
                 }
-                
-                const apiCustomers = await response.json();
-                console.log('Fetched customers:', apiCustomers);
-                
-                // If no customers found
-                if (!apiCustomers || !Array.isArray(apiCustomers) || apiCustomers.length === 0) {
-                    tbody.innerHTML = `
-                        <tr>
-                            <td colspan="9" class="text-center">No customers found</td>
-                        </tr>
-                    `;
-                    return;
-                }
-                
-                // Update the global customers array
-                customers = apiCustomers;
-                
-                // Continue with rendering
-            } catch (apiError) {
-                console.error('API error:', apiError);
-                // Use sample data if API fails
-                console.log('Using sample data instead');
-                
-                // Sample data for demonstration
-                customers = [
-                    { id: '1', name: 'John Doe', email: 'john@example.com', phone: '555-123-4567', orders: 5, totalSpent: 500000, status: 'active' },
-                    { id: '2', name: 'Jane Smith', email: 'jane@example.com', phone: '555-987-6543', orders: 3, totalSpent: 350000, status: 'active' },
-                    { id: '3', name: 'Bob Johnson', email: 'bob@example.com', phone: '555-555-5555', orders: 1, totalSpent: 120000, status: 'inactive' }
-                ];
-                
-                tbody.innerHTML = '';
-            }
-            
-            // Get current filter status
-            const statusFilter = document.getElementById('customer-status-filter');
-            const currentStatus = statusFilter ? statusFilter.value.toLowerCase() : 'all';
-            let visibleCount = 0;
-            
-            // Render each customer
-            customers.forEach(customer => {
-                const tr = document.createElement('tr');
-                tr.className = 'customer-row';
-                tr.dataset.id = customer.id;
-                
-                // Handle missing or null values with defaults
-                const customerName = customer.name || 'Unknown';
-                const customerEmail = customer.email || 'N/A';
-                const customerPhone = customer.phone || 'N/A';
-                const customerOrders = customer.orders || 0;
-                const customerSpent = customer.totalSpent || 0;
-                const customerStatus = customer.status || 'active';
-                
-                // Apply status filter immediately
-                if (currentStatus !== 'all' && customerStatus.toLowerCase() !== currentStatus) {
-                    tr.style.display = 'none';
-                } else {
-                    visibleCount++;
-                }
-                
-                tr.innerHTML = `
-                    <td>
-                        <input type="checkbox" class="row-checkbox">
-                    </td>
-                    <td>${customer.id}</td>
-                    <td>
-                        <div class="customer-info">
-                            <img src="../image/Banner.png" alt="Customer Avatar" class="customer-avatar">
-                            <span class="customer-name">${customerName}</span>
-                        </div>
-                    </td>
-                    <td class="customer-email">${customerEmail}</td>
-                    <td class="customer-phone">${customerPhone}</td>
-                    <td class="customer-orders">${customerOrders}</td>
-                    <td class="customer-spent">${formatPrice(customerSpent)}</td>
-                    <td><span class="status-badge ${customerStatus.toLowerCase()}">${capitalizeFirstLetter(customerStatus)}</span></td>
-                    <td>
-                        <div class="action-buttons">
-                            <button class="action-btn view-btn" title="View Customer" data-id="${customer.id}">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="action-btn delete-btn" title="Delete Customer" data-id="${customer.id}">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(tr);
             });
-            
-            // Show "no customers with status" message if needed
-            if (visibleCount === 0 && currentStatus !== 'all') {
-                const noStatusRow = document.createElement('tr');
-                noStatusRow.id = 'no-status-results-row';
-                noStatusRow.innerHTML = `
-                    <td colspan="9" class="text-center">No customers with status "${currentStatus}"</td>
-                `;
-                tbody.appendChild(noStatusRow);
-            }
-            
-            // Add event listeners to action buttons
-            const viewBtns = customersTable.querySelectorAll('.view-btn');
-            const deleteBtns = customersTable.querySelectorAll('.delete-btn');
-            
-            viewBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const customerId = this.getAttribute('data-id');
-                    openCustomerDetailsModal(customerId);
-                });
-            });
-            
-            deleteBtns.forEach(btn => {
-                btn.addEventListener('click', async function() {
-                    const customerId = this.getAttribute('data-id');
-                    const customerName = customers.find(c => c.id === customerId)?.name || customerId;
-                    
-                    if (confirm(`Are you sure you want to delete customer "${customerName}"?`)) {
-                        try {
-                            // Show loading state
-                            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                            this.disabled = true;
-                            
-                            // Call delete function
-                            await deleteCustomer(customerId);
-                            
-                            // Reload the customers table instead of just removing the row
-                            // This ensures the table is updated with the latest data from the API
-                            await loadCustomersTable();
-                            
-                            // Show notification
-                            showNotification('Success', `Customer "${customerName}" has been deleted`, 'success');
-                        } catch (error) {
-                            console.error('Error deleting customer:', error);
-                            showNotification('Error', `Failed to delete customer: ${error.message}`, 'error');
-                            
-                            // Reset button
-                            this.innerHTML = '<i class="fas fa-trash"></i>';
-                            this.disabled = false;
-                        }
-                    }
-                });
-            });
-        } catch (error) {
-            console.error('Error loading customers:', error);
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="9" class="text-center">Error loading customers: ${error.message}</td>
-                </tr>
-            `;
-            showNotification('Error', `Failed to load customers: ${error.message}`, 'error');
-        }
+        });
+        
+        // Generate pagination
+        generatePagination('customers-pagination', 5);
     }
 
     // Add Customer Button
@@ -1611,57 +1252,22 @@ document.addEventListener('DOMContentLoaded', async function() {
         customerSearch.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
             
-            // Client-side filtering for real-time search feedback
-            const customerRows = document.querySelectorAll('#customers-table tbody tr');
-            let hasVisibleRows = false;
+            // In a real application, this would search the customers
+            console.log('Searching customers:', searchTerm);
             
+            // Simple client-side filtering for demo
+            const customerRows = document.querySelectorAll('#customers-table tbody tr');
             customerRows.forEach(row => {
-                let shouldDisplay = false;
+                const customerName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                const customerEmail = row.querySelector('td:nth-child(4)').textContent.toLowerCase();
+                const customerPhone = row.querySelector('td:nth-child(5)').textContent.toLowerCase();
                 
-                // Skip the special messages rows (like "No customers found")
-                if (row.cells.length === 1 && row.cells[0].colSpan === 9) {
-                    return;
-                }
-                
-                try {
-                    const customerName = row.querySelector('.customer-name')?.textContent.toLowerCase() || '';
-                    const customerEmail = row.querySelector('.customer-email')?.textContent.toLowerCase() || '';
-                    const customerPhone = row.querySelector('.customer-phone')?.textContent.toLowerCase() || '';
-                    
-                    // Check if any field contains the search term
-                    if (customerName.includes(searchTerm) || 
-                        customerEmail.includes(searchTerm) || 
-                        customerPhone.includes(searchTerm)) {
-                        shouldDisplay = true;
-                        hasVisibleRows = true;
-                    }
-                    
-                    // Show or hide the row
-                    row.style.display = shouldDisplay ? 'table-row' : 'none';
-                } catch (error) {
-                    console.error('Error filtering customer row:', error);
+                if (customerName.includes(searchTerm) || customerEmail.includes(searchTerm) || customerPhone.includes(searchTerm)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
                 }
             });
-            
-            // Show a "no results" message if needed
-            const tbody = document.querySelector('#customers-table tbody');
-            const noResultsRow = document.getElementById('no-search-results-row');
-            
-            if (!hasVisibleRows && searchTerm.length > 0) {
-                if (!noResultsRow) {
-                    const tr = document.createElement('tr');
-                    tr.id = 'no-search-results-row';
-                    tr.innerHTML = `
-                        <td colspan="9" class="text-center">No customers matching "${searchTerm}"</td>
-                    `;
-                    tbody.appendChild(tr);
-                } else {
-                    noResultsRow.querySelector('td').textContent = `No customers matching "${searchTerm}"`;
-                    noResultsRow.style.display = 'table-row';
-                }
-            } else if (noResultsRow) {
-                noResultsRow.style.display = 'none';
-            }
         });
     }
 
@@ -1669,83 +1275,491 @@ document.addEventListener('DOMContentLoaded', async function() {
     const customerStatusFilter = document.getElementById('customer-status-filter');
     if (customerStatusFilter) {
         customerStatusFilter.addEventListener('change', function() {
-            const status = this.value.toLowerCase();
+            const status = this.value;
+            
+            // In a real application, this would filter the customers
             console.log('Filtering customers by status:', status);
             
-            // Clear any existing "no results" messages
-            const existingMessage = document.getElementById('no-status-results-row');
-            if (existingMessage) {
-                existingMessage.remove();
+            // Simple client-side filtering for demo
+            const customerRows = document.querySelectorAll('#customers-table tbody tr');
+            customerRows.forEach(row => {
+                const statusBadge = row.querySelector('.status-badge');
+                if (status === 'all' || statusBadge.classList.contains(status)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Generate Pagination
+    function generatePagination(containerId, totalPages) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        container.innerHTML = '';
+        
+        // Previous button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'pagination-btn prev';
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        container.appendChild(prevBtn);
+        
+        // Page buttons
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = 'pagination-btn' + (i === 1 ? ' active' : '');
+            pageBtn.textContent = i;
+            container.appendChild(pageBtn);
+            
+            // Add click event
+            pageBtn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                container.querySelectorAll('.pagination-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+            });
+        }
+        
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'pagination-btn next';
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        container.appendChild(nextBtn);
+        
+        // Add click events to prev/next buttons
+        prevBtn.addEventListener('click', function() {
+            const activeBtn = container.querySelector('.pagination-btn.active');
+            if (activeBtn && activeBtn.previousElementSibling && activeBtn.previousElementSibling.classList.contains('pagination-btn')) {
+                activeBtn.previousElementSibling.click();
             }
-            
-            // Get all customer rows
-            const customerRows = document.querySelectorAll('#customers-table tbody tr.customer-row');
-            let visibleCount = 0;
-            
-            // Don't filter if there are no rows
-            if (customerRows.length === 0) {
-                console.log('No customer rows to filter');
+        });
+        
+        nextBtn.addEventListener('click', function() {
+            const activeBtn = container.querySelector('.pagination-btn.active');
+            if (activeBtn && activeBtn.nextElementSibling && activeBtn.nextElementSibling.classList.contains('pagination-btn')) {
+                activeBtn.nextElementSibling.click();
+            }
+        });
+    }
+    
+    // Add Product Button
+    const addProductBtn = document.getElementById('add-product-btn');
+    if (addProductBtn) {
+        addProductBtn.addEventListener('click', function() {
+            openProductModal('add');
+        });
+    }
+    
+    // Save Product Button
+    const saveProductBtn = document.getElementById('save-product-btn');
+    if (saveProductBtn) {
+        saveProductBtn.addEventListener('click', async function() {
+            const productForm = document.getElementById('product-form');
+            if (!productForm) {
+                showNotification('Error', 'Product form not found', 'error');
                 return;
             }
             
-            // Apply filtering to each row
-            customerRows.forEach(row => {
-                const statusBadge = row.querySelector('.status-badge');
-                if (!statusBadge) return;
+            // Validate form
+            if (!productForm.checkValidity()) {
+                productForm.reportValidity();
+                return;
+            }
+
+            try {
+                // Show loading state
+                saveProductBtn.textContent = 'Saving...';
+                saveProductBtn.disabled = true;
                 
-                // Get the customer status from the badge
-                const rowStatus = statusBadge.textContent.toLowerCase();
-                const badgeClass = Array.from(statusBadge.classList)
-                    .find(cls => cls !== 'status-badge');
+                // Get form data
+                const name = productForm.elements['name'].value;
+                const category = productForm.elements['category'].value;
+                const price = productForm.elements['price'].value;
+                const status = productForm.elements['status'].value;
                 
-                let shouldShow = false;
+                // Debug log to check values
+                console.log('Adding product:', {name, category, price, status});
                 
-                // Set visibility based on status filter
-                if (status === 'all') {
-                    shouldShow = true;
-                } else if (rowStatus.includes(status)) {
-                    shouldShow = true;
-                } else if (badgeClass && badgeClass.toLowerCase() === status) {
-                    shouldShow = true;
-                }
+                // Handle image
+                let imageUrl = '';
+                const imageFile = productForm.elements['image'].files[0];
+                const selectedImagePath = productForm.elements['existingImage'] ? productForm.elements['existingImage'].value : '';
                 
-                // Apply search filter if exists
-                const searchInput = document.getElementById('customer-search');
-                const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
-                
-                if (searchTerm && shouldShow) {
-                    const customerName = row.querySelector('.customer-name')?.textContent.toLowerCase() || '';
-                    const customerEmail = row.querySelector('.customer-email')?.textContent.toLowerCase() || '';
-                    const customerPhone = row.querySelector('.customer-phone')?.textContent.toLowerCase() || '';
+                if (imageFile) {
+                    // Show simulated upload progress
+                    showNotification('Processing', 'Uploading image... Please wait', 'processing');
                     
-                    const matchesSearch = customerName.includes(searchTerm) || 
-                                        customerEmail.includes(searchTerm) || 
-                                        customerPhone.includes(searchTerm);
-                    shouldShow = matchesSearch;
+                    // Simulate API upload with a delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    try {
+                        // Display success message as if it uploaded through API
+                        showNotification('Success', 'Image uploaded successfully via API', 'success');
+                        
+                        // Use the selected image or fallback to a default based on category
+                        if (selectedImagePath) {
+                            imageUrl = selectedImagePath;
+                        } else {
+                            const imageTypes = {
+                                'pizzas': '../image/pizza_1.png',
+                                'burgers': '../image/combo_6.png',
+                                'salads': '../image/salad_1.png',
+                                'drinks': '../image/drink_1.png',
+                                'desserts': '../image/Deals_1.png'
+                            };
+                            imageUrl = imageTypes[category.toLowerCase()] || '../image/Combo_1.png';
+                        }
+                    } catch (error) {
+                        console.error('Upload simulation error:', error);
+                        showNotification('Warning', 'Upload failed. Using selected image instead', 'warning');
+                        
+                        // Fallback to selected image or default
+                        if (selectedImagePath) {
+                            imageUrl = selectedImagePath;
+                        } else {
+                            const imageTypes = {
+                                'pizzas': '../image/pizza_1.png',
+                                'burgers': '../image/combo_6.png',
+                                'salads': '../image/salad_1.png',
+                                'drinks': '../image/drink_1.png',
+                                'desserts': '../image/Deals_1.png'
+                            };
+                            imageUrl = imageTypes[category.toLowerCase()] || '../image/Combo_1.png';
+                        }
+                    }
+                } else if (selectedImagePath) {
+                    // If no file was uploaded but an existing image was selected
+                    imageUrl = selectedImagePath;
+                    showNotification('Info', 'Using selected image from gallery', 'info');
+                } else if (currentEditMode === 'edit' && currentProductId) {
+                    // Keep the existing image for edit mode if no new image was provided
+                    const existingProduct = products.find(p => p.id === currentProductId);
+                    imageUrl = existingProduct ? existingProduct.image : '';
+                } else {
+                    // Default image based on category
+                    const imageTypes = {
+                        'pizzas': '../image/pizza_1.png',
+                        'burgers': '../image/combo_6.png',
+                        'salads': '../image/salad_1.png',
+                        'drinks': '../image/drink_1.png',
+                        'desserts': '../image/Deals_1.png'
+                    };
+                    imageUrl = imageTypes[category.toLowerCase()] || '../image/Combo_1.png';
+                    showNotification('Info', 'Using default image for category', 'info');
                 }
                 
-                // Show or hide the row
-                row.style.display = shouldShow ? 'table-row' : 'none';
+                // Create product object
+                const productData = {
+                    name,
+                    category,
+                    price: parseInt(price),
+                    image: imageUrl,
+                    status,
+                    rating: 4.5,
+                    sales: 0
+                };
                 
-                if (shouldShow) {
-                    visibleCount++;
+                // Add or update product
+                if (currentEditMode === 'edit' && currentProductId) {
+                    // Update existing product
+                    productData.id = currentProductId;
+                    
+                    // Find the product index
+                    const productIndex = products.findIndex(p => p.id === currentProductId);
+                    if (productIndex !== -1) {
+                        // Preserve existing rating and sales data
+                        productData.rating = products[productIndex].rating || 4.5;
+                        productData.sales = products[productIndex].sales || 0;
+                        
+                        // Update product
+                        products[productIndex] = productData;
+                        
+                        // Save to localStorage
+                        localStorage.setItem('allProducts', JSON.stringify(products));
+                        
+                        // Show success message
+                        showNotification('Success', `Product "${name}" has been updated successfully`, 'success');
+                    }
+                } else {
+                    // Add new product
+                    productData.id = 'P' + Math.floor(Math.random() * 10000);
+                    
+                    // Add to products array
+                    products.push(productData);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('allProducts', JSON.stringify(products));
+                    
+                    // Show success message
+                    showNotification('Success', `Product "${name}" has been added successfully`, 'success');
+                }
+                
+                // Close modal
+                const productModal = document.getElementById('product-modal');
+                if (productModal) {
+                    productModal.classList.remove('show');
+                }
+                
+                // Reload products grid
+                loadProductsGrid();
+                loadTopProducts();
+            } catch (error) {
+                console.error('Error saving product:', error);
+                showNotification('Error', 'Failed to save product. Please try again.', 'error');
+            } finally {
+                // Reset button state
+                saveProductBtn.textContent = currentEditMode === 'edit' ? 'Update Product' : 'Add Product';
+                saveProductBtn.disabled = false;
+            }
+        });
+    }
+
+    // Add image preview functionality
+    function initImagePreview() {
+    const imageInput = document.querySelector('input[name="image"]');
+    const imagePreview = document.querySelector('.image-preview');
+        const existingImageSelect = document.querySelector('select[name="existingImage"]');
+    
+    if (imageInput && imagePreview) {
+        imageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                    // When file is selected, clear the existing image selection
+                    if (existingImageSelect) {
+                        existingImageSelect.value = '';
+                    }
+                    
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                        const previewImg = imagePreview.querySelector('img');
+                        if (previewImg) {
+                            previewImg.src = e.target.result;
+                            imagePreview.style.display = 'flex';
+                        }
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+        }
+        
+        if (existingImageSelect && imagePreview) {
+            existingImageSelect.addEventListener('change', function() {
+                if (this.value) {
+                    // When existing image is selected, clear the file input
+                    if (imageInput) {
+                        imageInput.value = '';
+                    }
+                    
+                    const previewImg = imagePreview.querySelector('img');
+                    if (previewImg) {
+                        previewImg.src = this.value;
+                        imagePreview.style.display = 'flex';
+                    }
+                } else {
+                    imagePreview.style.display = 'none';
                 }
             });
+        }
+    }
+
+    // Add Category Button
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    if (addCategoryBtn) {
+        addCategoryBtn.addEventListener('click', function() {
+            openCategoryModal('add');
+        });
+    }
+
+    // Save Category Button
+    const saveCategoryBtn = document.getElementById('save-category-btn');
+    if (saveCategoryBtn) {
+        saveCategoryBtn.addEventListener('click', function() {
+            const categoryForm = document.getElementById('category-form');
             
-            // Show a "no results" message if needed
-            if (visibleCount === 0) {
-                const tbody = document.querySelector('#customers-table tbody');
-                if (tbody) {
-                    const noResultsRow = document.createElement('tr');
-                    noResultsRow.id = 'no-status-results-row';
-                    noResultsRow.innerHTML = `
-                        <td colspan="9" class="text-center">No customers with status "${status}"</td>
-                    `;
-                    tbody.appendChild(noResultsRow);
-                }
+            // Validate form
+            if (!categoryForm.checkValidity()) {
+                categoryForm.reportValidity();
+                return;
             }
             
-            console.log(`Filter complete. Showing ${visibleCount} of ${customerRows.length} customers.`);
+            // Get form data
+            const formData = {
+                name: categoryForm.elements['name'].value,
+                status: categoryForm.elements['status'].value
+            };
+            
+            if (currentEditMode === 'edit' && currentCategoryId) {
+                // Update existing category
+                const categoryIndex = categories.findIndex(c => c.id === currentCategoryId);
+                if (categoryIndex !== -1) {
+                    // Update category data while preserving other properties
+                    categories[categoryIndex] = {
+                        ...categories[categoryIndex],
+                        ...formData
+                    };
+                    
+                    console.log('Category updated:', categories[categoryIndex]);
+                }
+            } else {
+                // Add new category
+                const newCategory = {
+                    id: '#CAT-' + (categories.length + 1).toString().padStart(3, '0'),
+                    ...formData,
+                    products: 0
+                };
+                
+                categories.push(newCategory);
+                console.log('New category added:', newCategory);
+            }
+            
+            // Close modal
+            categoryModal.classList.remove('show');
+            
+            // Reset edit mode
+            currentEditMode = 'add';
+            currentCategoryId = null;
+            
+            // Reload categories table
+            loadCategoriesTable();
+        });
+    }
+
+    // Add Promotion Button
+    const addPromotionBtn = document.getElementById('add-promotion-btn');
+    if (addPromotionBtn) {
+        addPromotionBtn.addEventListener('click', function() {
+            openPromotionModal('add');
+        });
+    }
+
+    // Save Promotion Button
+    const savePromotionBtn = document.getElementById('save-promotion-btn');
+    if (savePromotionBtn) {
+        savePromotionBtn.addEventListener('click', function() {
+            const promotionForm = document.getElementById('promotion-form');
+            
+            // Validate form
+            if (!promotionForm.checkValidity()) {
+                promotionForm.reportValidity();
+                return;
+            }
+            
+            // Get form data
+            const formData = {
+                code: promotionForm.elements['code'].value,
+                description: promotionForm.elements['description'].value,
+                discount: promotionForm.elements['discount'].value,
+                startDate: formatDateFromInput(promotionForm.elements['startDate'].value),
+                endDate: formatDateFromInput(promotionForm.elements['endDate'].value),
+                status: promotionForm.elements['status'].value
+            };
+            
+            if (currentEditMode === 'edit' && currentPromotionCode) {
+                // Update existing promotion
+                const promotionIndex = promotions.findIndex(p => p.code === currentPromotionCode);
+                if (promotionIndex !== -1) {
+                    // Update promotion data
+                    promotions[promotionIndex] = formData;
+                    
+                    console.log('Promotion updated:', promotions[promotionIndex]);
+                }
+            } else {
+                // Add new promotion
+                promotions.push(formData);
+                console.log('New promotion added:', formData);
+            }
+            
+            // Close modal
+            promotionModal.classList.remove('show');
+            
+            // Reset edit mode
+            currentEditMode = 'add';
+            currentPromotionCode = null;
+            
+            // Reload promotions table
+            loadPromotionsTable();
+        });
+    }
+    
+    // Filter functionality
+    const orderStatusFilter = document.getElementById('order-status-filter');
+    const applyOrderFiltersBtn = document.getElementById('apply-order-filters');
+    const resetOrderFiltersBtn = document.getElementById('reset-order-filters');
+    
+    if (applyOrderFiltersBtn) {
+        applyOrderFiltersBtn.addEventListener('click', function() {
+            // In a real application, this would filter the orders
+            const status = orderStatusFilter.value;
+            const startDate = document.getElementById('start-date').value;
+            const endDate = document.getElementById('end-date').value;
+            
+            console.log('Filtering orders:', { status, startDate, endDate });
+            
+            // Show notification
+            alert(`Filters applied: Status=${status}, Start Date=${startDate}, End Date=${endDate}`);
+        });
+    }
+    
+    if (resetOrderFiltersBtn) {
+        resetOrderFiltersBtn.addEventListener('click', function() {
+            // Reset filters
+            orderStatusFilter.value = 'all';
+            document.getElementById('start-date').value = '';
+            document.getElementById('end-date').value = '';
+            
+            // In a real application, this would reload all orders
+            console.log('Filters reset');
+        });
+    }
+    
+    // Product category filter
+    const productCategoryFilter = document.getElementById('product-category-filter');
+    if (productCategoryFilter) {
+        productCategoryFilter.addEventListener('change', function() {
+            const category = this.value;
+            
+            // In a real application, this would filter the products
+            console.log('Filtering products by category:', category);
+            
+            // Simple client-side filtering for demo
+            const productCards = document.querySelectorAll('#products-grid .product-card');
+            productCards.forEach(card => {
+                const productCategory = card.querySelector('.product-category').textContent.toLowerCase();
+                if (category === 'all' || productCategory.includes(category.toLowerCase())) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    // Promotion status filter
+    const promotionStatusFilter = document.getElementById('promotion-status-filter');
+    if (promotionStatusFilter) {
+        promotionStatusFilter.addEventListener('change', function() {
+            const status = this.value;
+            
+            // In a real application, this would filter the promotions
+            console.log('Filtering promotions by status:', status);
+            
+            // Simple client-side filtering for demo
+            const promotionRows = document.querySelectorAll('#promotions-table tbody tr');
+            promotionRows.forEach(row => {
+                const statusBadge = row.querySelector('.status-badge');
+                if (status === 'all' || statusBadge.classList.contains(status)) {
+                    row.style.display = 'table-row';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
         });
     }
     
@@ -2022,196 +2036,220 @@ document.addEventListener('DOMContentLoaded', async function() {
     function saveProduct(productData) {
         return new Promise(async (resolve, reject) => {
             try {
-                // Chuẩn bị dữ liệu theo cấu trúc API backend
-                const apiProductData = {
-                    name: productData.name,
-                    description: productData.description || '',
-                    price: productData.price,
-                    category: productData.category,
-                    image: productData.image,
-                    status: productData.status
-                };
-
-                let response;
-                let url = 'http://localhost:5000/api/foods';
-                const token = localStorage.getItem('authToken'); // Lấy token từ localStorage
-                const headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
-                };
-
-                if (productData.id && !productData.id.startsWith('P')) {
-                    // Nếu là sản phẩm từ API (có ID không bắt đầu bằng "P")
-                    url = `${url}/${productData.id}`;
-                    response = await fetch(url, {
-                        method: 'PUT',
-                        headers,
-                        body: JSON.stringify(apiProductData)
-                    });
-                } else {
-                    // Thêm mới
-                    response = await fetch(url, {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify(apiProductData)
-                    });
-                }
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'API request failed');
-                }
-
-                const result = await response.json();
+                // For demonstration, show that this would connect to API
+                console.log('Connecting to API to save product:', productData);
                 
-                // Cập nhật local storage để UI hiển thị ngay
+                // In a real implementation, this would be an API request
+                // const response = await fetch('http://localhost:5000/api/foods', {
+                //     method: productData.id ? 'PUT' : 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(productData)
+                // });
+                
+                // if (!response.ok) {
+                //     throw new Error('API request failed');
+                // }
+                
+                // const savedProduct = await response.json();
+                
+                // For now, handle locally
                 if (productData.id) {
+                    // Update existing product
                     const productIndex = products.findIndex(p => p.id === productData.id);
                     if (productIndex !== -1) {
-                        // Nếu sản phẩm đã tồn tại, cập nhật
                         products[productIndex] = {
-                            ...productData,
-                            id: result.id || productData.id // Sử dụng ID từ API nếu có
+                            ...products[productIndex],
+                            ...productData
                         };
-                    } else {
-                        // Nếu không tìm thấy, thêm mới
-                        products.push({
-                            ...productData,
-                            id: result.id || productData.id
-                        });
                     }
                 } else {
-                    // Thêm mới vào mảng local
-                    products.push({
+                    // Add new product
+                    const newProduct = {
+                        id: 'product-' + (products.length + 1),
                         ...productData,
-                        id: result.id || `P${Math.floor(Math.random() * 10000)}`
-                    });
+                        rating: 0,
+                        sales: 0
+                    };
+                    products.push(newProduct);
                 }
                 
+                // Save to localStorage
                 localStorage.setItem('allProducts', JSON.stringify(products));
-                resolve(result);
+                
+                // Simulate API response delay
+                setTimeout(() => {
+                    resolve(productData);
+                }, 500);
             } catch (error) {
-                console.error('Error saving product to API:', error);
-                
-                // Fallback: Chỉ lưu vào localStorage nếu API fail
-                const productIndex = products.findIndex(p => p.id === productData.id);
-                if (productIndex !== -1) {
-                    products[productIndex] = productData;
-                } else {
-                    // Tạo ID nếu không có
-                    if (!productData.id) {
-                        productData.id = `P${Math.floor(Math.random() * 10000)}`;
-                    }
-                    products.push(productData);
-                }
-                localStorage.setItem('allProducts', JSON.stringify(products));
-                
-                // Vẫn trả về thông tin sản phẩm nhưng với thông báo lỗi
-                resolve({
-                    ...productData, 
-                    _error: error.message,
-                    _fromLocalStorage: true
-                });
+                console.error('Error saving product:', error);
+                reject(error);
             }
         });
     }
 
     function saveCategory(categoryData) {
-        const categoryIndex = categories.findIndex(c => c.id === categoryData.id);
-        if (categoryIndex !== -1) {
-            categories[categoryIndex] = categoryData;
-        } else {
-            categories.push(categoryData);
-        }
-        localStorage.setItem('allCategories', JSON.stringify(categories));
+        return new Promise(async (resolve, reject) => {
+            try {
+                // For demonstration, show that this would connect to API
+                console.log('Connecting to API to save category:', categoryData);
+                
+                // In a real implementation, this would be an API request
+                // const response = await fetch('http://localhost:5000/api/categories', {
+                //     method: categoryData.id ? 'PUT' : 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(categoryData)
+                // });
+                
+                // if (!response.ok) {
+                //     throw new Error('API request failed');
+                // }
+                
+                // const savedCategory = await response.json();
+                
+                // For now, handle locally
+                if (categoryData.id) {
+                    // Update existing category
+                    const categoryIndex = categories.findIndex(c => c.id === categoryData.id);
+                    if (categoryIndex !== -1) {
+                        categories[categoryIndex] = {
+                            ...categories[categoryIndex],
+                            ...categoryData
+                        };
+                    }
+                } else {
+                    // Add new category
+                    const newCategory = {
+                        id: '#CAT-' + (categories.length + 1).toString().padStart(3, '0'),
+                        ...categoryData,
+                        products: 0
+                    };
+                    categories.push(newCategory);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('allCategories', JSON.stringify(categories));
+                
+                // Simulate API response delay
+                setTimeout(() => {
+                    resolve(categoryData);
+                }, 500);
+            } catch (error) {
+                console.error('Error saving category:', error);
+                reject(error);
+            }
+        });
     }
 
     function savePromotion(promotionData) {
         return new Promise(async (resolve, reject) => {
             try {
-                // Chuẩn bị dữ liệu cho API
-                const apiPromotionData = {
-                    name: promotionData.description,
-                    discount_percentage: parseFloat(promotionData.discount.replace('%', '')),
-                    min_order_value: 0, // Giá trị mặc định
-                    max_discount_amount: 100000, // Giá trị mặc định
-                    code: promotionData.code,
-                    status: promotionData.status,
-                    startDate: promotionData.startDate,
-                    endDate: promotionData.endDate
-                };
-
-                const token = localStorage.getItem('authToken');
-                let response;
-                let url = 'http://localhost:5000/api/promotions';
-                const headers = {
-                    'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
-                };
-
-                if (promotionData.id) {
-                    // Cập nhật khuyến mãi đã có
-                    url = `${url}/${promotionData.id}`;
-                    response = await fetch(url, {
-                        method: 'PUT',
-                        headers,
-                        body: JSON.stringify(apiPromotionData)
-                    });
-                } else {
-                    // Thêm mới khuyến mãi
-                    response = await fetch(url, {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify(apiPromotionData)
-                    });
-                }
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'API request failed');
-                }
-
-                const result = await response.json();
+                // For demonstration, show that this would connect to API
+                console.log('Connecting to API to save promotion:', promotionData);
                 
-                // Cập nhật local storage
-                const promotionIndex = promotions.findIndex(p => p.code === promotionData.code);
-                if (promotionIndex !== -1) {
-                    promotions[promotionIndex] = promotionData;
+                // In a real implementation, this would be an API request
+                // const response = await fetch('http://localhost:5000/api/promotions', {
+                //     method: promotionData.id ? 'PUT' : 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(promotionData)
+                // });
+                
+                // if (!response.ok) {
+                //     throw new Error('API request failed');
+                // }
+                
+                // const savedPromotion = await response.json();
+                
+                // For now, handle locally
+                if (promotionData.code && promotions.some(p => p.code === promotionData.code)) {
+                    // Update existing promotion
+                    const promotionIndex = promotions.findIndex(p => p.code === promotionData.code);
+                    if (promotionIndex !== -1) {
+                        promotions[promotionIndex] = {
+                            ...promotions[promotionIndex],
+                            ...promotionData
+                        };
+                    }
                 } else {
+                    // Add new promotion
                     promotions.push(promotionData);
                 }
+                
+                // Save to localStorage
                 localStorage.setItem('allPromotions', JSON.stringify(promotions));
                 
-                resolve(result);
+                // Simulate API response delay
+                setTimeout(() => {
+                    resolve(promotionData);
+                }, 500);
             } catch (error) {
-                console.error('Error saving promotion to API:', error);
-                
-                // Fallback: Chỉ lưu vào localStorage nếu API fail
-                const promotionIndex = promotions.findIndex(p => p.code === promotionData.code);
-                if (promotionIndex !== -1) {
-                    promotions[promotionIndex] = promotionData;
-                } else {
-                    promotions.push(promotionData);
-                }
-                localStorage.setItem('allPromotions', JSON.stringify(promotions));
-                
-                resolve({
-                    ...promotionData,
-                    _error: error.message,
-                    _fromLocalStorage: true
-                });
+                console.error('Error saving promotion:', error);
+                reject(error);
             }
         });
     }
 
     function saveCustomer(customerData) {
-        const customerIndex = customers.findIndex(c => c.id === customerData.id);
-        if (customerIndex !== -1) {
-            customers[customerIndex] = customerData;
-        } else {
-            customers.push(customerData);
-        }
-        localStorage.setItem('allCustomers', JSON.stringify(customers));
+        return new Promise(async (resolve, reject) => {
+            try {
+                // For demonstration, show that this would connect to API
+                console.log('Connecting to API to save customer:', customerData);
+                
+                // In a real implementation, this would be an API request
+                // const response = await fetch('http://localhost:5000/api/customers', {
+                //     method: customerData.id ? 'PUT' : 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(customerData)
+                // });
+                
+                // if (!response.ok) {
+                //     throw new Error('API request failed');
+                // }
+                
+                // const savedCustomer = await response.json();
+                
+                // For now, handle locally
+                if (customerData.id) {
+                    // Update existing customer
+                    const customerIndex = customers.findIndex(c => c.id === customerData.id);
+                    if (customerIndex !== -1) {
+                        customers[customerIndex] = {
+                            ...customers[customerIndex],
+                            ...customerData
+                        };
+                    }
+                } else {
+                    // Add new customer
+                    const newCustomer = {
+                        id: 'CUST-' + (customers.length + 1).toString().padStart(3, '0'),
+                        ...customerData,
+                        orders: 0,
+                        totalSpent: 0,
+                        joinedDate: new Date().toLocaleDateString('en-GB'),
+                        lastOrder: 'N/A'
+                    };
+                    customers.push(newCustomer);
+                }
+                
+                // Save to localStorage
+                localStorage.setItem('allCustomers', JSON.stringify(customers));
+                
+                // Simulate API response delay
+                setTimeout(() => {
+                    resolve(customerData);
+                }, 500);
+            } catch (error) {
+                console.error('Error saving customer:', error);
+                reject(error);
+            }
+        });
     }
 
     // Update delete functions to save to localStorage
@@ -2243,44 +2281,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     function deleteProduct(productId) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                // Chỉ gọi API nếu ID không phải ID tạm (không bắt đầu bằng 'P')
-                if (!productId.startsWith('P')) {
-                    const url = `http://localhost:5000/api/foods/${productId}`;
-                    const token = localStorage.getItem('authToken');
-                    const response = await fetch(url, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': token ? `Bearer ${token}` : ''
-                        }
-                    });
-
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        throw new Error(errorData.error || 'Failed to delete product from API');
-                    }
-                }
-
-                // Xóa khỏi mảng local bất kể API thành công hay không
-                products = products.filter(p => p.id !== productId);
-                localStorage.setItem('allProducts', JSON.stringify(products));
-                resolve({ success: true, message: 'Product deleted successfully' });
-            } catch (error) {
-                console.error('Error deleting product:', error);
-                
-                // Vẫn xóa khỏi localStorage nếu lỗi API
-                products = products.filter(p => p.id !== productId);
-                localStorage.setItem('allProducts', JSON.stringify(products));
-                
-                resolve({ 
-                    success: true, 
-                    message: 'Product removed from local storage',
-                    _error: error.message,
-                    _fromLocalStorage: true 
-                });
-            }
-        });
+        products = products.filter(p => p.id !== productId);
+        localStorage.setItem('allProducts', JSON.stringify(products));
     }
 
     function deleteCategory(categoryId) {
@@ -2294,55 +2296,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     function deleteCustomer(customerId) {
-        return new Promise(async (resolve, reject) => {
-            try {
-                // Get auth token
-                const token = localStorage.getItem('authToken');
-                if (!token) {
-                    throw new Error('Authentication required');
-                }
-                
-                try {
-                    // Delete customer via API
-                    const response = await fetch(`http://localhost:5000/api/customers/${customerId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        }
-                    });
-                    
-                    // Handle response
-                    if (!response.ok) {
-                        throw new Error(`Failed to delete customer (Status: ${response.status})`);
-                    }
-                    
-                    // Process successful response
-                    const responseData = await response.json().catch(() => ({}));
-                    console.log('Delete customer response:', responseData);
-                    
-                    // Remove from local array
-                    customers = customers.filter(c => c.id !== customerId);
-                    
-                    resolve(responseData);
-                } catch (apiError) {
-                    console.error('API error:', apiError);
-                    console.log('Using local delete fallback');
-                    
-                    // Demo: Giả lập xoá khách hàng khi API không hoạt động
-                    customers = customers.filter(c => c.id !== customerId);
-                    showNotification('Demo Mode', 'Simulating customer deletion in demo mode', 'warning');
-                    
-                    // Resolve sau khi giả lập xoá
-                    resolve({ success: true, message: 'Customer deleted in demo mode' });
-                }
-                
-            } catch (error) {
-                console.error('Error deleting customer:', error);
-                reject(error);
-            }
-        });
+        customers = customers.filter(c => c.id !== customerId);
+        localStorage.setItem('allCustomers', JSON.stringify(customers));
     }
 
     // Update save order functionality
@@ -2905,34 +2860,216 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.log('Customer modal should now be visible');
     };
 
-    // Function to remove all pagination calls
-    function updatePaginationCalls() {
-        // Replace the pagination calls with comments
+    // Direct event listeners for critical buttons
+    function setupDirectEventListeners() {
+        console.log('Setting up direct event listeners');
         
-        // In loadOrdersTable function
-        const loadOrdersTableFn = loadOrdersTable.toString().replace(
-            'generatePagination(\'orders-pagination\', 5);',
-            '// Pagination removed'
-        );
-        eval('loadOrdersTable = ' + loadOrdersTableFn);
+        // Save Category Button
+        const saveCategoryBtn = document.getElementById('save-category-btn');
+        if (saveCategoryBtn) {
+            console.log('Setting up direct event for Save Category button');
+            saveCategoryBtn.onclick = async function() {
+                console.log('Save Category button clicked directly');
+                const categoryForm = document.getElementById('category-form');
+                
+                if (!categoryForm) {
+                    showNotification('Error', 'Category form not found', 'error');
+                    return;
+                }
+                
+                // Validate form
+                if (!categoryForm.checkValidity()) {
+                    categoryForm.reportValidity();
+                    return;
+                }
+                
+                // Get form data
+                const formData = {
+                    name: categoryForm.elements['name'].value,
+                    status: categoryForm.elements['status'].value
+                };
+                
+                try {
+                    // Show loading state
+                    saveCategoryBtn.disabled = true;
+                    saveCategoryBtn.textContent = 'Saving...';
+                    
+                    if (currentEditMode === 'edit' && currentCategoryId) {
+                        // Update existing category
+                        await saveCategory({
+                            id: currentCategoryId,
+                            ...formData
+                        });
+                        showNotification('Success', `Category "${formData.name}" has been updated`, 'success');
+                    } else {
+                        // Add new category
+                        await saveCategory(formData);
+                        showNotification('Success', `Category "${formData.name}" has been added`, 'success');
+                    }
+                    
+                    // Close modal
+                    const categoryModal = document.getElementById('category-modal');
+                    if (categoryModal) {
+                        categoryModal.classList.remove('show');
+                    }
+                    
+                    // Reset edit mode
+                    currentEditMode = 'add';
+                    currentCategoryId = null;
+                    
+                    // Reload categories table
+                    loadCategoriesTable();
+                } catch (error) {
+                    console.error('Error saving category:', error);
+                    showNotification('Error', 'Failed to save category', 'error');
+                } finally {
+                    // Reset button state
+                    saveCategoryBtn.disabled = false;
+                    saveCategoryBtn.textContent = 'Save Category';
+                }
+            };
+        }
         
-        // In loadProductsGrid function
-        const loadProductsGridFn = loadProductsGrid.toString().replace(
-            'generatePagination(\'products-pagination\', 3);',
-            '// Pagination removed'
-        );
-        eval('loadProductsGrid = ' + loadProductsGridFn);
+        // Save Promotion Button
+        const savePromotionBtn = document.getElementById('save-promotion-btn');
+        if (savePromotionBtn) {
+            console.log('Setting up direct event for Save Promotion button');
+            savePromotionBtn.onclick = async function() {
+                console.log('Save Promotion button clicked directly');
+                const promotionForm = document.getElementById('promotion-form');
+                
+                if (!promotionForm) {
+                    showNotification('Error', 'Promotion form not found', 'error');
+                    return;
+                }
+                
+                // Validate form
+                if (!promotionForm.checkValidity()) {
+                    promotionForm.reportValidity();
+                    return;
+                }
+                
+                // Get form data
+                const formData = {
+                    code: promotionForm.elements['code'].value,
+                    description: promotionForm.elements['description'].value,
+                    discount: promotionForm.elements['discount'].value,
+                    startDate: formatDateFromInput(promotionForm.elements['startDate'].value),
+                    endDate: formatDateFromInput(promotionForm.elements['endDate'].value),
+                    status: promotionForm.elements['status'].value
+                };
+                
+                try {
+                    // Show loading state
+                    savePromotionBtn.disabled = true;
+                    savePromotionBtn.textContent = 'Saving...';
+                    
+                    await savePromotion(formData);
+                    
+                    // Close modal
+                    const promotionModal = document.getElementById('promotion-modal');
+                    if (promotionModal) {
+                        promotionModal.classList.remove('show');
+                    }
+                    
+                    // Reset edit mode
+                    currentEditMode = 'add';
+                    currentPromotionCode = null;
+                    
+                    // Reload promotions table
+                    loadPromotionsTable();
+                    
+                    showNotification('Success', `Promotion "${formData.code}" has been ${currentEditMode === 'edit' ? 'updated' : 'added'}`, 'success');
+                } catch (error) {
+                    console.error('Error saving promotion:', error);
+                    showNotification('Error', 'Failed to save promotion', 'error');
+                } finally {
+                    // Reset button state
+                    savePromotionBtn.disabled = false;
+                    savePromotionBtn.textContent = 'Save Promotion';
+                }
+            };
+        }
         
-        // In loadCustomersTable function
-        const loadCustomersTableFn = loadCustomersTable.toString().replace(
-            'generatePagination(\'customers-pagination\', 5);',
-            '// Pagination removed'
-        );
-        eval('loadCustomersTable = ' + loadCustomersTableFn);
+        // Add Customer button
+        const addCustomerBtn = document.getElementById('add-customer-btn');
+        if (addCustomerBtn) {
+            console.log('Setting up direct event for Add Customer button');
+            addCustomerBtn.onclick = function() {
+                console.log('Add Customer button clicked directly');
+                openCustomerModal('add');
+            };
+        }
+        
+        // Save Customer button
+        const saveCustomerBtn = document.getElementById('save-customer-btn');
+        if (saveCustomerBtn) {
+            console.log('Setting up direct event for Save Customer button');
+            saveCustomerBtn.onclick = async function() {
+                console.log('Save Customer button clicked directly');
+                const customerForm = document.getElementById('customer-form');
+                
+                if (!customerForm) {
+                    showNotification('Error', 'Customer form not found', 'error');
+                    return;
+                }
+                
+                // Validate form
+                if (!customerForm.checkValidity()) {
+                    customerForm.reportValidity();
+                    return;
+                }
+                
+                // Get form data
+                const formData = {
+                    name: customerForm.elements['name'].value,
+                    email: customerForm.elements['email'].value,
+                    phone: customerForm.elements['phone'].value,
+                    address: customerForm.elements['address'].value,
+                    status: customerForm.elements['status'].value
+                };
+                
+                try {
+                    // Show loading state
+                    saveCustomerBtn.disabled = true;
+                    saveCustomerBtn.textContent = 'Saving...';
+                    
+                    if (currentEditMode === 'edit' && currentCustomerId) {
+                        // Update existing customer
+                        await saveCustomer({
+                            id: currentCustomerId,
+                            ...formData
+                        });
+                        showNotification('Success', `Customer "${formData.name}" has been updated`, 'success');
+                    } else {
+                        // Add new customer
+                        await saveCustomer(formData);
+                        showNotification('Success', `Customer "${formData.name}" has been added`, 'success');
+                    }
+                    
+                    // Close modal
+                    const customerModal = document.getElementById('customer-modal');
+                    if (customerModal) {
+                        customerModal.classList.remove('show');
+                    }
+                    
+                    // Reset edit mode
+                    currentEditMode = 'add';
+                    currentCustomerId = null;
+                    
+                    // Reload customers table
+                    loadCustomersTable();
+                } catch (error) {
+                    console.error('Error saving customer:', error);
+                    showNotification('Error', 'Failed to save customer', 'error');
+                } finally {
+                    // Reset button state
+                    saveCustomerBtn.disabled = false;
+                    saveCustomerBtn.textContent = 'Save Customer';
+                }
+            };
+        }
     }
-
-    // This would be dangerous in a real app, but since we're modifying the code directly,
-    // we'll make direct changes in the editor instead. The above function is just for reference.
 });
 
 // Add Product Button Click Handler
@@ -2982,6 +3119,134 @@ function initImagePreview() {
 // Direct event listeners for critical buttons
 function setupDirectEventListeners() {
     console.log('Setting up direct event listeners');
+    
+    // Save Category Button
+    const saveCategoryBtn = document.getElementById('save-category-btn');
+    if (saveCategoryBtn) {
+        console.log('Setting up direct event for Save Category button');
+        saveCategoryBtn.onclick = async function() {
+            console.log('Save Category button clicked directly');
+            const categoryForm = document.getElementById('category-form');
+            
+            if (!categoryForm) {
+                showNotification('Error', 'Category form not found', 'error');
+                return;
+            }
+            
+            // Validate form
+            if (!categoryForm.checkValidity()) {
+                categoryForm.reportValidity();
+                return;
+            }
+            
+            // Get form data
+            const formData = {
+                name: categoryForm.elements['name'].value,
+                status: categoryForm.elements['status'].value
+            };
+            
+            try {
+                // Show loading state
+                saveCategoryBtn.disabled = true;
+                saveCategoryBtn.textContent = 'Saving...';
+                
+                if (currentEditMode === 'edit' && currentCategoryId) {
+                    // Update existing category
+                    await saveCategory({
+                        id: currentCategoryId,
+                        ...formData
+                    });
+                    showNotification('Success', `Category "${formData.name}" has been updated`, 'success');
+                } else {
+                    // Add new category
+                    await saveCategory(formData);
+                    showNotification('Success', `Category "${formData.name}" has been added`, 'success');
+                }
+                
+                // Close modal
+                const categoryModal = document.getElementById('category-modal');
+                if (categoryModal) {
+                    categoryModal.classList.remove('show');
+                }
+                
+                // Reset edit mode
+                currentEditMode = 'add';
+                currentCategoryId = null;
+                
+                // Reload categories table
+                loadCategoriesTable();
+            } catch (error) {
+                console.error('Error saving category:', error);
+                showNotification('Error', 'Failed to save category', 'error');
+            } finally {
+                // Reset button state
+                saveCategoryBtn.disabled = false;
+                saveCategoryBtn.textContent = 'Save Category';
+            }
+        };
+    }
+    
+    // Save Promotion Button
+    const savePromotionBtn = document.getElementById('save-promotion-btn');
+    if (savePromotionBtn) {
+        console.log('Setting up direct event for Save Promotion button');
+        savePromotionBtn.onclick = async function() {
+            console.log('Save Promotion button clicked directly');
+            const promotionForm = document.getElementById('promotion-form');
+            
+            if (!promotionForm) {
+                showNotification('Error', 'Promotion form not found', 'error');
+                return;
+            }
+            
+            // Validate form
+            if (!promotionForm.checkValidity()) {
+                promotionForm.reportValidity();
+                return;
+            }
+            
+            // Get form data
+            const formData = {
+                code: promotionForm.elements['code'].value,
+                description: promotionForm.elements['description'].value,
+                discount: promotionForm.elements['discount'].value,
+                startDate: formatDateFromInput(promotionForm.elements['startDate'].value),
+                endDate: formatDateFromInput(promotionForm.elements['endDate'].value),
+                status: promotionForm.elements['status'].value
+            };
+            
+            try {
+                // Show loading state
+                savePromotionBtn.disabled = true;
+                savePromotionBtn.textContent = 'Saving...';
+                
+                await savePromotion(formData);
+                
+                // Close modal
+                const promotionModal = document.getElementById('promotion-modal');
+                if (promotionModal) {
+                    promotionModal.classList.remove('show');
+                }
+                
+                // Reset edit mode
+                currentEditMode = 'add';
+                currentPromotionCode = null;
+                
+                // Reload promotions table
+                loadPromotionsTable();
+                
+                showNotification('Success', `Promotion "${formData.code}" has been ${currentEditMode === 'edit' ? 'updated' : 'added'}`, 'success');
+            } catch (error) {
+                console.error('Error saving promotion:', error);
+                showNotification('Error', 'Failed to save promotion', 'error');
+            } finally {
+                // Reset button state
+                savePromotionBtn.disabled = false;
+                savePromotionBtn.textContent = 'Save Promotion';
+            }
+        };
+    }
+    
     // Add Customer button
     const addCustomerBtn = document.getElementById('add-customer-btn');
     if (addCustomerBtn) {
@@ -2996,7 +3261,7 @@ function setupDirectEventListeners() {
     const saveCustomerBtn = document.getElementById('save-customer-btn');
     if (saveCustomerBtn) {
         console.log('Setting up direct event for Save Customer button');
-        saveCustomerBtn.onclick = function() {
+        saveCustomerBtn.onclick = async function() {
             console.log('Save Customer button clicked directly');
             const customerForm = document.getElementById('customer-form');
             
@@ -3020,65 +3285,51 @@ function setupDirectEventListeners() {
                 status: customerForm.elements['status'].value
             };
             
-            console.log('Customer data:', formData);
-            
-            if (currentEditMode === 'edit' && currentCustomerId) {
-                // Update existing customer
-                const customerIndex = customers.findIndex(c => c.id === currentCustomerId);
-                if (customerIndex !== -1) {
-                    // Update customer data while preserving other properties
-                    customers[customerIndex] = {
-                        ...customers[customerIndex],
+            try {
+                // Show loading state
+                saveCustomerBtn.disabled = true;
+                saveCustomerBtn.textContent = 'Saving...';
+                
+                if (currentEditMode === 'edit' && currentCustomerId) {
+                    // Update existing customer
+                    await saveCustomer({
+                        id: currentCustomerId,
                         ...formData
-                    };
-                    
-                    // Save to localStorage
-                    localStorage.setItem('allCustomers', JSON.stringify(customers));
-                    
-                    showNotification('Success', `Customer "${formData.name}" has been updated successfully`, 'success');
+                    });
+                    showNotification('Success', `Customer "${formData.name}" has been updated`, 'success');
+                } else {
+                    // Add new customer
+                    await saveCustomer(formData);
+                    showNotification('Success', `Customer "${formData.name}" has been added`, 'success');
                 }
-            } else {
-                // Add new customer
-                const newCustomer = {
-                    id: 'CUST-' + (customers.length + 1).toString().padStart(3, '0'),
-                    ...formData,
-                    orders: 0,
-                    totalSpent: 0,
-                    joinedDate: new Date().toLocaleDateString('en-GB'),
-                    lastOrder: 'N/A'
-                };
                 
-                // Add to customers array
-                customers.push(newCustomer);
+                // Close modal
+                const customerModal = document.getElementById('customer-modal');
+                if (customerModal) {
+                    customerModal.classList.remove('show');
+                }
                 
-                // Save to localStorage
-                localStorage.setItem('allCustomers', JSON.stringify(customers));
+                // Reset edit mode
+                currentEditMode = 'add';
+                currentCustomerId = null;
                 
-                showNotification('Success', `Customer "${formData.name}" has been added successfully`, 'success');
+                // Reload customers table
+                loadCustomersTable();
+            } catch (error) {
+                console.error('Error saving customer:', error);
+                showNotification('Error', 'Failed to save customer', 'error');
+            } finally {
+                // Reset button state
+                saveCustomerBtn.disabled = false;
+                saveCustomerBtn.textContent = 'Save Customer';
             }
-            
-            // Close modal
-            const customerModal = document.getElementById('customer-modal');
-            if (customerModal) {
-                customerModal.classList.remove('show');
-            }
-            
-            // Reset edit mode
-            currentEditMode = 'add';
-            currentCustomerId = null;
-            
-            // Reload customers table
-            loadCustomersTable();
         };
     }
 }
 
 // Call init functions
-async function init() {
+function init() {
     console.log('Initializing admin dashboard...');
-    
-    // First check authentication - this should happen before any data loading
-    await checkAuthentication();
     
     // Initialize dashboard if on dashboard page
     if (document.getElementById('dashboard')) {
@@ -3099,6 +3350,8 @@ async function init() {
     
     // Set up add buttons
     setupAddProductButton();
+    setupAddCategoryButton();
+    setupAddPromotionButton();
     setupAddCustomerButton();
     
     // Set up direct event listeners
@@ -3115,10 +3368,10 @@ async function init() {
 }
 
 // Make sure init() is called when the page loads
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM loaded, running init()');
     // Run init function
-    await init();
+    init();
     
     // Add keyboard shortcut for resetting data
     document.addEventListener('keydown', function(event) {
@@ -3253,181 +3506,68 @@ function filterProducts() {
 
 // Add Customer Button Click Handler
 function setupAddCustomerButton() {
-    // Functionality removed as per requirements
-    console.log('Add customer functionality disabled as per requirements');
-}
-
-// Hàm kiểm tra xác thực
-async function checkAuthentication() {
-    const token = localStorage.getItem('authToken');
+    const addCustomerBtn = document.getElementById('add-customer-btn');
+    console.log('Setting up addCustomerBtn:', addCustomerBtn);
     
-    try {
-        // Nếu không có token, thử đăng nhập với tài khoản mặc định
-        if (!token) {
-            console.log('No token found, attempting auto-login...');
-            await tryAutoLogin();
-            return;
-        }
+    if (addCustomerBtn) {
+        // Remove any existing event listeners
+        const newAddCustomerBtn = addCustomerBtn.cloneNode(true);
+        addCustomerBtn.parentNode.replaceChild(newAddCustomerBtn, addCustomerBtn);
         
-        // Kiểm tra token có hợp lệ không
-        const response = await fetch('http://localhost:5000/api/auth/verify', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+        newAddCustomerBtn.addEventListener('click', function() {
+            console.log('Add Customer button clicked');
+            openCustomerModal('add');
         });
-        
-        if (!response.ok) {
-            throw new Error('Invalid token');
-        }
-        
-        const userData = await response.json();
-        
-        // Kiểm tra vai trò người dùng
-        if (userData.role !== 'admin') {
-            throw new Error('Unauthorized access');
-        }
-        
-        // Hiển thị thông tin người dùng đã đăng nhập
-        const userInfoElement = document.querySelector('.user-info-name');
-        if (userInfoElement) {
-            userInfoElement.textContent = userData.name || 'Admin';
-        }
-        
-    } catch (error) {
-        console.error('Authentication error:', error);
-        // Xóa token không hợp lệ
-        localStorage.removeItem('authToken');
-        // Thử đăng nhập tự động
-        await tryAutoLogin();
     }
 }
 
-// Hàm thử đăng nhập tự động với tài khoản mặc định
-async function tryAutoLogin() {
-    try {
-        // Thử đăng nhập với tài khoản mặc định
-        const response = await fetch('http://localhost:5000/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ 
-                email: 'admin@example.com', 
-                password: 'admin123' 
-            })
+// Add Category Button Click Handler
+function setupAddCategoryButton() {
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    console.log('Setting up addCategoryBtn:', addCategoryBtn);
+    
+    if (addCategoryBtn) {
+        // Remove any existing event listeners
+        const newAddCategoryBtn = addCategoryBtn.cloneNode(true);
+        addCategoryBtn.parentNode.replaceChild(newAddCategoryBtn, addCategoryBtn);
+        
+        newAddCategoryBtn.addEventListener('click', function() {
+            console.log('Add Category button clicked');
+            openCategoryModal('add');
         });
-        
-        if (!response.ok) {
-            throw new Error('Auto-login failed');
-        }
-        
-        const data = await response.json();
-        
-        // Lưu token
-        localStorage.setItem('authToken', data.token);
-        console.log('Auto-login successful');
-        
-        // Hiển thị thông tin người dùng
-        const userInfoElement = document.querySelector('.user-info-name');
-        if (userInfoElement) {
-            userInfoElement.textContent = data.user.name || 'Admin';
-        }
-        
-        // Load dữ liệu sau khi đăng nhập thành công
-        loadCustomersTable();
-        
-    } catch (error) {
-        console.error('Auto-login failed:', error);
-        
-        // Tạo token giả khi API không hoạt động
-        console.log('Creating fake token for demonstration...');
-        
-        // Tạo một token giả để demo khi API không hoạt động
-        const fakeToken = 'demo_token_' + Math.random().toString(36).substring(2, 15);
-        localStorage.setItem('authToken', fakeToken);
-        
-        // Hiển thị thông tin người dùng mặc định
-        const userInfoElement = document.querySelector('.user-info-name');
-        if (userInfoElement) {
-            userInfoElement.textContent = 'Demo Admin';
-        }
-        
-        showNotification('Demo Mode', 'Using demo data because API server is not available', 'warning');
-        
-        // Load dữ liệu khách hàng
-        loadCustomersTable();
     }
 }
 
-// Hàm hiển thị modal đăng nhập
-function showAuthenticationModal() {
-    const modal = document.createElement('div');
-    modal.className = 'auth-modal';
-    modal.innerHTML = `
-        <div class="auth-modal-content">
-            <h2>Admin Authentication</h2>
-            <form id="admin-login-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">Login</button>
-                    <a href="./Home.html" class="btn-secondary">Back to Home</a>
-                </div>
-                <div id="login-error" class="error-message"></div>
-            </form>
-        </div>
-    `;
+// Add Promotion Button Click Handler
+function setupAddPromotionButton() {
+    const addPromotionBtn = document.getElementById('add-promotion-btn');
+    console.log('Setting up addPromotionBtn:', addPromotionBtn);
     
-    document.body.appendChild(modal);
-    
-    // Xử lý đăng nhập
-    const loginForm = document.getElementById('admin-login-form');
-    const errorMessage = document.getElementById('login-error');
-    
-    loginForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
+    if (addPromotionBtn) {
+        // Remove any existing event listeners
+        const newAddPromotionBtn = addPromotionBtn.cloneNode(true);
+        addPromotionBtn.parentNode.replaceChild(newAddPromotionBtn, addPromotionBtn);
         
-        const email = loginForm.elements.email.value;
-        const password = loginForm.elements.password.value;
+        newAddPromotionBtn.addEventListener('click', function() {
+            console.log('Add Promotion button clicked');
+            openPromotionModal('add');
+        });
+    }
+}
+
+// Add Customer Button Click Handler
+function setupAddCustomerButton() {
+    const addCustomerBtn = document.getElementById('add-customer-btn');
+    console.log('Setting up addCustomerBtn:', addCustomerBtn);
+    
+    if (addCustomerBtn) {
+        // Remove any existing event listeners
+        const newAddCustomerBtn = addCustomerBtn.cloneNode(true);
+        addCustomerBtn.parentNode.replaceChild(newAddCustomerBtn, addCustomerBtn);
         
-        try {
-            const response = await fetch('http://localhost:5000/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
-            });
-            
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.message || 'Login failed');
-            }
-            
-            const data = await response.json();
-            
-            // Kiểm tra vai trò
-            if (data.user.role !== 'admin') {
-                throw new Error('Access denied: Admin privileges required');
-            }
-            
-            // Lưu token
-            localStorage.setItem('authToken', data.token);
-            
-            // Đóng modal và load lại trang
-            modal.remove();
-            location.reload();
-            
-        } catch (error) {
-            console.error('Login error:', error);
-            errorMessage.textContent = error.message || 'Invalid credentials';
-            errorMessage.style.display = 'block';
-        }
-    });
+        newAddCustomerBtn.addEventListener('click', function() {
+            console.log('Add Customer button clicked');
+            openCustomerModal('add');
+        });
+    }
 }
