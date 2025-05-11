@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="Restaurant.css">
+    <script src="image-loading.js"></script>
 </head>
 <body>
     <div class="fixed-nav-container">
@@ -34,7 +35,7 @@
         <!-- Main Navigation Bar -->
         <div class="top-bar" id="sticky-top-bar">
             <div class="top-bar-left">
-                <span><img src="../image/Foodieland..png" alt="Foodieland Logo" class="logo"></span>
+                <span><img src="../image/Foodieland.png" alt="Foodieland Logo" class="logo"></span>
             </div>
             <div class="top-bar-right">
                 <div class="nav-tabs">
@@ -81,7 +82,7 @@
                 <span id="dropdown-total">0đ</span>
             </div>
         </div>
-        <button class="view-cart-btn" id="view-full-basket">View Full Basket</button>
+        <a href="Ordering.html" class="view-cart-btn" id="view-full-basket">View Full Basket</a>
     </div>
 
     <div class="modal" id="location-modal">
@@ -298,6 +299,8 @@
         <span>Admin Mode</span>
     </a>
 
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <script type="module" src="Restaurant.js"></script>
 </body>
 </html>

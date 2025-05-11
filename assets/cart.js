@@ -9,6 +9,45 @@ const cart = {
   appliedVoucher: null,
 }
 
+// Thêm hàm showNotification
+function showNotification(title, message = '') {
+  const notification = document.createElement('div');
+  notification.className = 'notification animate__animated animate__fadeInRight';
+  notification.innerHTML = `
+    <div class="notification-header">
+      <i class="fas fa-bell"></i>
+      <h3>${title}</h3>
+      <button class="close-notification">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    ${message ? `<div class="notification-body">${message}</div>` : ''}
+  `;
+
+  document.body.appendChild(notification);
+
+  // Add close event
+  const closeButton = notification.querySelector('.close-notification');
+  closeButton.addEventListener('click', () => {
+    notification.classList.replace('animate__fadeInRight', 'animate__fadeOutRight');
+    setTimeout(() => {
+      notification.remove();
+    }, 500);
+  });
+
+  // Auto-close after 3 seconds
+  setTimeout(() => {
+    if (document.body.contains(notification)) {
+      notification.classList.replace('animate__fadeInRight', 'animate__fadeOutRight');
+      setTimeout(() => {
+        if (document.body.contains(notification)) {
+          notification.remove();
+        }
+      }, 500);
+    }
+  }, 3000);
+}
+
 // Load cart from localStorage
 function loadCart() {
   const savedCart = localStorage.getItem('cart');
@@ -271,5 +310,6 @@ export {
   updateCartTotals,
   getCategoryIcon,
   formatPrice,
-  updateBasketUI
+  updateBasketUI,
+  showNotification
 }; 

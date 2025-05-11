@@ -360,6 +360,9 @@ body {
   cursor: pointer;
   transition: all 0.3s;
   text-align: center;
+  display: block;
+  text-decoration: none;
+  line-height: normal;
 }
 
 .view-cart-btn:hover {

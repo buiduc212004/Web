@@ -10,6 +10,9 @@ import {
   formatPrice
 } from './cart.js';
 
+// Import hàm lấy ảnh từ API
+import { getMainImage, displayImage } from './image-utils.js';
+
 document.addEventListener("DOMContentLoaded", async () => {
   let foods = [];
   try {
@@ -309,9 +312,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     claimPromoBtn.addEventListener("click", claimPromo)
     copyCodeBtn.addEventListener("click", copyPromoCode)
 
-    // View full basket
-    viewFullBasket.addEventListener("click", viewBasket)
-
     // Category selection
     categories.forEach((category) => {
       category.addEventListener("click", switchCategory)
@@ -458,12 +458,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 2000)
   }
 
-  // View full basket
-  function viewBasket() {
-    closeCartDropdown()
-    // Redirect to ordering page with basket view
-    window.location.href = "Ordering.html"
-  }
+  // View full basket - No longer needed as it's a direct link now
+  // viewFullBasket.addEventListener("click", viewBasket)
 
   // Switch category
   function switchCategory() {
@@ -546,10 +542,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // Create cards for each item
     items.forEach((item) => {
+      // Lấy ID số từ item.id (ví dụ "combo-1" -> "1")
+      const itemId = item.id.replace(/[^\d]/g, '');
+      
       const card = document.createElement("div")
       card.className = "combo-card"
       card.innerHTML = `
-                  <img src="${item.image}" alt="${item.name}">
+                  <img id="combo-image-${itemId}" src="../image/loading.png" alt="${item.name}">
                   <div class="combo-card-content">
                       <h3 class="combo-card-title">${item.name}</h3>
                       <div class="combo-card-footer">
@@ -565,6 +564,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                   </div>
               `
       comboCards.appendChild(card)
+      
+      // Lấy ảnh từ API dựa trên ID
+      getMainImage('Food', itemId, (imageUrl) => {
+        const imgElement = document.getElementById(`combo-image-${itemId}`);
+        if (imgElement) {
+          imgElement.src = imageUrl;
+          // Lưu URL ảnh vào item để sử dụng khi thêm vào giỏ hàng
+          item.image = imageUrl;
+        }
+      }, item.image); // Sử dụng ảnh hiện tại làm fallback
     })
   }
 
@@ -574,10 +583,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     const name = button.getAttribute("data-name");
     const price = Number.parseInt(button.getAttribute("data-price"));
     const category = button.getAttribute("data-category");
+    
     // Lấy đúng đường dẫn ảnh từ DOM
-    const card = button.closest(".combo-card");
-    const img = card ? card.querySelector("img") : null;
-    const image = img ? img.getAttribute("src") : "/placeholder.svg?height=80&width=80";
+    const itemId = id.replace(/[^\d]/g, '');
+    const img = document.getElementById(`combo-image-${itemId}`);
+    const image = img ? img.getAttribute("src") : "../image/error.png";
 
     // Add animation
     button.classList.add("added");
@@ -589,7 +599,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       button.textContent = originalText;
     }, 1500);
 
-    // Add to cart với ảnh đúng
+    // Add to cart với ảnh từ API
     addItemToCart(id, name, category, "Regular", price, 1, image);
 
     showNotification(`${name} added to cart!`);

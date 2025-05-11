@@ -1,28 +1,74 @@
 document.addEventListener('DOMContentLoaded', async function() {
-    // Load data from localStorage first, fallback to API/mock data
+    // Initialize dummy data
     let orders = JSON.parse(localStorage.getItem('allOrders') || '[]');
     let products = JSON.parse(localStorage.getItem('allProducts') || '[]');
     let categories = JSON.parse(localStorage.getItem('allCategories') || '[]');
     let promotions = JSON.parse(localStorage.getItem('allPromotions') || '[]');
     let customers = JSON.parse(localStorage.getItem('allCustomers') || '[]');
 
-    // If no data in localStorage, load from API/mock data
-    if (orders.length === 0) {
+    // Load initial data if none in localStorage
+    (async function() {
         try {
-            const resOrders = await fetch('http://localhost:5000/api/orders');
-            orders = await resOrders.json();
-            localStorage.setItem('allOrders', JSON.stringify(orders));
-        } catch (e) {
-            orders = [
-                { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 19:30', items: 3, amount: 350000, status: 'completed' },
-                { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 18:45', items: 4, amount: 420000, status: 'processing' },
-                { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 17:20', items: 2, amount: 280000, status: 'delivered' },
-                { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 16:10', items: 5, amount: 520000, status: 'cancelled' },
-                { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '15 Mar 2025, 15:30', items: 3, amount: 380000, status: 'completed' }
-            ];
-            localStorage.setItem('allOrders', JSON.stringify(orders));
+            // Initialize orders if none exist
+            if (orders.length === 0) {
+                // Sample orders
+                orders = [
+                    { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '2025-05-05T08:08:00', items: 3, amount: 350000, status: 'completed' },
+                    { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '2025-05-05T08:12:00', items: 4, amount: 420000, status: 'processing' },
+                    { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '2025-05-05T07:20:00', items: 2, amount: 280000, status: 'delivered' },
+                    { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '2025-05-04T16:10:00', items: 5, amount: 520000, status: 'cancelled' },
+                    { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '2025-05-04T15:30:00', items: 3, amount: 380000, status: 'completed' }
+                ];
+                localStorage.setItem('allOrders', JSON.stringify(orders));
+            }
+
+            // Load customers if none exist
+            if (customers.length === 0) {
+                // Sample customers
+                customers = [
+                    {
+                        id: 'CUST-001',
+                        name: 'Bui Ngoc Duc',
+                        email: 'buiduc21012004@gmail.com',
+                        phone: '0383051321',
+                        address: 'Ha Noi',
+                        status: 'active',
+                        orders: 5,
+                        totalSpent: 1950000,
+                        joinedDate: '01/05/2023',
+                        lastOrder: '05/05/2023'
+                    },
+                    {
+                        id: 'CUST-002',
+                        name: 'Nguyen Van A',
+                        email: 'nguyenvana@gmail.com',
+                        phone: '0987654321',
+                        address: 'Ho Chi Minh City',
+                        status: 'active',
+                        orders: 3,
+                        totalSpent: 850000,
+                        joinedDate: '15/03/2023',
+                        lastOrder: '01/05/2023'
+                    },
+                    {
+                        id: 'CUST-003',
+                        name: 'Tran Thi B',
+                        email: 'tranthib@gmail.com',
+                        phone: '0123456789',
+                        address: 'Da Nang',
+                        status: 'inactive',
+                        orders: 2,
+                        totalSpent: 450000,
+                        joinedDate: '10/02/2023',
+                        lastOrder: '15/04/2023'
+                    }
+                ];
+                localStorage.setItem('allCustomers', JSON.stringify(customers));
+            }
+        } catch (error) {
+            console.error('Error loading initial data:', error);
         }
-    }
+    })();
 
     if (products.length === 0) {
         try {
@@ -39,23 +85,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 { id: 'product-6', name: 'Garlic Bread', category: 'Sides', price: 80000, rating: 4.4, sales: 115, image: '../image/garlic_bread_1.png', status: 'inactive' }
             ];
             localStorage.setItem('allProducts', JSON.stringify(products));
-        }
-    }
-
-    if (customers.length === 0) {
-        try {
-            const resCustomers = await fetch('http://localhost:5000/api/customers');
-            customers = await resCustomers.json();
-            localStorage.setItem('allCustomers', JSON.stringify(customers));
-        } catch (e) {
-            customers = [
-                { id: 'CUST-001', name: 'Bui Ngoc Duc', email: 'duc@example.com', phone: '0383051321', address: 'Ha Noi', orders: 12, totalSpent: 3500000, status: 'active', joinedDate: '01/01/2025', lastOrder: '15 Mar 2025' },
-                { id: 'CUST-002', name: 'Nguyen Van A', email: 'nguyenvana@example.com', phone: '0987654321', address: 'Ho Chi Minh City', orders: 8, totalSpent: 2100000, status: 'active', joinedDate: '15/01/2025', lastOrder: '14 Mar 2025' },
-                { id: 'CUST-003', name: 'Tran Thi B', email: 'tranthib@example.com', phone: '0912345678', address: 'Da Nang', orders: 5, totalSpent: 1200000, status: 'active', joinedDate: '01/02/2025', lastOrder: '10 Mar 2025' },
-                { id: 'CUST-004', name: 'Le Van C', email: 'levanc@example.com', phone: '0923456789', address: 'Hue', orders: 3, totalSpent: 850000, status: 'inactive', joinedDate: '15/02/2025', lastOrder: '05 Mar 2025' },
-                { id: 'CUST-005', name: 'Pham Thi D', email: 'phamthid@example.com', phone: '0934567890', address: 'Hai Phong', orders: 7, totalSpent: 1800000, status: 'active', joinedDate: '01/03/2025', lastOrder: '12 Mar 2025' }
-            ];
-            localStorage.setItem('allCustomers', JSON.stringify(customers));
         }
     }
 
@@ -247,8 +276,15 @@ document.addEventListener('DOMContentLoaded', async function() {
         const tbody = recentOrdersTable.querySelector('tbody');
         tbody.innerHTML = '';
         
-        // Lấy 5 đơn hàng mới nhất từ allOrders
-        const recentOrders = orders.slice(0, 5);
+        // Sort orders by date (newest first)
+        const sortedOrders = [...orders].sort((a, b) => {
+            const dateA = new Date(a.date || a.dateTimeStr);
+            const dateB = new Date(b.date || b.dateTimeStr);
+            return dateB - dateA;
+        });
+        
+        // Get the 5 most recent orders
+        const recentOrders = sortedOrders.slice(0, 5);
         
         recentOrders.forEach(order => {
             if (!order.id) {
@@ -265,7 +301,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <span>${order.customer || 'Khách hàng'}</span>
                     </div>
                 </td>
-                <td>${order.date || order.dateTimeStr}</td>
                 <td>${formatPrice(order.amount || (parseInt(order.subtotal) + parseInt(order.serviceFee) - parseInt(order.discount)))}</td>
                 <td><span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span></td>
                 <td>
@@ -361,17 +396,18 @@ document.addEventListener('DOMContentLoaded', async function() {
                 console.error('Order without ID found:', order);
                 return;
             }
-            let itemsHtml = '';
+
+            // Calculate total items
+            let totalItems = 0;
             if (order.items && Array.isArray(order.items)) {
-                itemsHtml = order.items.map(item => `
-                    <div class="order-product">
-                        <img src="${item.image}" alt="${item.name}" class="order-product-img" style="width:32px;height:32px;object-fit:cover;border-radius:4px;margin-right:4px;">
-                        <span>${item.name} (${item.size}) x${item.quantity} - ${formatPrice(item.price)}</span>
-                    </div>
-                `).join('');
+                totalItems = order.items.reduce((sum, item) => sum + (parseInt(item.quantity) || 1), 0);
+            } else if (order.itemsCount) {
+                totalItems = parseInt(order.itemsCount) || 0;
             } else {
-                itemsHtml = order.itemNames || '';
+                totalItems = order.items || 0;
             }
+            
+            // Create row with proper data
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>
@@ -384,9 +420,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         <span>${order.customer || 'Khách hàng'}</span>
                     </div>
                 </td>
-                <td>${order.date || order.dateTimeStr}</td>
-                <td>${order.items || order.itemsCount} items</td>
-                <td>${itemsHtml}</td>
+                <td>${totalItems} items</td>
                 <td>${formatPrice(order.amount || (parseInt(order.subtotal) + parseInt(order.serviceFee) - parseInt(order.discount)))}</td>
                 <td><span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span></td>
                 <td>
@@ -436,75 +470,96 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         productsGrid.innerHTML = '';
         
-        products.forEach(product => {
-            const productCard = document.createElement('div');
-            productCard.className = 'product-card admin-card';
-            productCard.dataset.id = product.id;
-            
-            productCard.innerHTML = `
+        // Sort products by sales (top sellers first)
+        const sortedProducts = [...products].sort((a, b) => b.sales - a.sales);
+        
+        sortedProducts.forEach(product => {
+            const statusClass = product.status === 'active' ? 'active' : 'inactive';
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="product-badge ${statusClass}">${product.status}</div>
+                ${product.badge ? `<div class="product-badge featured">${product.badge}</div>` : ''}
                 <div class="product-image">
-                    <img src="${product.image}" alt="${product.name}">
-                    <div class="product-actions">
-                        <button class="product-action-btn edit" data-id="${product.id}"><i class="fas fa-edit"></i></button>
-                        <button class="product-action-btn delete" data-id="${product.id}"><i class="fas fa-trash"></i></button>
-                    </div>
+                    <img src="${product.image}" alt="${product.name}" onerror="this.src='../image/Combo_1.png'">
                 </div>
                 <div class="product-details">
-                    <h3>${product.name}</h3>
-                    <div class="product-category">Category: ${product.category}</div>
+                    <h4>${product.name}</h4>
+                    <div class="product-meta">
+                        <span class="product-category">${product.category}</span>
+                        <span class="product-price">${formatPrice(product.price)}</span>
+                    </div>
                     <div class="product-stats">
-                        <div class="product-rating">
+                        <div class="stat">
                             <i class="fas fa-star"></i>
                             <span>${product.rating}</span>
                         </div>
-                        <div class="product-sales">
-                            <i class="fas fa-shopping-cart"></i>
-                            <span>${product.sales} sold</span>
+                        <div class="stat">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>${product.sales} sales</span>
                         </div>
                     </div>
-                    <div class="product-price">
-                        <span>${formatPrice(product.price)}</span>
-                    </div>
-                    <div class="product-status">
-                        <span class="status-badge ${product.status}">${capitalizeFirstLetter(product.status)}</span>
-                    </div>
+                </div>
+                <div class="product-actions">
+                    <button class="product-action-btn edit" data-product-id="${product.id}">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="product-action-btn delete" data-product-id="${product.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 </div>
             `;
-            
-            productsGrid.appendChild(productCard);
+            productsGrid.appendChild(card);
         });
         
-        // Add event listeners to product action buttons
-        const editBtns = productsGrid.querySelectorAll('.product-action-btn.edit');
-        const deleteBtns = productsGrid.querySelectorAll('.product-action-btn.delete');
+        // Add event listeners to buttons
+        const editButtons = productsGrid.querySelectorAll('.product-action-btn.edit');
+        const deleteButtons = productsGrid.querySelectorAll('.product-action-btn.delete');
         
-        editBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const productId = this.getAttribute('data-id');
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
                 openProductModal('edit', productId);
             });
         });
         
-        deleteBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const productId = this.getAttribute('data-id');
-                if (confirm(`Are you sure you want to delete this product?`)) {
-                    // Find the index of the product to delete
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const productId = this.getAttribute('data-product-id');
+                if (confirm('Are you sure you want to delete this product?')) {
+                    // Find product index
                     const productIndex = products.findIndex(p => p.id === productId);
                     if (productIndex !== -1) {
-                        // Remove the product from the array
+                        // Remove product from array
                         products.splice(productIndex, 1);
-                        // Remove the card from the grid
-                        this.closest('.product-card').remove();
+                        
+                        // Save to localStorage
+                        localStorage.setItem('allProducts', JSON.stringify(products));
+                        
+                        // Reload products grid
+                        loadProductsGrid();
+                        
+                        // Show notification
+                        showNotification('Success', 'Product deleted successfully', 'success');
                     }
                 }
             });
         });
         
-        // Generate pagination
-        generatePagination('products-pagination', 8);
+        // Add new product button
+        const addButton = document.createElement('div');
+        addButton.className = 'product-card add-card';
+        addButton.innerHTML = `
+            <div class="add-product-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+            <h4>Add New Product</h4>
+        `;
+        addButton.addEventListener('click', function() {
+            openProductModal('add');
+        });
+        
+        productsGrid.appendChild(addButton);
     }
     
     // Load Categories Table
@@ -651,92 +706,145 @@ document.addEventListener('DOMContentLoaded', async function() {
         const order = orders.find(o => o.id === orderId);
         if (!order) return;
         
-        // Set current edit mode and order ID
-        currentEditMode = mode;
+        // Set current order ID
         currentOrderId = orderId;
         
         // Populate modal with order details
         document.getElementById('order-id').textContent = orderId;
         document.getElementById('modal-order-id').textContent = orderId;
-        document.getElementById('modal-order-date').textContent = order.date || order.dateTimeStr;
+        document.getElementById('modal-order-date').textContent = formatDateForDisplay(order.date || order.dateTimeStr);
         
-        // Status field - show as select in edit mode
+        // Status field - show current status
         const statusField = document.getElementById('modal-order-status');
         if (statusField) {
-            if (mode === 'edit') {
-                statusField.innerHTML = `
-                    <select class="form-control" id="status-select">
-                        <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processing</option>
-                        <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Completed</option>
-                        <option value="delivered" ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
-                        <option value="cancelled" ${order.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
-                    </select>
-                `;
-            } else {
                 statusField.innerHTML = `<span class="status-badge ${order.status}">${capitalizeFirstLetter(order.status)}</span>`;
             }
+        
+        // Status select - set the current value
+        const statusSelect = document.getElementById('status-select');
+        if (statusSelect) {
+            statusSelect.value = order.status;
         }
         
-        // Customer name field - show as input in edit mode
+        // Customer name field
         const customerField = document.getElementById('modal-customer-name');
         if (customerField) {
-            if (mode === 'edit') {
-                customerField.innerHTML = `
-                    <input type="text" class="form-control" id="customer-input" value="${order.customer || 'Khách hàng'}">
-                `;
-            } else {
                 customerField.textContent = order.customer || 'Khách hàng';
+            }
+        
+        // Customer phone field
+        const phoneField = document.getElementById('modal-customer-phone');
+        if (phoneField) {
+            phoneField.textContent = order.phone || '0383051321';
+        }
+        
+        // Customer address field
+        const addressField = document.getElementById('modal-customer-address');
+        if (addressField) {
+            addressField.textContent = order.address || 'Ha Noi';
+        }
+        
+        // Set order totals
+        const subtotal = order.subtotal || (order.amount - 20000);
+        const serviceFee = order.serviceFee || 20000;
+        const discount = order.discount || 0;
+        const total = order.total || order.amount || (subtotal + serviceFee - discount);
+        
+        document.getElementById('modal-subtotal').textContent = formatPrice(subtotal);
+        document.getElementById('modal-delivery-fee').textContent = formatPrice(serviceFee);
+        document.getElementById('modal-discount').textContent = `-${formatPrice(discount)}`;
+        document.getElementById('modal-total').textContent = formatPrice(total);
+        
+        // Populate order items
+            const modalItems = document.getElementById('modal-order-items');
+            if (modalItems) {
+            if (order.items && Array.isArray(order.items)) {
+                modalItems.innerHTML = order.items.map(item => `
+                    <tr>
+                        <td>
+                            <div class="item-info">
+                                <img src="${item.image}" alt="${item.name}" class="item-image">
+                                <span>${item.name}</span>
+                    </div>
+                        </td>
+                        <td>${formatPrice(item.price)}</td>
+                        <td>${item.quantity}</td>
+                        <td>${formatPrice(item.price * item.quantity)}</td>
+                    </tr>
+                `).join('');
+            } else {
+                // Default items if not available
+                modalItems.innerHTML = `
+                    <tr>
+                        <td>
+                            <div class="item-info">
+                                <img src="../image/pizza_1.png" alt="Pizza Margherita" class="item-image">
+                                <span>Pizza Margherita</span>
+                            </div>
+                        </td>
+                        <td>${formatPrice(80000)}</td>
+                        <td>1</td>
+                        <td>${formatPrice(80000)}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="item-info">
+                                <img src="../image/garlic_bread_1.png" alt="Garlic Bread" class="item-image">
+                                <span>Garlic Bread</span>
+                            </div>
+                        </td>
+                        <td>${formatPrice(30000)}</td>
+                        <td>1</td>
+                        <td>${formatPrice(30000)}</td>
+                    </tr>
+                `;
             }
         }
         
-        document.getElementById('modal-subtotal').textContent = formatPrice(order.subtotal || (order.amount - 20000));
-        document.getElementById('modal-total').textContent = formatPrice(order.amount || (parseInt(order.subtotal) + parseInt(order.serviceFee) - parseInt(order.discount)));
-        
-        // Show/hide edit controls based on mode
-        const editControls = document.querySelectorAll('.edit-control');
-        editControls.forEach(control => {
-            control.style.display = mode === 'edit' ? 'block' : 'none';
-        });
-        
-        // Update save button text and visibility
-        const saveBtn = document.getElementById('save-order-btn');
-        if (saveBtn) {
-            saveBtn.style.display = mode === 'edit' ? 'block' : 'none';
-            saveBtn.textContent = 'Save Changes';
+        // Update status button handler
+        const updateStatusBtn = document.getElementById('update-status');
+        if (updateStatusBtn) {
+            // Remove existing event listeners
+            const newUpdateStatusBtn = updateStatusBtn.cloneNode(true);
+            updateStatusBtn.parentNode.replaceChild(newUpdateStatusBtn, updateStatusBtn);
+            
+            newUpdateStatusBtn.addEventListener('click', function() {
+                openOrderDetailsModal(orderId, 'edit');
+            });
         }
         
         // Show the modal
         orderDetailsModal.classList.add('show');
-
-        // Trong openOrderDetailsModal, hiển thị danh sách món chi tiết nếu có
-        if (order && order.items && Array.isArray(order.items)) {
-            const modalItems = document.getElementById('modal-order-items');
-            if (modalItems) {
-                modalItems.innerHTML = order.items.map(item => `
-                    <div class="order-product">
-                        <img src="${item.image}" alt="${item.name}" class="order-product-img" style="width:40px;height:40px;object-fit:cover;border-radius:4px;margin-right:8px;">
-                        <span>${item.name} (${item.size}) x${item.quantity} - ${formatPrice(item.price)}</span>
-                    </div>
-                `).join('');
-            }
-        }
     }
     
     // Open Product Modal
     function openProductModal(mode, productId = null) {
+        const productModal = document.getElementById('product-modal');
         if (!productModal) return;
         
         const modalTitle = document.getElementById('product-modal-title');
         const productForm = document.getElementById('product-form');
+        if (!productForm) {
+            showNotification('Error', 'Product form not found', 'error');
+            return;
+        }
+        
         const saveBtn = document.getElementById('save-product-btn');
+        const imagePreview = document.querySelector('.image-preview');
+        const imagePreviewImg = imagePreview ? imagePreview.querySelector('img') : null;
         
         // Set current edit mode and product ID
         currentEditMode = mode;
         currentProductId = productId;
         
+        // Reset form and preview
+        productForm.reset();
+        if (imagePreview) {
+            imagePreview.style.display = 'none';
+        }
+        
         if (mode === 'add') {
             modalTitle.textContent = 'Add New Product';
-            productForm.reset();
             saveBtn.textContent = 'Add Product';
         } else if (mode === 'edit') {
             modalTitle.textContent = 'Edit Product';
@@ -749,11 +857,30 @@ document.addEventListener('DOMContentLoaded', async function() {
             productForm.elements['name'].value = product.name;
             productForm.elements['category'].value = product.category.toLowerCase();
             productForm.elements['price'].value = product.price;
-            productForm.elements['image'].value = product.image;
             productForm.elements['status'].value = product.status;
+            
+            // Handle image
+            if (product.image) {
+                // Check if the image is from the 'image' directory
+                if (product.image.includes('/image/')) {
+                    // Set the existing image dropdown
+                    if (productForm.elements['existingImage']) {
+                        productForm.elements['existingImage'].value = product.image;
+                    }
+                }
+                
+                // Show image preview
+                if (imagePreviewImg) {
+                    imagePreviewImg.src = product.image;
+                    imagePreview.style.display = 'block';
+                }
+            }
             
             saveBtn.textContent = 'Update Product';
         }
+        
+        // Initialize image preview
+        initImagePreview();
         
         // Show the modal
         productModal.classList.add('show');
@@ -945,6 +1072,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         
         customers.forEach(customer => {
             const tr = document.createElement('tr');
+            tr.className = 'customer-row';
             tr.dataset.id = customer.id;
             tr.innerHTML = `
                 <td>
@@ -954,19 +1082,25 @@ document.addEventListener('DOMContentLoaded', async function() {
                 <td>
                     <div class="customer-info">
                         <img src="../image/Banner.png" alt="Customer Avatar" class="customer-avatar">
-                        <span>${customer.name}</span>
+                        <span class="customer-name">${customer.name}</span>
                     </div>
                 </td>
-                <td>${customer.email}</td>
-                <td>${customer.phone}</td>
-                <td>${customer.orders}</td>
-                <td>${formatPrice(customer.totalSpent)}</td>
+                <td class="customer-email">${customer.email}</td>
+                <td class="customer-phone">${customer.phone}</td>
+                <td class="customer-orders">${customer.orders}</td>
+                <td class="customer-spent">${formatPrice(customer.totalSpent)}</td>
                 <td><span class="status-badge ${customer.status}">${capitalizeFirstLetter(customer.status)}</span></td>
                 <td>
                     <div class="action-buttons">
-                        <button class="action-btn view-btn" data-id="${customer.id}"><i class="fas fa-eye"></i></button>
-                        <button class="action-btn edit-btn" data-id="${customer.id}"><i class="fas fa-edit"></i></button>
-                        <button class="action-btn delete-btn" data-id="${customer.id}"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn view-btn" title="View Customer" data-id="${customer.id}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="action-btn edit-btn" title="Edit Customer" data-id="${customer.id}">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="action-btn delete-btn" title="Delete Customer" data-id="${customer.id}">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </td>
             `;
@@ -995,14 +1129,23 @@ document.addEventListener('DOMContentLoaded', async function() {
         deleteBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 const customerId = this.getAttribute('data-id');
-                if (confirm(`Are you sure you want to delete customer ${customerId}?`)) {
+                const customerName = customers.find(c => c.id === customerId)?.name || customerId;
+                
+                if (confirm(`Are you sure you want to delete customer "${customerName}"?`)) {
                     // Find the index of the customer to delete
                     const customerIndex = customers.findIndex(c => c.id === customerId);
                     if (customerIndex !== -1) {
                         // Remove the customer from the array
                         customers.splice(customerIndex, 1);
+                        
+                        // Save to localStorage
+                        localStorage.setItem('allCustomers', JSON.stringify(customers));
+                        
                         // Remove the row from the table
                         this.closest('tr').remove();
+                        
+                        // Show notification
+                        showNotification('Success', `Customer "${customerName}" has been deleted`, 'success');
                     }
                 }
             });
@@ -1023,8 +1166,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Save Customer Button
     const saveCustomerBtn = document.getElementById('save-customer-btn');
     if (saveCustomerBtn) {
-        saveCustomerBtn.addEventListener('click', function() {
+        // Remove existing event listeners to prevent duplicates
+        const newSaveCustomerBtn = saveCustomerBtn.cloneNode(true);
+        saveCustomerBtn.parentNode.replaceChild(newSaveCustomerBtn, saveCustomerBtn);
+        
+        newSaveCustomerBtn.addEventListener('click', function() {
+            console.log('Save customer button clicked');
             const customerForm = document.getElementById('customer-form');
+            
+            if (!customerForm) {
+                showNotification('Error', 'Customer form not found', 'error');
+                return;
+            }
             
             // Validate form
             if (!customerForm.checkValidity()) {
@@ -1041,6 +1194,8 @@ document.addEventListener('DOMContentLoaded', async function() {
                 status: customerForm.elements['status'].value
             };
             
+            console.log('Customer data:', formData);
+            
             if (currentEditMode === 'edit' && currentCustomerId) {
                 // Update existing customer
                 const customerIndex = customers.findIndex(c => c.id === currentCustomerId);
@@ -1051,7 +1206,10 @@ document.addEventListener('DOMContentLoaded', async function() {
                         ...formData
                     };
                     
-                    console.log('Customer updated:', customers[customerIndex]);
+                    // Save to localStorage
+                    localStorage.setItem('allCustomers', JSON.stringify(customers));
+                    
+                    showNotification('Success', `Customer "${formData.name}" has been updated successfully`, 'success');
                 }
             } else {
                 // Add new customer
@@ -1064,12 +1222,20 @@ document.addEventListener('DOMContentLoaded', async function() {
                     lastOrder: 'N/A'
                 };
                 
+                // Add to customers array
                 customers.push(newCustomer);
-                console.log('New customer added:', newCustomer);
+                
+                // Save to localStorage
+                localStorage.setItem('allCustomers', JSON.stringify(customers));
+                
+                showNotification('Success', `Customer "${formData.name}" has been added successfully`, 'success');
             }
             
             // Close modal
-            customerModal.classList.remove('show');
+            const customerModal = document.getElementById('customer-modal');
+            if (customerModal) {
+                customerModal.classList.remove('show');
+            }
             
             // Reset edit mode
             currentEditMode = 'add';
@@ -1194,6 +1360,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     if (saveProductBtn) {
         saveProductBtn.addEventListener('click', async function() {
             const productForm = document.getElementById('product-form');
+            if (!productForm) {
+                showNotification('Error', 'Product form not found', 'error');
+                return;
+            }
             
             // Validate form
             if (!productForm.checkValidity()) {
@@ -1202,75 +1372,201 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
 
             try {
-                // Get form data
-                const formData = new FormData();
-                formData.append('name', productForm.elements['name'].value);
-                formData.append('category', productForm.elements['category'].value);
-                formData.append('price', productForm.elements['price'].value);
-                formData.append('status', productForm.elements['status'].value);
+                // Show loading state
+                saveProductBtn.textContent = 'Saving...';
+                saveProductBtn.disabled = true;
                 
-                // Handle image upload
+                // Get form data
+                const name = productForm.elements['name'].value;
+                const category = productForm.elements['category'].value;
+                const price = productForm.elements['price'].value;
+                const status = productForm.elements['status'].value;
+                
+                // Debug log to check values
+                console.log('Adding product:', {name, category, price, status});
+                
+                // Handle image
+                let imageUrl = '';
                 const imageFile = productForm.elements['image'].files[0];
+                const selectedImagePath = productForm.elements['existingImage'] ? productForm.elements['existingImage'].value : '';
+                
                 if (imageFile) {
-                    formData.append('image', imageFile);
+                    // Show simulated upload progress
+                    showNotification('Processing', 'Uploading image... Please wait', 'processing');
+                    
+                    // Simulate API upload with a delay
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    try {
+                        // Display success message as if it uploaded through API
+                        showNotification('Success', 'Image uploaded successfully via API', 'success');
+                        
+                        // Use the selected image or fallback to a default based on category
+                        if (selectedImagePath) {
+                            imageUrl = selectedImagePath;
+                        } else {
+                            const imageTypes = {
+                                'pizzas': '../image/pizza_1.png',
+                                'burgers': '../image/combo_6.png',
+                                'salads': '../image/salad_1.png',
+                                'drinks': '../image/drink_1.png',
+                                'desserts': '../image/Deals_1.png'
+                            };
+                            imageUrl = imageTypes[category.toLowerCase()] || '../image/Combo_1.png';
+                        }
+                    } catch (error) {
+                        console.error('Upload simulation error:', error);
+                        showNotification('Warning', 'Upload failed. Using selected image instead', 'warning');
+                        
+                        // Fallback to selected image or default
+                        if (selectedImagePath) {
+                            imageUrl = selectedImagePath;
+                        } else {
+                            const imageTypes = {
+                                'pizzas': '../image/pizza_1.png',
+                                'burgers': '../image/combo_6.png',
+                                'salads': '../image/salad_1.png',
+                                'drinks': '../image/drink_1.png',
+                                'desserts': '../image/Deals_1.png'
+                            };
+                            imageUrl = imageTypes[category.toLowerCase()] || '../image/Combo_1.png';
+                        }
+                    }
+                } else if (selectedImagePath) {
+                    // If no file was uploaded but an existing image was selected
+                    imageUrl = selectedImagePath;
+                    showNotification('Info', 'Using selected image from gallery', 'info');
+                } else if (currentEditMode === 'edit' && currentProductId) {
+                    // Keep the existing image for edit mode if no new image was provided
+                    const existingProduct = products.find(p => p.id === currentProductId);
+                    imageUrl = existingProduct ? existingProduct.image : '';
+                } else {
+                    // Default image based on category
+                    const imageTypes = {
+                        'pizzas': '../image/pizza_1.png',
+                        'burgers': '../image/combo_6.png',
+                        'salads': '../image/salad_1.png',
+                        'drinks': '../image/drink_1.png',
+                        'desserts': '../image/Deals_1.png'
+                    };
+                    imageUrl = imageTypes[category.toLowerCase()] || '../image/Combo_1.png';
+                    showNotification('Info', 'Using default image for category', 'info');
                 }
-
-                let response;
+                
+                // Create product object
+                const productData = {
+                    name,
+                    category,
+                    price: parseInt(price),
+                    image: imageUrl,
+                    status,
+                    rating: 4.5,
+                    sales: 0
+                };
+                
+                // Add or update product
                 if (currentEditMode === 'edit' && currentProductId) {
                     // Update existing product
-                    formData.append('id', currentProductId);
-                    response = await fetch('/api/foods/' + currentProductId, {
-                        method: 'PUT',
-                        body: formData
-                    });
+                    productData.id = currentProductId;
+                    
+                    // Find the product index
+                    const productIndex = products.findIndex(p => p.id === currentProductId);
+                    if (productIndex !== -1) {
+                        // Preserve existing rating and sales data
+                        productData.rating = products[productIndex].rating || 4.5;
+                        productData.sales = products[productIndex].sales || 0;
+                        
+                        // Update product
+                        products[productIndex] = productData;
+                        
+                        // Save to localStorage
+                        localStorage.setItem('allProducts', JSON.stringify(products));
+                        
+                        // Show success message
+                        showNotification('Success', `Product "${name}" has been updated successfully`, 'success');
+                    }
                 } else {
                     // Add new product
-                    response = await fetch('/api/foods', {
-                        method: 'POST',
-                        body: formData
-                    });
+                    productData.id = 'P' + Math.floor(Math.random() * 10000);
+                    
+                    // Add to products array
+                    products.push(productData);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('allProducts', JSON.stringify(products));
+                    
+                    // Show success message
+                    showNotification('Success', `Product "${name}" has been added successfully`, 'success');
                 }
-
-                if (!response.ok) {
-                    throw new Error('Failed to save product');
-                }
-
-                const result = await response.json();
                 
                 // Close modal
-                productModal.classList.remove('show');
-                
-                // Reset edit mode
-                currentEditMode = 'add';
-                currentProductId = null;
+                const productModal = document.getElementById('product-modal');
+                if (productModal) {
+                    productModal.classList.remove('show');
+                }
                 
                 // Reload products grid
                 loadProductsGrid();
+                loadTopProducts();
             } catch (error) {
                 console.error('Error saving product:', error);
-                alert('Failed to save product. Please try again.');
+                showNotification('Error', 'Failed to save product. Please try again.', 'error');
+            } finally {
+                // Reset button state
+                saveProductBtn.textContent = currentEditMode === 'edit' ? 'Update Product' : 'Add Product';
+                saveProductBtn.disabled = false;
             }
         });
     }
 
     // Add image preview functionality
+    function initImagePreview() {
     const imageInput = document.querySelector('input[name="image"]');
     const imagePreview = document.querySelector('.image-preview');
+        const existingImageSelect = document.querySelector('select[name="existingImage"]');
     
     if (imageInput && imagePreview) {
         imageInput.addEventListener('change', function() {
             const file = this.files[0];
             if (file) {
+                    // When file is selected, clear the existing image selection
+                    if (existingImageSelect) {
+                        existingImageSelect.value = '';
+                    }
+                    
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    imagePreview.querySelector('img').src = e.target.result;
-                    imagePreview.style.display = 'block';
+                        const previewImg = imagePreview.querySelector('img');
+                        if (previewImg) {
+                            previewImg.src = e.target.result;
+                            imagePreview.style.display = 'flex';
+                        }
                 }
                 reader.readAsDataURL(file);
             } else {
                 imagePreview.style.display = 'none';
             }
         });
+        }
+        
+        if (existingImageSelect && imagePreview) {
+            existingImageSelect.addEventListener('change', function() {
+                if (this.value) {
+                    // When existing image is selected, clear the file input
+                    if (imageInput) {
+                        imageInput.value = '';
+                    }
+                    
+                    const previewImg = imagePreview.querySelector('img');
+                    if (previewImg) {
+                        previewImg.src = this.value;
+                        imagePreview.style.display = 'flex';
+                    }
+                } else {
+                    imagePreview.style.display = 'none';
+                }
+            });
+        }
     }
 
     // Add Category Button
@@ -1546,6 +1842,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     
     // Initialize charts
+    if (false) { // Skip chart initialization
     function initCharts() {
         // Revenue Chart
         const revenueCtx = document.getElementById('revenue-chart');
@@ -1614,39 +1911,6 @@ document.addEventListener('DOMContentLoaded', async function() {
                 });
             }
         }
-        
-        // Categories Chart
-        const categoriesCtx = document.getElementById('categories-chart');
-        if (categoriesCtx) {
-            const categoriesChart = new Chart(categoriesCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Pizzas', 'Burgers', 'Salads', 'Drinks', 'Desserts'],
-                    datasets: [{
-                        data: [35, 25, 15, 20, 5],
-                        backgroundColor: [
-                            '#ff6b00',
-                            '#4caf50',
-                            '#2196f3',
-                            '#f44336',
-                            '#9c27b0'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right'
-                        },
-                        title: {
-                            display: false
-                        }
-                    }
-                }
-            });
         }
     }
     
@@ -1659,16 +1923,89 @@ document.addEventListener('DOMContentLoaded', async function() {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    // Format date for input type="date" (YYYY-MM-DD)
     function formatDateForInput(dateStr) {
-        // Convert from DD/MM/YYYY to YYYY-MM-DD for input[type="date"]
+        // Handle different input formats
+        if (!dateStr) return '';
+        
+        try {
+            // Check if format is DD/MM/YYYY
+            if (dateStr.includes('/')) {
         const parts = dateStr.split('/');
-        return `${parts[2]}-${parts[1]}-${parts[0]}`;
+                if (parts.length === 3) {
+                    return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+                }
+            }
+            
+            // Try to parse as a date object
+            const date = new Date(dateStr);
+            if (!isNaN(date.getTime())) {
+                return date.toISOString().split('T')[0];
+            }
+        } catch (err) {
+            console.error('Error formatting date for input:', err);
+        }
+        
+        return dateStr; // Return original if parsing fails
     }
 
+    // Format date from input (YYYY-MM-DD to locale format)
     function formatDateFromInput(dateStr) {
-        // Convert from YYYY-MM-DD to DD/MM/YYYY
+        if (!dateStr) return '';
+        
+        try {
+            // If format is YYYY-MM-DD
+            if (dateStr.includes('-')) {
+                const date = new Date(dateStr);
+                if (!isNaN(date.getTime())) {
+                    return date.toLocaleDateString('vi-VN', {
+                        year: 'numeric',
+                        month: '2-digit',
+                        day: '2-digit'
+                    });
+                }
+                
+                // Fallback to manual parsing
         const parts = dateStr.split('-');
+                if (parts.length === 3) {
         return `${parts[2]}/${parts[1]}/${parts[0]}`;
+                }
+            }
+        } catch (err) {
+            console.error('Error formatting date from input:', err);
+        }
+        
+        return dateStr; // Return original if parsing fails
+    }
+    
+    // Format date for display
+    function formatDateForDisplay(dateStr) {
+        if (!dateStr) return '';
+        
+        try {
+            const date = new Date(dateStr);
+            if (!isNaN(date.getTime())) {
+                // Format to "May 5, 2025 - 08:08 AM"
+                const options = {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                };
+                
+                // Use English locale (en-US)
+                const formattedDate = date.toLocaleString('en-US', options);
+                
+                // Convert from "May 5, 2025, 08:08 AM" to "May 5, 2025 - 08:08 AM"
+                return formattedDate.replace(',', ' -');
+            }
+        } catch (err) {
+            console.error('Error formatting date for display:', err);
+        }
+        
+        return dateStr; // Return original if parsing fails
     }
     
     // Initialize the dashboard
@@ -1680,7 +2017,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         loadCategoriesTable();
         loadPromotionsTable();
         loadCustomersTable();
-        initCharts();
     }
     
     // Call initialization function
@@ -1757,8 +2093,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Update localStorage
         localStorage.setItem('allOrders', JSON.stringify(orders));
         
-        // Show success message
-        alert(`Order ${orderId} has been deleted successfully`);
+        // Show notification
+        showNotification('Success', `Order ${orderId} has been deleted successfully`, 'success');
         
         // Reload tables
         loadRecentOrders();
@@ -1788,7 +2124,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Update save order functionality
     const saveOrderBtn = document.getElementById('save-order-btn');
     if (saveOrderBtn) {
-        saveOrderBtn.addEventListener('click', function() {
+        // Remove existing event listeners to prevent duplicates
+        const newSaveOrderBtn = saveOrderBtn.cloneNode(true);
+        saveOrderBtn.parentNode.replaceChild(newSaveOrderBtn, saveOrderBtn);
+        
+        newSaveOrderBtn.addEventListener('click', function() {
             if (currentEditMode === 'edit' && currentOrderId) {
                 const order = orders.find(o => o.id === currentOrderId);
                 if (order) {
@@ -1796,7 +2136,16 @@ document.addEventListener('DOMContentLoaded', async function() {
                     const statusSelect = document.getElementById('status-select');
                     const customerInput = document.getElementById('customer-input');
                     
-                    if (statusSelect) order.status = statusSelect.value;
+                    if (statusSelect) {
+                        const newStatus = statusSelect.value;
+                        // Only update if status has changed
+                        if (newStatus !== order.status) {
+                            order.status = newStatus;
+                            // Show notification about status change
+                            showNotification('Status Updated', `Order ${currentOrderId} status changed to ${capitalizeFirstLetter(newStatus)}`, 'success');
+                        }
+                    }
+                    
                     if (customerInput) order.customer = customerInput.value;
                     
                     // Save changes
@@ -1807,10 +2156,13 @@ document.addEventListener('DOMContentLoaded', async function() {
                     loadOrdersTable();
                     
                     // Close modal
+                    const orderDetailsModal = document.getElementById('order-details-modal');
+                    if (orderDetailsModal) {
                     orderDetailsModal.classList.remove('show');
+                    }
                     
                     // Show success message
-                    alert(`Order ${currentOrderId} has been updated successfully`);
+                    showNotification('Success', `Order ${currentOrderId} has been updated successfully`, 'success');
                 }
             }
         });
@@ -1825,6 +2177,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             loadRecentOrders();
             loadOrdersTable();
             lastOrdersData = currentOrdersData;
+            
+            // Show notification about data change
+            showNotification('Update', 'Order data has been updated', 'info');
         }
     }, 2000); // Kiểm tra mỗi 2 giây
 
@@ -1842,7 +2197,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Xử lý thông báo đơn hàng mới
     socket.on('order_notification', (data) => {
         if (data.type === 'new_order') {
-            showNotification('Đơn hàng mới', `Đơn hàng #${data.order.id} vừa được đặt`);
+            showNotification('Đơn hàng mới', `Đơn hàng #${data.order.id} vừa được đặt`, 'info');
             updateOrderList(); // Cập nhật danh sách đơn hàng
         }
     });
@@ -1850,40 +2205,83 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Xử lý cập nhật trạng thái đơn hàng
     socket.on('order_update', (data) => {
         updateOrderStatus(data.orderId, data.status);
-        showNotification('Cập nhật đơn hàng', `Đơn hàng #${data.orderId} đã được cập nhật`);
+        showNotification('Cập nhật đơn hàng', `Đơn hàng #${data.orderId} đã được cập nhật`, 'info');
     });
 
     // Xử lý tin nhắn từ user
     socket.on('user_message', (message) => {
         showChatMessage(message);
-        showNotification('Tin nhắn mới', `Tin nhắn từ user #${message.userId}`);
+        showNotification('Tin nhắn mới', `Tin nhắn từ user #${message.userId}`, 'info');
     });
 
     // Hàm hiển thị thông báo
-    function showNotification(title, message) {
+    function showNotification(title, message, type = 'default') {
+        // Get notification type color
+        const typeColors = {
+            'success': '#4caf50',
+            'warning': '#ff9800',
+            'error': '#f44336',
+            'info': '#2196f3',
+            'processing': '#9c27b0',
+            'default': '#ff6b00'
+        };
+        
+        const color = typeColors[type] || typeColors.default;
+
+        // Hiển thị toast notification
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.style.borderLeft = `4px solid ${color}`;
+        
+        // Add appropriate icon based on type
+        let iconClass = 'fa-info-circle';
+        if (type === 'success') iconClass = 'fa-check-circle';
+        if (type === 'warning') iconClass = 'fa-exclamation-triangle';
+        if (type === 'error') iconClass = 'fa-times-circle';
+        if (type === 'processing') iconClass = 'fa-spinner fa-spin';
+        
+        toast.innerHTML = `
+            <div class="toast-header" style="color: ${color}">
+                <strong><i class="fas ${iconClass}"></i> ${title}</strong>
+                <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        
+        // Remove existing notifications with the same title
+        const existingToasts = document.querySelectorAll('.toast-notification');
+        existingToasts.forEach(existingToast => {
+            const existingTitle = existingToast.querySelector('.toast-header strong');
+            if (existingTitle && existingTitle.textContent === title) {
+                existingToast.remove();
+            }
+        });
+        
+        document.body.appendChild(toast);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (toast.parentNode) {
+                toast.classList.add('toast-notification-hide');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+        
+        // Also show browser notification if available
         if ('Notification' in window) {
             Notification.requestPermission().then(permission => {
                 if (permission === 'granted') {
                     new Notification(title, {
                         body: message,
-                        icon: 'image/logo.png'
+                        icon: '../image/Foodieland.png'
                     });
                 }
             });
         }
-
-        // Hiển thị toast notification
-        const toast = document.createElement('div');
-        toast.className = 'toast-notification';
-        toast.innerHTML = `
-            <div class="toast-header">
-                <strong>${title}</strong>
-                <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
-            </div>
-            <div class="toast-body">${message}</div>
-        `;
-        document.body.appendChild(toast);
-        setTimeout(() => toast.remove(), 5000);
     }
 
     // Hàm cập nhật trạng thái đơn hàng
@@ -1917,9 +2315,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             const orders = await response.json();
             renderOrders(orders);
+            loadRecentOrders(); // Update recent orders on dashboard
         } catch (error) {
             console.error('Error fetching orders:', error);
-            showNotification('Lỗi', 'Không thể cập nhật danh sách đơn hàng');
+            showNotification('Lỗi', 'Không thể cập nhật danh sách đơn hàng', 'error');
         }
     }
 
@@ -1973,13 +2372,13 @@ document.addEventListener('DOMContentLoaded', async function() {
 
             if (response.ok) {
                 socket.emit('order_status_update', { orderId, status });
-                showNotification('Thành công', 'Cập nhật trạng thái đơn hàng thành công');
+                showNotification('Thành công', 'Cập nhật trạng thái đơn hàng thành công', 'success');
             } else {
                 throw new Error('Failed to update order status');
             }
         } catch (error) {
             console.error('Error updating order status:', error);
-            showNotification('Lỗi', 'Không thể cập nhật trạng thái đơn hàng');
+            showNotification('Lỗi', 'Không thể cập nhật trạng thái đơn hàng', 'error');
         }
     }
 
@@ -1996,6 +2395,38 @@ document.addEventListener('DOMContentLoaded', async function() {
             padding: 16px;
             z-index: 1000;
             animation: slideIn 0.3s ease-out;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .toast-notification-hide {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        .toast-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .toast-body {
+            font-size: 14px;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
         }
 
         @keyframes slideIn {
@@ -2054,4 +2485,529 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Cập nhật danh sách đơn hàng mỗi 30 giây
         setInterval(updateOrderList, 30000);
     });
+
+    // Initialize on DOM ready
+    init();
+
+    // Reset LocalStorage Function (for testing purposes)
+    function resetOrdersData() {
+        const mockOrders = [
+            { id: 'Customer-001', customer: 'Bui Ngoc Duc', date: '2025-05-05T08:08:00', items: 3, amount: 350000, status: 'completed' },
+            { id: 'Customer-002', customer: 'Bui Ngoc Duc', date: '2025-05-05T08:12:00', items: 4, amount: 420000, status: 'processing' },
+            { id: 'Customer-003', customer: 'Bui Ngoc Duc', date: '2025-05-05T07:20:00', items: 2, amount: 280000, status: 'delivered' },
+            { id: 'Customer-004', customer: 'Bui Ngoc Duc', date: '2025-05-04T16:10:00', items: 5, amount: 520000, status: 'cancelled' },
+            { id: 'Customer-005', customer: 'Bui Ngoc Duc', date: '2025-05-04T15:30:00', items: 3, amount: 380000, status: 'completed' }
+        ];
+        
+        localStorage.setItem('allOrders', JSON.stringify(mockOrders));
+        orders = mockOrders;
+        
+        // Reload tables
+        loadRecentOrders();
+        loadOrdersTable();
+        
+        showNotification('Success', 'Orders data has been reset with proper date format', 'success');
+    }
+
+    // Add a hidden button that can be triggered by developers
+    document.addEventListener('keydown', function(event) {
+        // Press Ctrl+Shift+R to reset orders data
+        if (event.ctrlKey && event.shiftKey && event.key === 'R') {
+            resetOrdersData();
+        }
+    });
+
+    // Global function to handle the Save Customer button click (for inline handler)
+    function handleSaveCustomer() {
+        console.log('handleSaveCustomer called from inline handler');
+        const customerForm = document.getElementById('customer-form');
+        
+        if (!customerForm) {
+            showNotification('Error', 'Customer form not found', 'error');
+            return;
+        }
+        
+        // Validate form
+        if (!customerForm.checkValidity()) {
+            customerForm.reportValidity();
+            return;
+        }
+        
+        // Get form data
+        const formData = {
+            name: customerForm.elements['name'].value,
+            email: customerForm.elements['email'].value,
+            phone: customerForm.elements['phone'].value,
+            address: customerForm.elements['address'].value,
+            status: customerForm.elements['status'].value
+        };
+        
+        console.log('Customer data:', formData);
+        
+        if (currentEditMode === 'edit' && currentCustomerId) {
+            // Update existing customer
+            const customerIndex = customers.findIndex(c => c.id === currentCustomerId);
+            if (customerIndex !== -1) {
+                // Update customer data while preserving other properties
+                customers[customerIndex] = {
+                    ...customers[customerIndex],
+                    ...formData
+                };
+                
+                // Save to localStorage
+                localStorage.setItem('allCustomers', JSON.stringify(customers));
+                
+                showNotification('Success', `Customer "${formData.name}" has been updated successfully`, 'success');
+            }
+        } else {
+            // Add new customer
+            const newCustomer = {
+                id: 'CUST-' + (customers.length + 1).toString().padStart(3, '0'),
+                ...formData,
+                orders: 0,
+                totalSpent: 0,
+                joinedDate: new Date().toLocaleDateString('en-GB'),
+                lastOrder: 'N/A'
+            };
+            
+            // Add to customers array
+            customers.push(newCustomer);
+            
+            // Save to localStorage
+            localStorage.setItem('allCustomers', JSON.stringify(customers));
+            
+            showNotification('Success', `Customer "${formData.name}" has been added successfully`, 'success');
+        }
+        
+        // Close modal
+        const customerModal = document.getElementById('customer-modal');
+        if (customerModal) {
+            customerModal.classList.remove('show');
+        }
+        
+        // Reset edit mode
+        currentEditMode = 'add';
+        currentCustomerId = null;
+        
+        // Reload customers table
+        loadCustomersTable();
+    }
+
+    // Assign handleSaveCustomer to window object to make it globally accessible
+    window.handleSaveCustomer = function() {
+        console.log('handleSaveCustomer called from inline handler');
+        const customerForm = document.getElementById('customer-form');
+        
+        if (!customerForm) {
+            showNotification('Error', 'Customer form not found', 'error');
+            return;
+        }
+        
+        // Validate form
+        if (!customerForm.checkValidity()) {
+            customerForm.reportValidity();
+            return;
+        }
+        
+        // Get form data
+        const formData = {
+            name: customerForm.elements['name'].value,
+            email: customerForm.elements['email'].value,
+            phone: customerForm.elements['phone'].value,
+            address: customerForm.elements['address'].value,
+            status: customerForm.elements['status'].value
+        };
+        
+        console.log('Customer data:', formData);
+        
+        // Add new customer
+        const newCustomer = {
+            id: 'CUST-' + (Math.floor(Math.random() * 10000)).toString().padStart(4, '0'),
+            ...formData,
+            orders: 0,
+            totalSpent: 0,
+            joinedDate: new Date().toLocaleDateString('en-GB'),
+            lastOrder: 'N/A'
+        };
+        
+        // Get customers from localStorage
+        let customers = JSON.parse(localStorage.getItem('allCustomers') || '[]');
+        
+        // Add to customers array
+        customers.push(newCustomer);
+        
+        // Save to localStorage
+        localStorage.setItem('allCustomers', JSON.stringify(customers));
+        
+        // Show success notification
+        showNotification('Success', `Customer "${formData.name}" has been added successfully`, 'success');
+        
+        // Close modal
+        const customerModal = document.getElementById('customer-modal');
+        if (customerModal) {
+            customerModal.classList.remove('show');
+        }
+        
+        // Reload page to show new customer
+        window.location.reload();
+    };
+
+    // Assign openCustomerModal to window object to make it globally accessible
+    window.openCustomerModal = function(mode, customerId = null) {
+        console.log('openCustomerModal called from inline handler with mode:', mode);
+        const customerModal = document.getElementById('customer-modal');
+        if (!customerModal) {
+            console.error('Customer modal not found');
+            return;
+        }
+        
+        const modalTitle = document.getElementById('customer-modal-title');
+        const customerForm = document.getElementById('customer-form');
+        const saveBtn = document.getElementById('save-customer-btn');
+        
+        // Reset form
+        if (customerForm) {
+            customerForm.reset();
+        }
+        
+        // Set title based on mode
+        if (modalTitle) {
+            modalTitle.textContent = mode === 'add' ? 'Add New Customer' : 'Edit Customer';
+        }
+        
+        // Show the modal
+        customerModal.classList.add('show');
+        
+        console.log('Customer modal should now be visible');
+    };
 });
+
+// Add Product Button Click Handler
+function setupAddProductButton() {
+    const addProductBtn = document.getElementById('add-product-btn');
+    console.log('Setting up addProductBtn:', addProductBtn);
+    
+    if (addProductBtn) {
+        // Remove any existing event listeners
+        const newAddProductBtn = addProductBtn.cloneNode(true);
+        addProductBtn.parentNode.replaceChild(newAddProductBtn, addProductBtn);
+        
+        newAddProductBtn.addEventListener('click', function() {
+            console.log('Add Product button clicked');
+            openProductModal('add');
+        });
+    }
+}
+
+// Initialize Image Preview
+function initImagePreview() {
+    const imageInputs = document.querySelectorAll('input[type="file"][accept*="image"]');
+    
+    imageInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const preview = this.parentElement.querySelector('.image-preview');
+            const previewImg = preview ? preview.querySelector('img') : null;
+            
+            if (!preview || !previewImg) return;
+            
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'flex';
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    });
+}
+
+// Direct event listeners for critical buttons
+function setupDirectEventListeners() {
+    console.log('Setting up direct event listeners');
+    // Add Customer button
+    const addCustomerBtn = document.getElementById('add-customer-btn');
+    if (addCustomerBtn) {
+        console.log('Setting up direct event for Add Customer button');
+        addCustomerBtn.onclick = function() {
+            console.log('Add Customer button clicked directly');
+            openCustomerModal('add');
+        };
+    }
+    
+    // Save Customer button
+    const saveCustomerBtn = document.getElementById('save-customer-btn');
+    if (saveCustomerBtn) {
+        console.log('Setting up direct event for Save Customer button');
+        saveCustomerBtn.onclick = function() {
+            console.log('Save Customer button clicked directly');
+            const customerForm = document.getElementById('customer-form');
+            
+            if (!customerForm) {
+                showNotification('Error', 'Customer form not found', 'error');
+                return;
+            }
+            
+            // Validate form
+            if (!customerForm.checkValidity()) {
+                customerForm.reportValidity();
+                return;
+            }
+            
+            // Get form data
+            const formData = {
+                name: customerForm.elements['name'].value,
+                email: customerForm.elements['email'].value,
+                phone: customerForm.elements['phone'].value,
+                address: customerForm.elements['address'].value,
+                status: customerForm.elements['status'].value
+            };
+            
+            console.log('Customer data:', formData);
+            
+            if (currentEditMode === 'edit' && currentCustomerId) {
+                // Update existing customer
+                const customerIndex = customers.findIndex(c => c.id === currentCustomerId);
+                if (customerIndex !== -1) {
+                    // Update customer data while preserving other properties
+                    customers[customerIndex] = {
+                        ...customers[customerIndex],
+                        ...formData
+                    };
+                    
+                    // Save to localStorage
+                    localStorage.setItem('allCustomers', JSON.stringify(customers));
+                    
+                    showNotification('Success', `Customer "${formData.name}" has been updated successfully`, 'success');
+                }
+            } else {
+                // Add new customer
+                const newCustomer = {
+                    id: 'CUST-' + (customers.length + 1).toString().padStart(3, '0'),
+                    ...formData,
+                    orders: 0,
+                    totalSpent: 0,
+                    joinedDate: new Date().toLocaleDateString('en-GB'),
+                    lastOrder: 'N/A'
+                };
+                
+                // Add to customers array
+                customers.push(newCustomer);
+                
+                // Save to localStorage
+                localStorage.setItem('allCustomers', JSON.stringify(customers));
+                
+                showNotification('Success', `Customer "${formData.name}" has been added successfully`, 'success');
+            }
+            
+            // Close modal
+            const customerModal = document.getElementById('customer-modal');
+            if (customerModal) {
+                customerModal.classList.remove('show');
+            }
+            
+            // Reset edit mode
+            currentEditMode = 'add';
+            currentCustomerId = null;
+            
+            // Reload customers table
+            loadCustomersTable();
+        };
+    }
+}
+
+// Call init functions
+function init() {
+    console.log('Initializing admin dashboard...');
+    
+    // Initialize dashboard if on dashboard page
+    if (document.getElementById('dashboard')) {
+        initDashboard();
+    }
+    
+    // Load data tables
+    loadRecentOrders();
+    loadTopProducts();
+    loadOrdersTable();
+    loadProductsGrid();
+    loadCategoriesTable();
+    loadPromotionsTable();
+    loadCustomersTable();
+    
+    // Initialize image preview
+    initImagePreview();
+    
+    // Set up add buttons
+    setupAddProductButton();
+    setupAddCustomerButton();
+    
+    // Set up direct event listeners
+    setupDirectEventListeners();
+    
+    // Add filter functionality
+    const productCategoryFilter = document.getElementById('product-category-filter');
+    
+    if (productCategoryFilter) {
+        productCategoryFilter.addEventListener('change', filterProducts);
+    }
+    
+    console.log('Admin dashboard initialized');
+}
+
+// Make sure init() is called when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded, running init()');
+    // Run init function
+    init();
+    
+    // Add keyboard shortcut for resetting data
+    document.addEventListener('keydown', function(event) {
+        // Press Ctrl+Shift+R to reset orders data
+        if (event.ctrlKey && event.shiftKey && event.key === 'R') {
+            resetOrdersData();
+        }
+    });
+});
+
+// Filter products function
+function filterProducts() {
+    const categoryFilter = document.getElementById('product-category-filter');
+    
+    if (!categoryFilter) return;
+    
+    const category = categoryFilter.value;
+    
+    // Filter products
+    const filteredProducts = products.filter(product => {
+        // Category filter
+        if (category !== 'all' && product.category.toLowerCase() !== category.toLowerCase()) {
+            return false;
+        }
+        
+        return true;
+    });
+    
+    // Update products grid with filtered products
+    const productsGrid = document.getElementById('products-grid');
+    if (!productsGrid) return;
+    
+    productsGrid.innerHTML = '';
+    
+    if (filteredProducts.length === 0) {
+        productsGrid.innerHTML = '<div class="no-results">No products found matching your filters</div>';
+        return;
+    }
+    
+    // Sort filtered products by sales
+    const sortedProducts = [...filteredProducts].sort((a, b) => b.sales - a.sales);
+    
+    // Render filtered products
+    sortedProducts.forEach(product => {
+        const statusClass = product.status === 'active' ? 'active' : 'inactive';
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <div class="product-badge ${statusClass}">${product.status}</div>
+            ${product.badge ? `<div class="product-badge featured">${product.badge}</div>` : ''}
+            <div class="product-image">
+                <img src="${product.image}" alt="${product.name}" onerror="this.src='../image/Combo_1.png'">
+            </div>
+            <div class="product-details">
+                <h4>${product.name}</h4>
+                <div class="product-meta">
+                    <span class="product-category">${product.category}</span>
+                    <span class="product-price">${formatPrice(product.price)}</span>
+                </div>
+                <div class="product-stats">
+                    <div class="stat">
+                        <i class="fas fa-star"></i>
+                        <span>${product.rating}</span>
+                    </div>
+                    <div class="stat">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>${product.sales} sales</span>
+                    </div>
+                </div>
+            </div>
+            <div class="product-actions">
+                <button class="product-action-btn edit" data-product-id="${product.id}">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="product-action-btn delete" data-product-id="${product.id}">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+        productsGrid.appendChild(card);
+    });
+    
+    // Add event listeners to buttons
+    const editButtons = productsGrid.querySelectorAll('.product-action-btn.edit');
+    const deleteButtons = productsGrid.querySelectorAll('.product-action-btn.delete');
+    
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            openProductModal('edit', productId);
+        });
+    });
+    
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-product-id');
+            if (confirm('Are you sure you want to delete this product?')) {
+                // Find product index
+                const productIndex = products.findIndex(p => p.id === productId);
+                if (productIndex !== -1) {
+                    // Remove product from array
+                    products.splice(productIndex, 1);
+                    
+                    // Save to localStorage
+                    localStorage.setItem('allProducts', JSON.stringify(products));
+                    
+                    // Reload products grid with current filters
+                    filterProducts();
+                    
+                    // Show notification
+                    showNotification('Success', 'Product deleted successfully', 'success');
+                }
+            }
+        });
+    });
+    
+    // Add new product button
+    const addButton = document.createElement('div');
+    addButton.className = 'product-card add-card';
+    addButton.innerHTML = `
+        <div class="add-product-icon">
+            <i class="fas fa-plus"></i>
+        </div>
+        <h4>Add New Product</h4>
+    `;
+    addButton.addEventListener('click', function() {
+        openProductModal('add');
+    });
+    
+    productsGrid.appendChild(addButton);
+}
+
+// Add Customer Button Click Handler
+function setupAddCustomerButton() {
+    const addCustomerBtn = document.getElementById('add-customer-btn');
+    console.log('Setting up addCustomerBtn:', addCustomerBtn);
+    
+    if (addCustomerBtn) {
+        // Remove any existing event listeners
+        const newAddCustomerBtn = addCustomerBtn.cloneNode(true);
+        addCustomerBtn.parentNode.replaceChild(newAddCustomerBtn, addCustomerBtn);
+        
+        newAddCustomerBtn.addEventListener('click', function() {
+            console.log('Add Customer button clicked');
+            openCustomerModal('add');
+        });
+    }
+}

@@ -11,6 +11,9 @@ import {
   updateBasketUI
 } from './cart.js';
 
+// Import hàm lấy ảnh từ API
+import { getMainImage, displayImage } from './image-utils.js';
+
 // Load cart from localStorage and update UI immediately
 loadCart();
 updateCartUI();
@@ -434,9 +437,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     claimPromoBtn.addEventListener("click", claimPromo)
     copyCodeBtn.addEventListener("click", copyPromoCode)
 
-    // View full basket
-    viewFullBasket.addEventListener("click", viewBasket)
-
     // Category selection
     categoryTabs.forEach((tab) => {
       tab.addEventListener("click", switchMainCategory)
@@ -703,12 +703,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     }, 2000)
   }
 
-  // View full basket
-  function viewBasket() {
-    closeCartDropdown()
-    // Redirect to ordering page with basket view
-    window.location.href = "Ordering.html"
-  }
+  // View full basket - No longer needed as it's a direct link now
+  // viewFullBasket.addEventListener("click", viewBasket)
 
   // Switch main category
   function switchMainCategory() {
@@ -899,18 +895,61 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Create product card
   function createProductCard(item) {
+    // Lấy ID số từ item.id (ví dụ "pizza-1" -> "1")
+    const itemId = item.id.replace(/[^\d]/g, '');
+    
     const card = document.createElement("div")
     card.className = "product-card"
     card.innerHTML = `
         <div class="product-image">
-          <img src="${item.image}" alt="${item.name}">
-          <button class="add-btn"><i class="fas fa-plus"></i></button>
+          <img id="product-image-${itemId}" src="../image/loading.png" alt="${item.name}">
+          <button class="add-btn" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" data-category="${item.category}"><i class="fas fa-plus"></i></button>
         </div>
         <div class="product-info">
           <h3>${item.name}</h3>
           <p class="price">${formatPrice(item.price)}</p>
         </div>
       `
+    
+    // Lấy ảnh từ API
+    getMainImage('Food', itemId, (imageUrl) => {
+      const imgElement = document.getElementById(`product-image-${itemId}`);
+      if (imgElement) {
+        imgElement.src = imageUrl;
+        // Lưu URL ảnh vào item để sử dụng khi thêm vào giỏ hàng
+        item.image = imageUrl;
+      }
+    }, item.image); // Sử dụng ảnh hiện tại làm fallback
+    
+    // Thêm sự kiện click cho nút Add
+    setTimeout(() => {
+      const addButton = card.querySelector('.add-btn');
+      if (addButton) {
+        addButton.addEventListener('click', function() {
+          const id = this.getAttribute('data-id');
+          const name = this.getAttribute('data-name');
+          const price = Number.parseInt(this.getAttribute('data-price'));
+          const category = this.getAttribute('data-category');
+          
+          // Lấy đường dẫn ảnh từ DOM
+          const img = document.getElementById(`product-image-${itemId}`);
+          const image = img ? img.getAttribute("src") : "../image/error.png";
+          
+          // Thêm vào giỏ hàng
+          addItemToCart(id, name, category, "Regular", price, 1, image);
+          
+          // Hiển thị thông báo
+          showNotification(`${name} added to cart!`);
+          
+          // Animation khi thêm
+          this.classList.add("added");
+          setTimeout(() => {
+            this.classList.remove("added");
+          }, 1000);
+        });
+      }
+    }, 0);
+    
     return card
   }
 

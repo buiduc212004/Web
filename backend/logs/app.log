@@ -859,3 +859,1995 @@
 2025-05-10T04:47:48.863Z [info]: [UPLOAD] Full file path:
 2025-05-10T04:47:48.864Z [info]: [UPLOAD] File successfully saved to disk
 2025-05-10T04:47:48.864Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-11T03:36:40.784Z [info]: Server running on port 5000
+2025-05-11T03:37:42.350Z [info]: GET /api/foods
+2025-05-11T03:37:43.612Z [info]: GET /api/foods
+2025-05-11T03:37:44.222Z [info]: GET /api/foods
+2025-05-11T03:37:48.521Z [info]: GET /api/foods
+2025-05-11T03:38:00.578Z [info]: GET /api/foods
+2025-05-11T03:38:01.302Z [info]: GET /api/foods
+2025-05-11T03:39:12.912Z [info]: GET /api/foods
+2025-05-11T03:39:25.152Z [info]: GET /api/foods
+2025-05-11T03:39:26.119Z [info]: GET /api/foods
+2025-05-11T03:39:45.447Z [info]: GET /api/foods
+2025-05-11T03:40:07.214Z [info]: GET /api/foods
+2025-05-11T03:40:10.600Z [info]: GET /api/foods
+2025-05-11T03:40:31.963Z [info]: GET /api/foods
+2025-05-11T03:40:57.657Z [info]: GET /api/foods
+2025-05-11T03:41:27.514Z [info]: GET /api/foods
+2025-05-11T03:41:56.967Z [info]: GET /api/foods
+2025-05-11T03:41:57.466Z [info]: GET /api/foods
+2025-05-11T03:41:58.300Z [info]: GET /api/foods
+2025-05-11T03:42:14.212Z [info]: GET /api/foods
+2025-05-11T03:42:14.781Z [info]: GET /api/foods
+2025-05-11T03:42:15.439Z [info]: GET /api/foods
+2025-05-11T03:42:21.923Z [info]: GET /api/foods
+2025-05-11T03:44:40.659Z [info]: GET /api/foods
+2025-05-11T03:44:41.600Z [info]: GET /api/foods
+2025-05-11T03:44:43.290Z [info]: GET /api/foods
+2025-05-11T03:44:44.022Z [info]: GET /api/foods
+2025-05-11T03:44:50.864Z [info]: GET /api/foods
+2025-05-11T03:44:52.883Z [info]: Server running on port 5000
+2025-05-11T03:44:52.933Z [info]: GET /api/foods
+2025-05-11T03:44:55.644Z [info]: GET /api/foods
+2025-05-11T03:45:09.106Z [info]: Server running on port 5000
+2025-05-11T03:45:09.303Z [info]: GET /api/foods
+2025-05-11T03:45:26.267Z [info]: Server running on port 5000
+2025-05-11T03:45:26.363Z [info]: GET /api/foods
+2025-05-11T03:45:27.497Z [info]: GET /api/foods
+2025-05-11T03:45:28.654Z [info]: Server running on port 5000
+2025-05-11T03:45:28.688Z [info]: GET /api/foods
+2025-05-11T03:45:51.328Z [info]: GET /api/foods
+2025-05-11T03:46:04.894Z [info]: Server running on port 5000
+2025-05-11T03:46:08.810Z [info]: GET /api/foods
+2025-05-11T03:46:10.502Z [info]: GET /api/foods
+2025-05-11T03:46:12.402Z [info]: GET /api/foods
+2025-05-11T03:46:14.844Z [info]: Server running on port 5000
+2025-05-11T03:46:14.861Z [info]: GET /api/foods
+2025-05-11T03:46:15.100Z [info]: GET /api/foods
+2025-05-11T03:46:15.770Z [info]: GET /api/foods
+2025-05-11T03:46:17.282Z [info]: GET /api/foods
+2025-05-11T03:46:18.785Z [info]: Server running on port 5000
+2025-05-11T03:46:18.869Z [info]: GET /api/foods
+2025-05-11T03:47:13.760Z [info]: GET /api/foods
+2025-05-11T03:47:20.015Z [info]: Server running on port 5000
+2025-05-11T03:47:20.208Z [info]: GET /api/foods
+2025-05-11T03:47:31.750Z [info]: GET /api/foods
+2025-05-11T03:47:33.051Z [info]: Server running on port 5000
+2025-05-11T03:47:33.131Z [info]: GET /api/foods
+2025-05-11T03:47:58.176Z [info]: Server running on port 5000
+2025-05-11T03:47:58.285Z [info]: GET /api/foods
+2025-05-11T03:48:45.971Z [info]: GET /api/foods
+2025-05-11T03:49:07.825Z [info]: GET /api/foods
+2025-05-11T03:49:10.426Z [info]: GET /api/foods
+2025-05-11T03:49:16.125Z [info]: GET /api/foods
+2025-05-11T03:49:18.400Z [info]: GET /api/foods
+2025-05-11T03:50:01.138Z [info]: GET /api/foods
+2025-05-11T03:50:01.833Z [info]: GET /api/foods
+2025-05-11T03:51:26.093Z [info]: GET /api/foods
+2025-05-11T03:51:32.186Z [info]: GET /api/foods
+2025-05-11T03:53:05.199Z [info]: GET /api/foods
+2025-05-11T03:53:08.545Z [info]: GET /api/foods
+2025-05-11T03:53:35.468Z [info]: GET /api/foods
+2025-05-11T03:53:38.360Z [info]: GET /api/foods
+2025-05-11T03:54:27.805Z [info]: GET /api/foods
+2025-05-11T03:54:34.846Z [info]: GET /api/foods
+2025-05-11T03:54:39.091Z [info]: GET /api/foods
+2025-05-11T03:55:44.744Z [info]: GET /api/foods
+2025-05-11T03:56:42.185Z [info]: Server running on port 5000
+2025-05-11T03:56:42.343Z [info]: GET /api/foods
+2025-05-11T03:56:55.933Z [info]: Server running on port 5000
+2025-05-11T03:56:56.126Z [info]: GET /api/foods
+2025-05-11T03:57:08.139Z [info]: Server running on port 5000
+2025-05-11T03:57:08.319Z [info]: GET /api/foods
+2025-05-11T03:57:59.801Z [info]: Server running on port 5000
+2025-05-11T03:57:59.971Z [info]: GET /api/foods
+2025-05-11T03:59:02.229Z [info]: GET /api/foods
+2025-05-11T04:02:29.950Z [info]: Server running on port 5000
+2025-05-11T04:02:41.333Z [info]: GET /api/foods
+2025-05-11T04:03:00.669Z [info]: GET /api/foods
+2025-05-11T04:03:06.410Z [info]: GET /api/foods
+2025-05-11T04:06:17.817Z [info]: GET /api/foods
+2025-05-11T04:06:20.328Z [info]: GET /api/foods
+2025-05-11T04:06:33.755Z [info]: GET /api/foods
+2025-05-11T04:07:03.835Z [info]: GET /api/foods
+2025-05-11T04:11:07.674Z [info]: GET /api/foods
+2025-05-11T04:22:44.593Z [info]: Server running on port 5000
+2025-05-11T04:31:15.137Z [info]: Server running on port 5000
+2025-05-11T04:35:47.136Z [info]: Server running on port 5000
+2025-05-11T04:35:55.170Z [info]: GET /api/foods
+2025-05-11T04:35:55.480Z [info]: GET /api/foods
+2025-05-11T04:35:56.776Z [info]: GET /api/foods
+2025-05-11T04:35:57.989Z [info]: Server running on port 5000
+2025-05-11T04:36:21.637Z [info]: Server running on port 5000
+2025-05-11T04:36:48.616Z [info]: Server running on port 5000
+2025-05-11T04:36:48.777Z [info]: GET /api/foods
+2025-05-11T04:36:49.727Z [info]: GET /api/foods
+2025-05-11T04:36:52.896Z [info]: GET /api/foods
+2025-05-11T04:36:53.293Z [info]: GET /api/foods
+2025-05-11T04:36:54.017Z [info]: GET /api/foods
+2025-05-11T04:38:39.162Z [info]: GET /api/foods
+2025-05-11T04:39:11.127Z [info]: GET /api/foods
+2025-05-11T04:39:12.011Z [info]: GET /api/foods
+2025-05-11T04:44:55.538Z [info]: GET /api/foods
+2025-05-11T04:44:57.823Z [info]: GET /api/foods
+2025-05-11T04:45:02.352Z [info]: GET /api/orders
+2025-05-11T04:45:16.562Z [info]: GET /api/foods
+2025-05-11T04:45:20.623Z [info]: GET /api/foods
+2025-05-11T04:45:31.614Z [info]: GET /api/orders
+2025-05-11T04:45:53.163Z [info]: GET /api/foods
+2025-05-11T04:46:33.888Z [info]: HEAD /api/orders
+2025-05-11T04:47:23.945Z [info]: GET /api/foods
+2025-05-11T04:47:37.605Z [info]: GET /api/foods
+2025-05-11T04:48:01.051Z [info]: GET /api/foods
+2025-05-11T04:48:02.005Z [info]: GET /api/foods
+2025-05-11T04:48:27.516Z [info]: GET /api/foods
+2025-05-11T04:48:29.280Z [info]: GET /api/foods
+2025-05-11T04:49:09.567Z [info]: GET /api/foods
+2025-05-11T04:49:19.664Z [info]: GET /api/foods
+2025-05-11T04:49:30.578Z [info]: GET /api/foods
+2025-05-11T04:50:17.169Z [info]: GET /api/foods
+2025-05-11T04:50:30.343Z [info]: GET /api/foods
+2025-05-11T04:50:40.318Z [info]: GET /api/foods
+2025-05-11T04:50:52.083Z [info]: GET /api/foods
+2025-05-11T04:51:01.979Z [info]: GET /api/orders
+2025-05-11T04:51:24.446Z [info]: GET /api/foods
+2025-05-11T04:51:27.276Z [info]: GET /api/foods
+2025-05-11T04:51:40.148Z [info]: GET /api/foods
+2025-05-11T04:52:17.575Z [info]: GET /api/foods
+2025-05-11T04:52:34.797Z [info]: GET /api/foods
+2025-05-11T04:53:03.279Z [info]: GET /api/foods
+2025-05-11T04:53:42.362Z [info]: GET /api/foods
+2025-05-11T04:53:43.124Z [info]: GET /api/foods
+2025-05-11T04:53:50.811Z [info]: GET /api/foods
+2025-05-11T04:54:07.209Z [info]: GET /api/foods
+2025-05-11T04:54:14.912Z [info]: GET /api/foods
+2025-05-11T04:56:30.924Z [info]: GET /api/foods
+2025-05-11T04:56:31.391Z [info]: GET /api/foods
+2025-05-11T04:56:34.365Z [info]: GET /api/foods
+2025-05-11T04:56:56.944Z [info]: GET /api/foods
+2025-05-11T04:56:57.229Z [info]: GET /api/foods
+2025-05-11T04:57:09.966Z [info]: GET /api/foods
+2025-05-11T04:57:15.477Z [info]: GET /api/foods
+2025-05-11T04:58:44.695Z [info]: GET /api/foods
+2025-05-11T04:58:52.633Z [info]: GET /api/foods
+2025-05-11T05:06:48.710Z [info]: POST /api/upload
+2025-05-11T05:06:48.720Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T05:06:48.721Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T05:06:48.722Z [info]: [UPLOAD] File details:
+2025-05-11T05:06:48.723Z [info]: [UPLOAD] Image URL:
+2025-05-11T05:06:48.723Z [info]: [UPLOAD] Full file path:
+2025-05-11T05:06:48.724Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-11T05:06:48.724Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-11T05:26:57.368Z [info]: GET /
+2025-05-11T05:26:58.034Z [info]: GET /
+2025-05-11T05:49:55.004Z [info]: GET /
+2025-05-11T06:04:37.069Z [info]: GET /api/foods
+2025-05-11T06:04:38.831Z [info]: GET /api/foods
+2025-05-11T06:26:23.377Z [info]: POST /
+2025-05-11T06:26:26.603Z [info]: POST /
+2025-05-11T13:23:30.054Z [info]: Server running on port 5000
+2025-05-11T13:24:29.590Z [info]: GET /api/foods
+2025-05-11T13:25:44.748Z [info]: GET /api/foods
+2025-05-11T13:25:45.005Z [info]: GET /api/foods
+2025-05-11T13:25:46.340Z [info]: GET /api/foods
+2025-05-11T13:27:10.460Z [info]: GET /api/foods
+2025-05-11T13:27:26.512Z [info]: GET /api/foods
+2025-05-11T13:28:00.120Z [info]: GET /api/foods
+2025-05-11T13:28:46.021Z [info]: GET /api/foods
+2025-05-11T13:28:46.410Z [info]: GET /api/foods
+2025-05-11T13:28:46.625Z [info]: GET /api/foods
+2025-05-11T13:28:50.486Z [info]: GET /api/foods
+2025-05-11T13:29:31.960Z [info]: GET /api/foods
+2025-05-11T13:29:46.788Z [info]: GET /api/foods
+2025-05-11T13:29:57.732Z [info]: GET /api/foods
+2025-05-11T13:30:20.843Z [info]: GET /api/foods
+2025-05-11T13:30:22.161Z [info]: GET /api/foods
+2025-05-11T13:30:25.117Z [info]: GET /api/foods
+2025-05-11T13:30:30.845Z [info]: GET /api/foods
+2025-05-11T13:30:32.363Z [info]: GET /api/foods
+2025-05-11T13:30:42.513Z [info]: GET /api/foods
+2025-05-11T13:30:43.924Z [info]: GET /api/foods
+2025-05-11T13:31:33.022Z [info]: GET /api/foods
+2025-05-11T13:31:33.161Z [info]: GET /api/foods
+2025-05-11T13:31:33.349Z [info]: GET /api/foods
+2025-05-11T13:34:48.060Z [info]: GET /api/foods
+2025-05-11T13:35:03.109Z [info]: GET /api/foods
+2025-05-11T13:35:26.140Z [info]: GET /api/foods
+2025-05-11T13:35:29.985Z [info]: GET /api/foods
+2025-05-11T13:35:30.163Z [info]: GET /api/foods
+2025-05-11T13:36:04.959Z [info]: GET /api/foods
+2025-05-11T13:36:09.257Z [info]: GET /api/foods
+2025-05-11T13:36:26.967Z [info]: GET /api/foods
+2025-05-11T13:38:34.886Z [info]: GET /api/upload/reference/Food/1
+2025-05-11T13:38:44.292Z [info]: GET /api/foods
+2025-05-11T13:38:46.275Z [info]: GET /api/foods
+2025-05-11T13:38:46.471Z [info]: GET /api/foods
+2025-05-11T13:38:54.327Z [info]: GET /api/foods
+2025-05-11T13:38:56.734Z [info]: GET /api/foods
+2025-05-11T13:39:59.968Z [info]: GET /api/upload/main/Food/1
+2025-05-11T13:40:01.458Z [info]: GET /api/upload/main/Food/1
+2025-05-11T13:40:23.069Z [info]: GET /api/upload/main/Food/1
+2025-05-11T13:40:43.261Z [info]: GET /api/foods
+2025-05-11T13:43:20.105Z [info]: POST /api/upload
+2025-05-11T13:43:20.110Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T13:43:20.110Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T13:43:20.111Z [info]: [UPLOAD] File details:
+2025-05-11T13:43:20.112Z [info]: [UPLOAD] Image URL:
+2025-05-11T13:43:20.112Z [info]: [UPLOAD] Full file path:
+2025-05-11T13:43:20.113Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-11T13:43:20.145Z [info]: [UPLOAD] Image info saved to database with ID:
+2025-05-11T13:43:20.145Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-11T13:43:20.264Z [info]: GET /api/foods
+2025-05-11T13:43:24.395Z [info]: GET /api/foods
+2025-05-11T13:43:26.196Z [info]: GET /api/foods
+2025-05-11T13:44:39.456Z [info]: GET /api/upload/main/Food/1
+2025-05-11T13:45:08.685Z [info]: GET /api/upload/reference/Food/1
+2025-05-11T13:45:27.091Z [info]: DELETE /api/upload/1
+2025-05-11T13:45:27.092Z [info]: [UPLOAD] Attempting to delete image with ID:
+2025-05-11T13:45:27.124Z [error]: [UPLOAD] Error deleting file from disk: ENOENT: no such file or directory, unlink 'E:\Web\backend\uploads\cold_drink_1.png'
+2025-05-11T13:45:27.131Z [info]: [UPLOAD] Image record deleted successfully from database:
+2025-05-11T13:46:23.767Z [info]: POST /api/upload
+2025-05-11T13:46:23.769Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T13:46:23.769Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T13:46:23.769Z [info]: [UPLOAD] File details:
+2025-05-11T13:46:23.769Z [info]: [UPLOAD] Image URL:
+2025-05-11T13:46:23.770Z [info]: [UPLOAD] Full file path:
+2025-05-11T13:46:23.770Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-11T13:46:23.791Z [info]: [UPLOAD] Image info saved to database with ID:
+2025-05-11T13:46:23.791Z [info]: [UPLOAD] ====== Image upload completed successfully ======
+2025-05-11T13:46:23.951Z [info]: GET /api/foods
+2025-05-11T13:46:25.233Z [info]: GET /api/foods
+2025-05-11T13:46:31.017Z [info]: GET /api/foods
+2025-05-11T13:46:36.945Z [info]: GET /api/foods
+2025-05-11T13:47:01.796Z [info]: GET /favicon.ico
+2025-05-11T13:47:17.370Z [info]: DELETE /api/upload/31
+2025-05-11T13:47:17.371Z [info]: [UPLOAD] Attempting to delete image with ID:
+2025-05-11T13:47:17.396Z [info]: [UPLOAD] File deleted successfully from disk:
+2025-05-11T13:47:17.402Z [info]: [UPLOAD] Image record deleted successfully from database:
+2025-05-11T13:47:22.035Z [info]: GET /api/upload/reference/Food/31
+2025-05-11T13:49:07.677Z [info]: Server running on port 5000
+2025-05-11T13:49:34.458Z [info]: POST /api/upload
+2025-05-11T13:49:34.464Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T13:49:34.465Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T13:49:34.466Z [info]: [UPLOAD] File details:
+2025-05-11T13:49:34.466Z [info]: [UPLOAD] Image URL:
+2025-05-11T13:49:34.470Z [info]: [UPLOAD] Full file path:
+2025-05-11T13:49:34.470Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-11T13:49:34.518Z [error]: [UPLOAD] Error uploading file: Invalid column name 'is_main'.
+2025-05-11T13:49:53.517Z [info]: GET /api/foods
+2025-05-11T13:52:01.854Z [info]: POST /api/upload
+2025-05-11T13:52:01.856Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T13:52:01.868Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T13:52:01.868Z [info]: [UPLOAD] File details:
+2025-05-11T13:52:01.869Z [info]: [UPLOAD] Image URL:
+2025-05-11T13:52:01.869Z [info]: [UPLOAD] Full file path:
+2025-05-11T13:52:01.869Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-11T13:52:01.904Z [info]: [UPLOAD] ====== Image upload completed successfully and saved to database ======
+2025-05-11T13:52:29.596Z [info]: GET /api/upload/reference/Food/31
+2025-05-11T13:52:29.597Z [info]: [IMAGES] Fetching images for Food with ID 31
+2025-05-11T13:52:29.610Z [info]: [IMAGES] Found 1 images
+2025-05-11T13:58:43.798Z [info]: GET /api/foods
+2025-05-11T13:58:43.870Z [info]: GET /api/upload/main/Food/1
+2025-05-11T13:58:43.870Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T13:58:43.872Z [info]: GET /api/upload/main/Food/3
+2025-05-11T13:58:43.872Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T13:58:43.872Z [info]: GET /api/upload/main/Food/2
+2025-05-11T13:58:43.872Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T13:58:43.873Z [info]: GET /api/upload/main/Food/4
+2025-05-11T13:58:43.873Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T13:58:43.933Z [info]: [IMAGES] Returning fallback image
+2025-05-11T13:59:02.672Z [info]: POST /api/upload
+2025-05-11T13:59:02.673Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T13:59:02.674Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T13:59:02.674Z [error]: [UPLOAD] No file uploaded
+2025-05-11T13:59:25.849Z [info]: GET /api/upload/reference/Food
+2025-05-11T13:59:30.309Z [info]: GET /api/upload/reference/Food/31
+2025-05-11T13:59:30.309Z [info]: [IMAGES] Fetching images for Food with ID 31
+2025-05-11T13:59:30.334Z [info]: [IMAGES] Found 1 images
+2025-05-11T13:59:40.156Z [info]: DELETE /api/upload/31
+2025-05-11T13:59:40.156Z [info]: [UPLOAD] Attempting to delete image with ID: 31
+2025-05-11T13:59:40.159Z [error]: [UPLOAD] Image with ID 31 not found
+2025-05-11T13:59:46.396Z [info]: POST /api/upload
+2025-05-11T13:59:46.397Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T13:59:46.398Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T13:59:46.398Z [error]: [UPLOAD] No file uploaded
+2025-05-11T14:00:01.888Z [info]: POST /api/upload
+2025-05-11T14:00:01.890Z [info]: [UPLOAD] ====== Starting new image upload ======
+2025-05-11T14:00:01.890Z [info]: [UPLOAD] Uploads directory exists
+2025-05-11T14:00:01.890Z [info]: [UPLOAD] File details:
+2025-05-11T14:00:01.891Z [info]: [UPLOAD] Image URL:
+2025-05-11T14:00:01.891Z [info]: [UPLOAD] Full file path:
+2025-05-11T14:00:01.891Z [info]: [UPLOAD] File successfully saved to disk
+2025-05-11T14:00:01.908Z [info]: [UPLOAD] ====== Image upload completed successfully and saved to database ======
+2025-05-11T14:00:02.092Z [info]: GET /api/foods
+2025-05-11T14:00:02.203Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:00:02.205Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:00:02.207Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:00:02.208Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:00:02.210Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:00:02.211Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:00:02.211Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:00:02.212Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:00:02.278Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:00:09.533Z [info]: GET /api/upload/reference/Food/33
+2025-05-11T14:00:09.534Z [info]: [IMAGES] Fetching images for Food with ID 33
+2025-05-11T14:00:09.537Z [info]: [IMAGES] Found 1 images
+2025-05-11T14:00:14.144Z [info]: GET /api/upload/reference/Food/32
+2025-05-11T14:00:14.144Z [info]: [IMAGES] Fetching images for Food with ID 32
+2025-05-11T14:00:14.147Z [info]: [IMAGES] Found 1 images
+2025-05-11T14:00:29.847Z [info]: DELETE /api/upload/32
+2025-05-11T14:00:29.848Z [info]: [UPLOAD] Attempting to delete image with ID: 32
+2025-05-11T14:00:29.852Z [info]: [UPLOAD] File deleted from disk: E:\Web\backend\uploads\1746971521855-742417736.png
+2025-05-11T14:00:29.857Z [info]: [UPLOAD] Image with ID 32 deleted from database
+2025-05-11T14:00:30.118Z [info]: GET /api/foods
+2025-05-11T14:00:30.173Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:00:30.173Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:00:30.174Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:00:30.174Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:00:30.175Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:00:30.175Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:00:30.175Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:00:30.176Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:00:30.196Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:00:39.562Z [info]: GET /api/foods
+2025-05-11T14:00:39.803Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:00:39.804Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:00:39.805Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:00:39.805Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:00:39.806Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:00:39.806Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:00:39.806Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:00:39.806Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:00:39.824Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:00.005Z [info]: GET /api/foods
+2025-05-11T14:01:00.061Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:00.061Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:00.062Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:00.062Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:00.062Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:00.063Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:00.080Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:03.013Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:03.014Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:03.014Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:03.015Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:03.015Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:03.021Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:03.044Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:05.172Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:05.173Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:05.178Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:05.178Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:05.185Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:05.186Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:06.765Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:06.765Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:06.770Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:06.770Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:06.774Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:06.775Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:07.692Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:07.693Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:07.693Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:07.693Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:07.694Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:07.694Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:07.701Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.741Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.742Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.745Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:01:10.745Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:01:10.747Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:10.747Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:10.748Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:10.748Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:10.750Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:01:10.751Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:01:10.752Z [info]: GET /api/foods
+2025-05-11T14:01:10.767Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.772Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.773Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.796Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:01:10.798Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:01:10.799Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:10.800Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:10.808Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:10.809Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:10.812Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.820Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.821Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.880Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.883Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.883Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.889Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.891Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.891Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.895Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.897Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.899Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.903Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.905Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.906Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.911Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:10.914Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:10.915Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:10.919Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:47.005Z [info]: GET /api/foods
+2025-05-11T14:01:47.060Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:47.061Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:47.062Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:47.062Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:47.063Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:47.064Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:47.064Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:01:47.064Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:01:47.087Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:48.322Z [info]: GET /api/foods
+2025-05-11T14:01:48.375Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:48.375Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:48.376Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:48.376Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:48.377Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:48.377Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:48.388Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:49.936Z [info]: GET /api/foods
+2025-05-11T14:01:49.986Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:49.986Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:49.987Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:49.987Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:49.987Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:01:49.988Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:01:49.988Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:49.988Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:49.998Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.705Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.706Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.708Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:52.708Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:52.710Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:52.710Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:52.711Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:01:52.711Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:01:52.714Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:01:52.715Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:01:52.716Z [info]: GET /api/foods
+2025-05-11T14:01:52.742Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.748Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.749Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.750Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:52.750Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:52.754Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:01:52.755Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:01:52.756Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:52.757Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:52.774Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.792Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.793Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.806Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.809Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.810Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.817Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.819Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.819Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.826Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.827Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.828Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.835Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.837Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.837Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.843Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:52.844Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:52.845Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:52.849Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:53.016Z [info]: GET /api/foods
+2025-05-11T14:01:53.061Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:53.062Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:53.063Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:53.063Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:53.063Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:53.064Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:53.072Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:01:53.397Z [info]: GET /api/foods
+2025-05-11T14:01:53.447Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:01:53.448Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:01:53.449Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:01:53.450Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:01:53.451Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:01:53.451Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:01:53.451Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:01:53.451Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:01:53.460Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.777Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.778Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.779Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:02:23.779Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:02:23.779Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:02:23.779Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:02:23.780Z [info]: GET /api/foods
+2025-05-11T14:02:23.780Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:02:23.780Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:02:23.781Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:02:23.781Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:02:23.808Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.814Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.815Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.815Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:02:23.815Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:02:23.816Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:02:23.816Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:02:23.825Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:02:23.825Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:02:23.857Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.867Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.867Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.875Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.879Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.879Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.886Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.888Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.889Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.896Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.898Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.898Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.905Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.907Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.907Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.913Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:23.915Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:23.915Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:23.920Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:34.290Z [info]: GET /api/foods
+2025-05-11T14:02:34.335Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:34.335Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:34.336Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:02:34.336Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:02:34.337Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:02:34.337Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:02:34.338Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:02:34.338Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:02:34.348Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:47.190Z [info]: GET /api/upload/main/Food/6
+2025-05-11T14:02:47.191Z [info]: [IMAGES] Fetching main image for Food with ID 6
+2025-05-11T14:02:47.191Z [info]: GET /api/upload/main/Food/7
+2025-05-11T14:02:47.192Z [info]: [IMAGES] Fetching main image for Food with ID 7
+2025-05-11T14:02:47.192Z [info]: GET /api/upload/main/Food/8
+2025-05-11T14:02:47.192Z [info]: [IMAGES] Fetching main image for Food with ID 8
+2025-05-11T14:02:47.193Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:02:47.193Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:02:48.525Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:48.525Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:48.526Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:02:48.526Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:02:48.526Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:02:48.526Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:02:48.527Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:02:48.527Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:02:48.536Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.303Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.303Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.304Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:02:51.304Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:02:51.304Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:02:51.305Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:02:51.305Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:02:51.305Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:02:51.306Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:02:51.306Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:02:51.308Z [info]: GET /api/foods
+2025-05-11T14:02:51.336Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:02:51.336Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:02:51.338Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.340Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:02:51.340Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:02:51.341Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.342Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.344Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:02:51.344Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:02:51.361Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.364Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.365Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.370Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.374Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.375Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.386Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.388Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.389Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.398Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.400Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.401Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.405Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.407Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.410Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.415Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:02:51.418Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:02:51.418Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:02:51.426Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.064Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.065Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.066Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:04.066Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:04.066Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:04.066Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:04.067Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:04.067Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:04.067Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:04.067Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:04.068Z [info]: GET /api/foods
+2025-05-11T14:04:04.143Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.150Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.151Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.152Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:04.152Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:04.154Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:04.155Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:04.156Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:04.156Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:04.169Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.173Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.173Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.181Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.183Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.183Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.194Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.197Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.197Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.201Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.202Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.202Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.209Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.210Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.210Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.217Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:04.218Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:04.218Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:04.225Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:09.076Z [info]: GET /api/foods
+2025-05-11T14:04:09.122Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:09.122Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:09.123Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:09.123Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:09.124Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:09.124Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:09.132Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:11.350Z [info]: GET /api/foods
+2025-05-11T14:04:11.410Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:11.412Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:11.414Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:11.415Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:11.415Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:11.416Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:11.416Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:11.417Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:11.443Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:13.955Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:13.956Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:13.956Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:13.957Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:13.957Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:13.958Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:13.958Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:13.959Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:13.959Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:13.959Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:13.960Z [info]: GET /api/foods
+2025-05-11T14:04:13.978Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:13.987Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:13.988Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:13.990Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:13.991Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:13.991Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:13.991Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:13.992Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:13.992Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:14.014Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:14.018Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:14.019Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:14.030Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:14.032Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:14.033Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:14.042Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:14.046Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:14.046Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:14.051Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:14.055Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:14.056Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:14.062Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:14.064Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:14.065Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:14.071Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:14.073Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:14.074Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:14.081Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.888Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.889Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.889Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:15.889Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:15.890Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:15.890Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:15.890Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:15.890Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:15.891Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:15.891Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:15.892Z [info]: GET /api/foods
+2025-05-11T14:04:15.902Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.906Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.907Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.908Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:15.908Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:15.915Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:15.915Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:15.916Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:15.916Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:15.923Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.929Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.930Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.943Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.947Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.947Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.956Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.960Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.962Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.967Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.969Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.970Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.979Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.981Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.982Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:15.991Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:15.995Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:15.995Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:16.003Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.005Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.006Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.009Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:27.009Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:27.010Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:27.010Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:27.011Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:27.011Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:27.012Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:27.012Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:27.012Z [info]: GET /api/foods
+2025-05-11T14:04:27.024Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.031Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.031Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.032Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:27.032Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:27.035Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:27.035Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:27.036Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:27.036Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:27.044Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.048Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.049Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.054Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.056Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.056Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.063Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.064Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.065Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.070Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.071Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.071Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.078Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.079Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.079Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.083Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:27.085Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:27.085Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:27.094Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:28.814Z [info]: GET /api/foods
+2025-05-11T14:04:28.881Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:28.882Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:28.883Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:28.884Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:28.885Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:28.886Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:28.899Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:29.306Z [info]: GET /api/foods
+2025-05-11T14:04:29.366Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:29.367Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:29.369Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:29.370Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:29.371Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:29.371Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:29.372Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:29.372Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:29.395Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.020Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.020Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.022Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:30.022Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:30.023Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:30.023Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:30.024Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:30.025Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:30.026Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:30.027Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:30.028Z [info]: GET /api/foods
+2025-05-11T14:04:30.049Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.060Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.061Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.065Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:30.067Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:30.071Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:30.071Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:30.075Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:30.076Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:30.088Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.096Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.097Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.112Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.116Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.118Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.127Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.129Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.130Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.171Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.178Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.179Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.211Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.215Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.217Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.239Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.245Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.245Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.288Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.897Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.897Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.900Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:30.901Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:30.902Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:30.902Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:30.903Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:30.904Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:30.904Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:30.905Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:30.905Z [info]: GET /api/foods
+2025-05-11T14:04:30.922Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.928Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.929Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.939Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:30.939Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:30.942Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:30.942Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:30.943Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:30.943Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:30.952Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.955Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.956Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.968Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.970Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.971Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.983Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.986Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.986Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:30.994Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:30.996Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:30.996Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:31.003Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:31.006Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:31.006Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:31.028Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:31.031Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:31.031Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:31.041Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.345Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.346Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.347Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:32.348Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:32.349Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:32.349Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:32.349Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:04:32.350Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:04:32.350Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:32.351Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:32.351Z [info]: GET /api/foods
+2025-05-11T14:04:32.359Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.363Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.364Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.364Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:32.365Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:32.368Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:32.368Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:32.370Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:04:32.370Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:04:32.377Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.382Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.382Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.389Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.391Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.391Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.396Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.397Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.397Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.403Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.405Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.405Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.413Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.415Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.416Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.426Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:32.430Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:32.430Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:32.440Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:04:38.924Z [info]: GET /api/foods
+2025-05-11T14:04:38.972Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:04:38.973Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:04:38.974Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:04:38.974Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:04:38.975Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:04:38.975Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:04:38.984Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:05:54.612Z [info]: GET /api/foods
+2025-05-11T14:05:54.665Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:05:54.665Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:05:54.665Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:05:54.666Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:05:54.666Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:05:54.666Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:05:54.691Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:06:12.714Z [info]: GET /api/foods
+2025-05-11T14:06:12.777Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:06:12.779Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:06:12.780Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:06:12.780Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:06:12.781Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:06:12.781Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:06:12.791Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:06:24.980Z [info]: GET /api/foods
+2025-05-11T14:06:25.049Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:06:25.050Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:06:25.051Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:06:25.051Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:06:25.052Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:06:25.053Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:06:25.063Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:06:43.741Z [info]: GET /api/foods
+2025-05-11T14:06:43.798Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:06:43.798Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:06:43.798Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:06:43.799Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:06:43.799Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:06:43.799Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:06:43.808Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:07:21.252Z [info]: GET /api/foods
+2025-05-11T14:07:21.332Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:07:21.333Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:07:21.334Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:07:21.335Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:07:21.335Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:07:21.336Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:07:21.348Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:07:51.832Z [info]: GET /api/foods
+2025-05-11T14:07:51.892Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:07:51.892Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:07:51.893Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:07:51.893Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:07:51.893Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:07:51.894Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:07:51.915Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:07:52.043Z [info]: GET /api/foods
+2025-05-11T14:07:52.085Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:07:52.086Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:07:52.088Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:07:52.089Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:07:52.089Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:07:52.090Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:07:52.099Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:07:52.360Z [info]: GET /api/foods
+2025-05-11T14:07:52.401Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:07:52.401Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:07:52.402Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:07:52.402Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:07:52.402Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:07:52.402Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:07:52.409Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:08:16.304Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:08:16.304Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:08:16.305Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:08:16.305Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:08:16.305Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:08:16.305Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:08:16.313Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:08:17.880Z [info]: GET /api/foods
+2025-05-11T14:08:17.917Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:08:17.917Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:08:17.918Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:08:17.918Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:08:17.918Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:08:17.918Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:08:17.923Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:08:20.701Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:08:20.702Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:08:20.703Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:08:20.703Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:08:20.704Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:08:20.704Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:08:20.713Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:01.932Z [info]: GET /api/foods
+2025-05-11T14:09:02.010Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:02.011Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:02.011Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:02.011Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:02.012Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:02.012Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:02.037Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:11.729Z [info]: GET /api/foods
+2025-05-11T14:09:11.779Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:11.780Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:11.780Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:11.780Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:11.782Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:09:11.782Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:09:11.783Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:11.784Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:11.798Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:13.715Z [info]: GET /api/foods
+2025-05-11T14:09:13.760Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:13.761Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:13.762Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:13.762Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:13.763Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:09:13.763Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:09:13.764Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:13.764Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:13.773Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:15.985Z [info]: GET /api/foods
+2025-05-11T14:09:16.041Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:16.042Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:16.043Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:16.043Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:16.044Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:16.044Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:16.059Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:25.157Z [info]: GET /api/foods
+2025-05-11T14:09:25.196Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:25.197Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:25.197Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:25.198Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:25.199Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:25.199Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:25.203Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:27.489Z [info]: GET /api/foods
+2025-05-11T14:09:27.533Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:27.534Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:27.534Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:27.535Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:27.535Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:27.535Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:27.536Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:09:27.536Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:09:27.545Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:29.643Z [info]: GET /api/foods
+2025-05-11T14:09:29.687Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:29.688Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:29.689Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:29.689Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:29.690Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:29.691Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:29.699Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.180Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.181Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.183Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:31.184Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:31.184Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:09:31.184Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:09:31.185Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:31.185Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:31.185Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:09:31.186Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:09:31.186Z [info]: GET /api/foods
+2025-05-11T14:09:31.201Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.208Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.208Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.210Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:31.211Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:31.212Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:31.213Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:31.217Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:09:31.218Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:09:31.234Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.245Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.246Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.260Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.262Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.264Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.275Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.277Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.277Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.285Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.286Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.286Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.292Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.293Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.293Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.301Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:31.304Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:31.305Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:31.311Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:33.536Z [info]: GET /api/foods
+2025-05-11T14:09:33.586Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:33.587Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:33.587Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:33.587Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:33.589Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:33.590Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:33.590Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:09:33.591Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:09:33.597Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:09:54.680Z [info]: GET /api/foods
+2025-05-11T14:09:54.749Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:09:54.749Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:09:54.750Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:09:54.751Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:09:54.751Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:09:54.751Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:09:54.752Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:09:54.753Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:09:54.768Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:40.652Z [info]: GET /api/foods
+2025-05-11T14:10:40.711Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:40.711Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:40.713Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:10:40.713Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:10:40.715Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:10:40.715Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:10:40.716Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:10:40.716Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:10:40.739Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.489Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.489Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.490Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:10:51.490Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:10:51.491Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:10:51.491Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:10:51.492Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:10:51.492Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:10:51.492Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:10:51.492Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:10:51.493Z [info]: GET /api/foods
+2025-05-11T14:10:51.506Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.513Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.513Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.514Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:10:51.514Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:10:51.517Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:10:51.517Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:10:51.520Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:10:51.520Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:10:51.535Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.544Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.545Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.554Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.556Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.557Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.562Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.564Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.564Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.568Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.571Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.571Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.575Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.578Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.578Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.582Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:51.583Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:51.583Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:51.589Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.232Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.233Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.233Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:10:55.234Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:10:55.234Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:10:55.234Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:10:55.235Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:10:55.235Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:10:55.236Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:10:55.236Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:10:55.236Z [info]: GET /api/foods
+2025-05-11T14:10:55.248Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.253Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.253Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.254Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:10:55.254Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:10:55.257Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:10:55.258Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:10:55.259Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:10:55.259Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:10:55.263Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.269Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.269Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.280Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.282Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.282Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.288Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.290Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.290Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.296Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.298Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.299Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.305Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.307Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.307Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.314Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:10:55.316Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:10:55.316Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:10:55.323Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.024Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.025Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.026Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:14.026Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:14.026Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:14.026Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:14.027Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:14.027Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:14.028Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:11:14.028Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:11:14.028Z [info]: GET /api/foods
+2025-05-11T14:11:14.042Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.050Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.051Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.053Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:14.053Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:14.054Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:14.055Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:14.056Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:14.056Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:14.068Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.072Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.074Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.084Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.086Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.086Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.090Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.093Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.093Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.100Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.103Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.104Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.113Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.114Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.115Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.121Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:14.124Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:14.125Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:14.130Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.852Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.852Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.853Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:24.853Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:24.853Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:24.853Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:24.854Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:11:24.854Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:11:24.854Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:24.855Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:24.857Z [info]: GET /api/foods
+2025-05-11T14:11:24.865Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.868Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.868Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.870Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:24.870Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:24.872Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:24.872Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:24.872Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:24.872Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:24.877Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.879Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.879Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.883Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.885Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.885Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.887Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.888Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.888Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.892Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.893Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.893Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.895Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.896Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.897Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.900Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:24.902Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:24.902Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:24.907Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.372Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.372Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.373Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:11:34.373Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:11:34.373Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:34.374Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:34.374Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:34.374Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:34.374Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:34.374Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:34.375Z [info]: GET /api/foods
+2025-05-11T14:11:34.382Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.384Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:34.385Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:34.386Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.386Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.387Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:34.387Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:34.388Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:34.388Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:34.393Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.396Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.397Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.400Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.401Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.401Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.405Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.406Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.406Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.410Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.412Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.413Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.416Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.417Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.417Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.420Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:34.421Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:34.422Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:34.425Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:48.944Z [info]: GET /api/foods
+2025-05-11T14:11:48.995Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:48.996Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:48.997Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:48.997Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:48.998Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:48.998Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:49.005Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:52.153Z [info]: GET /api/foods
+2025-05-11T14:11:52.195Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:52.195Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:52.196Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:52.196Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:52.196Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:52.196Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:52.202Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:56.980Z [info]: GET /api/foods
+2025-05-11T14:11:57.027Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:57.028Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:57.028Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:57.029Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:57.030Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:57.030Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:57.030Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:11:57.031Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:11:57.041Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:59.957Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:59.957Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:59.959Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:59.960Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:59.961Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:59.962Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:59.962Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:11:59.963Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:11:59.963Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:59.964Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:11:59.964Z [info]: GET /api/foods
+2025-05-11T14:11:59.978Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:11:59.983Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:11:59.984Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:11:59.985Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:11:59.986Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:11:59.987Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:11:59.987Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:11:59.987Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:11:59.988Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:00.001Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:00.006Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:00.006Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:00.015Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:00.021Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:00.021Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:00.029Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:00.030Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:00.031Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:00.043Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:00.046Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:00.047Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:00.056Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:00.058Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:00.059Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:00.067Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:00.072Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:00.072Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:00.080Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:01.874Z [info]: GET /api/foods
+2025-05-11T14:12:01.938Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:01.939Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:01.939Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:01.939Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:01.940Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:01.941Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:01.952Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:03.405Z [info]: GET /api/foods
+2025-05-11T14:12:03.469Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:03.470Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:03.471Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:03.471Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:03.471Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:03.472Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:03.474Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:03.475Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:03.486Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:04.676Z [info]: GET /api/foods
+2025-05-11T14:12:04.716Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:04.717Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:04.717Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:04.717Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:04.718Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:04.718Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:04.718Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:04.718Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:04.725Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.500Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.501Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.502Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:06.503Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:06.503Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:06.503Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:06.504Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:06.504Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:06.504Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:06.504Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:06.505Z [info]: GET /api/foods
+2025-05-11T14:12:06.523Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.527Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:06.527Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:06.528Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:06.528Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:06.529Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:06.530Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:06.531Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.531Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.543Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.544Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.545Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.549Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.552Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.552Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.555Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.557Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.558Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.565Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.567Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.568Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.572Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.574Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.575Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.580Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:06.581Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:06.581Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:06.587Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:11.091Z [info]: GET /api/foods
+2025-05-11T14:12:11.135Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:11.136Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:11.138Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:11.138Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:11.139Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:11.139Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:11.149Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.403Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.404Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.404Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:12.405Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:12.405Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:12.405Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:12.406Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:12.406Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:12.407Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:12.407Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:12.407Z [info]: GET /api/foods
+2025-05-11T14:12:12.418Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.423Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.426Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.427Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:12.427Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:12.428Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:12.428Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:12.429Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:12.429Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:12.437Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.444Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.445Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.454Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.455Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.456Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.461Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.462Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.462Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.472Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.475Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.476Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.481Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.484Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.484Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.488Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:12.491Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:12.491Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:12.496Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.819Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.820Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.821Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:17.821Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:17.821Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:17.821Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:17.822Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:17.822Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:17.823Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:17.823Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:17.823Z [info]: GET /api/foods
+2025-05-11T14:12:17.831Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.836Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.836Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.837Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:17.837Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:17.838Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:17.838Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:17.838Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:17.838Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:17.844Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.847Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.847Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.851Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.852Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.853Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.856Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.857Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.857Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.860Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.861Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.861Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.865Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.866Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.866Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.869Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:17.871Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:17.871Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:17.877Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.044Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.044Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.045Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:44.046Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:44.046Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:44.046Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:44.047Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:44.047Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:44.048Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:44.048Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:44.049Z [info]: GET /api/foods
+2025-05-11T14:12:44.066Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.077Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.078Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.078Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:44.079Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:44.080Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:44.080Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:44.081Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:44.081Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:44.087Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.089Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.089Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.092Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.096Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.096Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.100Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.101Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.101Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.105Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.106Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.106Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.108Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.109Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.110Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.113Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:44.114Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:44.114Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:44.117Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.823Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.823Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.825Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:56.825Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:56.825Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:56.826Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:56.826Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:12:56.826Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:12:56.827Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:56.827Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:56.827Z [info]: GET /api/foods
+2025-05-11T14:12:56.839Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.845Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.846Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.846Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:12:56.846Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:12:56.847Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:12:56.847Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:12:56.847Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:12:56.847Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:12:56.854Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.855Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.856Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.859Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.861Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.861Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.864Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.866Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.866Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.870Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.871Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.871Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.874Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.875Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.875Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.879Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:12:56.880Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:12:56.880Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:12:56.885Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.419Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.419Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.421Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:17.422Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:17.423Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:17.423Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:17.423Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:13:17.424Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:13:17.424Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:13:17.424Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:13:17.425Z [info]: GET /api/foods
+2025-05-11T14:13:17.444Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.447Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:17.447Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:17.450Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.450Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.453Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:17.454Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:17.456Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:13:17.457Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:13:17.467Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.470Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.470Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.476Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.478Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.478Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.484Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.485Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.486Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.490Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.492Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.492Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.497Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.498Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.499Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.502Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:17.503Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:17.503Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:17.510Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:20.255Z [info]: GET /api/foods
+2025-05-11T14:13:20.302Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:20.302Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:20.302Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:20.303Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:20.303Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:20.303Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:20.311Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:20.525Z [info]: GET /api/foods
+2025-05-11T14:13:20.578Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:20.579Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:20.580Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:20.580Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:20.581Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:20.581Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:20.582Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:13:20.582Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:13:20.597Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.633Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.634Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.635Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:21.635Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:21.636Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:21.636Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:21.637Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:13:21.638Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:13:21.638Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:13:21.639Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:13:21.640Z [info]: GET /api/foods
+2025-05-11T14:13:21.653Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.660Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.660Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.661Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:21.662Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:21.662Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:21.662Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:21.663Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:13:21.664Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:13:21.674Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.677Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.678Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.686Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.689Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.691Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.701Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.704Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.706Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.713Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.716Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.717Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.732Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.735Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.735Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.745Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:21.750Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:21.751Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:21.770Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:22.442Z [info]: GET /api/foods
+2025-05-11T14:13:22.502Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:22.503Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:22.505Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:22.505Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:22.506Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:22.506Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:22.517Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.070Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.071Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.073Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:24.073Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:24.073Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:24.074Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:24.074Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:13:24.074Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:13:24.075Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:13:24.075Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:13:24.075Z [info]: GET /api/foods
+2025-05-11T14:13:24.087Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.093Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.094Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.095Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:24.095Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:24.102Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:24.103Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:24.106Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:13:24.106Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:13:24.109Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.114Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.115Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.126Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.128Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.129Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.137Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.140Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.140Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.147Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.149Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.150Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.156Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.158Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.159Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.166Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.167Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.168Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.175Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:13:24.587Z [info]: GET /api/foods
+2025-05-11T14:13:24.635Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:13:24.635Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:13:24.636Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:13:24.636Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:13:24.637Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:13:24.637Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:13:24.638Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:13:24.638Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:13:24.648Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:14:25.171Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:14:25.173Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:14:25.175Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:14:25.176Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:14:25.177Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:14:25.178Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:14:25.179Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:14:25.179Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:14:25.270Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:14:26.299Z [info]: GET /api/foods
+2025-05-11T14:14:26.379Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:14:26.380Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:14:26.381Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:14:26.381Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:14:26.382Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:14:26.382Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:14:26.398Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:14:27.224Z [info]: GET /api/foods
+2025-05-11T14:14:27.299Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:14:27.299Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:14:27.300Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:14:27.300Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:14:27.301Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:14:27.301Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:14:27.302Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:14:27.302Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:14:27.317Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:14:30.088Z [info]: GET /api/foods
+2025-05-11T14:14:30.148Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:14:30.149Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:14:30.149Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:14:30.150Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:14:30.150Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:14:30.150Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:14:30.164Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:14:32.005Z [info]: GET /api/foods
+2025-05-11T14:14:32.089Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:14:32.089Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:14:32.090Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:14:32.090Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:14:32.091Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:14:32.091Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:14:32.091Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:14:32.092Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:14:32.107Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:14:34.859Z [info]: GET /api/foods
+2025-05-11T14:14:34.911Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:14:34.911Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:14:34.912Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:14:34.912Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:14:34.912Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:14:34.912Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:14:34.913Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:14:34.913Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:14:34.923Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:15:34.162Z [info]: GET /api/foods
+2025-05-11T14:15:34.267Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:15:34.267Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:15:34.268Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:15:34.268Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:15:34.269Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:15:34.269Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:15:34.269Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:15:34.270Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:15:34.296Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.644Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.645Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.647Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:08.647Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:08.648Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:08.648Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:08.648Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:16:08.649Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:16:08.649Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:16:08.649Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:16:08.649Z [info]: GET /api/foods
+2025-05-11T14:16:08.730Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.735Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.736Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.738Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:08.738Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:08.739Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:08.739Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:08.741Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:16:08.741Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:16:08.751Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.755Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.756Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.761Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.765Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.765Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.769Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.773Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.774Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.780Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.782Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.783Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.792Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.793Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.794Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.800Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:08.801Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:08.801Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:08.808Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:09.265Z [info]: GET /api/foods
+2025-05-11T14:16:09.309Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:09.310Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:09.310Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:09.310Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:09.311Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:09.311Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:09.322Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.431Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.432Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.432Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:10.432Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:10.433Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:16:10.433Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:16:10.433Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:16:10.433Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:16:10.434Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:10.434Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:10.434Z [info]: GET /api/foods
+2025-05-11T14:16:10.446Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.450Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.451Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.451Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:10.451Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:10.456Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:16:10.457Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:16:10.458Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:10.458Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:10.469Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.476Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.477Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.485Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.488Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.489Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.495Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.498Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.498Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.505Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.507Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.507Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.514Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.516Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.517Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.524Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:10.525Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:10.526Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:10.532Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:14.740Z [info]: GET /api/foods
+2025-05-11T14:16:14.795Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:14.796Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:14.797Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:14.797Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:14.798Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:14.798Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:14.799Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:16:14.800Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:16:14.810Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.009Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.009Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.010Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:16.010Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:16.012Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:16.013Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:16.013Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:16:16.014Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:16:16.014Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:16:16.014Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:16:16.015Z [info]: GET /api/foods
+2025-05-11T14:16:16.024Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.033Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.033Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.037Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:16.038Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:16.041Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:16.041Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:16.043Z [info]: GET /api/upload/main/Food/5
+2025-05-11T14:16:16.043Z [info]: [IMAGES] Fetching main image for Food with ID 5
+2025-05-11T14:16:16.049Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.053Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.053Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.061Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.064Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.064Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.067Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.069Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.070Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.076Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.079Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.080Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.084Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.085Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.086Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.092Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:16.094Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:16.095Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:16.100Z [info]: [IMAGES] Returning fallback image
+2025-05-11T14:16:20.012Z [info]: GET /api/foods
+2025-05-11T14:16:20.057Z [info]: GET /api/upload/main/Food/1
+2025-05-11T14:16:20.058Z [info]: [IMAGES] Fetching main image for Food with ID 1
+2025-05-11T14:16:20.058Z [info]: GET /api/upload/main/Food/2
+2025-05-11T14:16:20.058Z [info]: [IMAGES] Fetching main image for Food with ID 2
+2025-05-11T14:16:20.058Z [info]: GET /api/upload/main/Food/3
+2025-05-11T14:16:20.059Z [info]: [IMAGES] Fetching main image for Food with ID 3
+2025-05-11T14:16:20.059Z [info]: GET /api/upload/main/Food/4
+2025-05-11T14:16:20.059Z [info]: [IMAGES] Fetching main image for Food with ID 4
+2025-05-11T14:16:20.068Z [info]: [IMAGES] Returning fallback image

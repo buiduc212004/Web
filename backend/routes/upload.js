@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { uploadImage, deleteImage } = require('../controllers/uploadController');
+const { uploadImage, deleteImage, getImagesByReference, getMainImage } = require('../controllers/uploadController');
 
 // Cấu hình storage cho multer
 const storage = multer.diskStorage({
@@ -36,7 +36,13 @@ const upload = multer({
 // Route upload ảnh
 router.post('/', upload.single('image'), uploadImage);
 
+// Route lấy danh sách ảnh theo loại và ID tham chiếu
+router.get('/reference/:referenceType/:referenceId', getImagesByReference);
+
+// Route lấy ảnh chính theo loại và ID tham chiếu
+router.get('/main/:referenceType/:referenceId', getMainImage);
+
 // Route xóa ảnh
-router.delete('/:filename', deleteImage);
+router.delete('/:id', deleteImage);
 
 module.exports = router; 

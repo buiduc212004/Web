@@ -6,7 +6,7 @@
     <title>Foodieland Admin Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="admin.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="customer-handler.js"></script>
 </head>
 <body>
     <div class="admin-container">
@@ -127,41 +127,6 @@
                     </div>
                 </div>
 
-                <!-- Charts Section -->
-                <div class="charts-container">
-                    <div class="chart-card large">
-                        <div class="chart-header">
-                            <h3>Revenue Overview</h3>
-                            <div class="chart-actions">
-                                <select class="chart-period-select" id="revenue-period">
-                                    <option value="weekly">Weekly</option>
-                                    <option value="monthly" selected>Monthly</option>
-                                    <option value="yearly">Yearly</option>
-                                </select>
-                                <button class="chart-action-btn">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="chart-content">
-                            <canvas id="revenue-chart"></canvas>
-                        </div>
-                    </div>
-                    <div class="chart-card">
-                        <div class="chart-header">
-                            <h3>Top Categories</h3>
-                            <div class="chart-actions">
-                                <button class="chart-action-btn">
-                                    <i class="fas fa-ellipsis-v"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="chart-content">
-                            <canvas id="categories-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
                 <!-- Recent Orders -->
                 <div class="recent-orders-container">
                     <div class="section-header">
@@ -174,7 +139,6 @@
                                 <tr>
                                     <th>Order ID</th>
                                     <th>Customer</th>
-                                    <th>Date</th>
                                     <th>Amount</th>
                                     <th>Status</th>
                                     <th>Actions</th>
@@ -225,10 +189,6 @@
                             <i class="fas fa-filter"></i>
                             Apply Filters
                         </button>
-                        <button class="reset-btn" id="reset-order-filters">
-                            <i class="fas fa-redo"></i>
-                            Reset
-                        </button>
                     </div>
                 </div>
                 
@@ -241,7 +201,6 @@
                                 </th>
                                 <th>Order ID</th>
                                 <th>Customer</th>
-                                <th>Date</th>
                                 <th>Items</th>
                                 <th>Amount</th>
                                 <th>Status</th>
@@ -263,12 +222,9 @@
             <div class="content-section hidden" id="products">
                 <h1 class="page-title">Products Management</h1>
                 
-                <div class="action-bar">
-                    <button class="add-new-btn" id="add-product-btn">
-                        <i class="fas fa-plus"></i>
-                        Add New Product
-                    </button>
+                <div class="filter-container">
                     <div class="filter-group">
+                        <label>Filter by Category:</label>
                         <select class="filter-select" id="product-category-filter">
                             <option value="all">All Categories</option>
                             <option value="pizzas">Pizzas</option>
@@ -278,17 +234,19 @@
                             <option value="desserts">Desserts</option>
                         </select>
                     </div>
-                    <div class="search-container">
-                        <input type="text" placeholder="Search products..." id="product-search">
-                        <i class="fas fa-search"></i>
+                    <div class="filter-group">
+                        <button class="filter-btn btn-primary" id="add-product-btn">
+                            <i class="fas fa-plus"></i>
+                            Add New Product
+                        </button>
                     </div>
                 </div>
                 
-                <div class="products-grid admin-grid" id="products-grid">
+                <div class="products-grid" id="products-grid">
                     <!-- Products will be loaded dynamically -->
                 </div>
                 
-                <div class="pagination" id="products-pagination">
+                <div class="pagination-container" id="products-pagination">
                     <!-- Pagination will be generated dynamically -->
                 </div>
             </div>
@@ -380,7 +338,7 @@
                 <h1 class="page-title">Customers Management</h1>
                 
                 <div class="action-bar">
-                    <button class="add-new-btn" id="add-customer-btn">
+                    <button class="add-new-btn" id="add-customer-btn" onclick="openCustomerModal('add')">
                         <i class="fas fa-plus"></i>
                         Add New Customer
                     </button>
@@ -437,80 +395,94 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="order-info">
-                    <div class="info-group">
-                        <h4>Order Information</h4>
-                        <div class="info-row">
-                            <span>Order ID:</span>
-                            <span id="modal-order-id"></span>
+                <div class="order-details-container">
+                    <div class="order-info-section">
+                        <div class="info-group">
+                            <h4>Order Information</h4>
+                            <div class="info-row">
+                                <span>Order ID:</span>
+                                <span id="modal-order-id"></span>
+                            </div>
+                            <div class="info-row">
+                                <span>Date:</span>
+                                <span id="modal-order-date"></span>
+                            </div>
+                            <div class="info-row">
+                                <span>Status:</span>
+                                <span id="modal-order-status"></span>
+                            </div>
+                            <div class="info-row">
+                                <span>Update Status:</span>
+                                <select id="status-select" class="form-control">
+                                    <option value="pending">Pending</option>
+                                    <option value="processing">Processing</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="delivered">Delivered</option>
+                                    <option value="cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="info-row">
+                                <span>Payment Method:</span>
+                                <span>Cash on Delivery</span>
+                            </div>
                         </div>
-                        <div class="info-row">
-                            <span>Date:</span>
-                            <span id="modal-order-date"></span>
-                        </div>
-                        <div class="info-row">
-                            <span>Status:</span>
-                            <span id="modal-order-status"></span>
-                        </div>
-                        <div class="info-row">
-                            <span>Payment Method:</span>
-                            <span>Credit Card</span>
+                        <div class="info-group">
+                            <h4>Customer Information</h4>
+                            <div class="info-row">
+                                <span>Name:</span>
+                                <span id="modal-customer-name">Khách hàng</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Phone:</span>
+                                <span id="modal-customer-phone">0383051321</span>
+                            </div>
+                            <div class="info-row">
+                                <span>Address:</span>
+                                <span id="modal-customer-address">Ha Noi</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="info-group">
-                        <h4>Customer Information</h4>
-                        <div class="info-row">
-                            <span>Name:</span>
-                            <span id="modal-customer-name"></span>
+                    <div class="order-items-section">
+                        <h4>Order Items</h4>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="modal-order-items">
+                                    <!-- Order items will be loaded dynamically -->
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="info-row">
-                            <span>Phone:</span>
-                            <span>0383051321</span>
+                        <div class="order-summary">
+                            <div class="summary-row">
+                                <span>Subtotal:</span>
+                                <span id="modal-subtotal">0đ</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Delivery Fee:</span>
+                                <span id="modal-delivery-fee">0đ</span>
+                            </div>
+                            <div class="summary-row">
+                                <span>Discount:</span>
+                                <span id="modal-discount">-0đ</span>
+                            </div>
+                            <div class="summary-row total">
+                                <span>Total:</span>
+                                <span id="modal-total">0đ</span>
+                            </div>
                         </div>
-                        <div class="info-row">
-                            <span>Address:</span>
-                            <span>Ha Noi</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="order-items">
-                    <h4>Order Items</h4>
-                    <table class="items-table" id="modal-items-table">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Order items will be loaded dynamically -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="order-summary">
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span id="modal-subtotal"></span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Delivery Fee:</span>
-                        <span>20,000 đ</span>
-                    </div>
-                    <div class="summary-row">
-                        <span>Discount:</span>
-                        <span id="modal-discount">-0 đ</span>
-                    </div>
-                    <div class="summary-row total">
-                        <span>Total:</span>
-                        <span id="modal-total"></span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn-secondary close-modal">Close</button>
-                <button class="btn-primary" id="update-status-btn">Update Status</button>
+                <button class="btn-warning" id="update-status">Update Status</button>
             </div>
         </div>
     </div>
@@ -547,9 +519,76 @@
                     </div>
                     <div class="form-group">
                         <label>Product Image</label>
-                        <input type="file" name="image" accept="image/*" required>
+                        <div class="image-options">
+                            <div class="upload-option">
+                                <label>Upload New Image:</label>
+                                <input type="file" name="image" accept="image/*">
+                                <p class="help-text">Images will be uploaded via API</p>
+                            </div>
+                            <div class="or-divider">OR</div>
+                            <div class="select-option">
+                                <label>Select Existing Image:</label>
+                                <select name="existingImage">
+                                    <option value="">Select an image</option>
+                                    <optgroup label="Pizzas">
+                                        <option value="../image/pizza_1.png">Pizza 1</option>
+                                        <option value="../image/pizza_2.png">Pizza 2</option>
+                                        <option value="../image/pizza_3.png">Pizza 3</option>
+                                        <option value="../image/pizza_4.png">Pizza 4</option>
+                                        <option value="../image/pizza_5.png">Pizza 5</option>
+                                        <option value="../image/pizza_6.png">Pizza 6</option>
+                                    </optgroup>
+                                    <optgroup label="Burgers/Combos">
+                                        <option value="../image/Combo_1.png">Combo 1</option>
+                                        <option value="../image/combo_2.png">Combo 2</option>
+                                        <option value="../image/combo_3.png">Combo 3</option>
+                                        <option value="../image/combo_4.png">Combo 4</option>
+                                        <option value="../image/combo_5.png">Combo 5</option>
+                                        <option value="../image/combo_6.png">Combo 6</option>
+                                        <option value="../image/combo_7.png">Combo 7</option>
+                                        <option value="../image/combo_8.png">Combo 8</option>
+                                    </optgroup>
+                                    <optgroup label="Salads">
+                                        <option value="../image/salad_1.png">Salad 1</option>
+                                        <option value="../image/salad_2.png">Salad 2</option>
+                                        <option value="../image/salad_3.png">Salad 3</option>
+                                        <option value="../image/salad_4.png">Salad 4</option>
+                                    </optgroup>
+                                    <optgroup label="Drinks">
+                                        <option value="../image/drink_1.png">Drink 1</option>
+                                        <option value="../image/drink_2.png">Drink 2</option>
+                                        <option value="../image/drink_3.png">Drink 3</option>
+                                        <option value="../image/drink_4.png">Drink 4</option>
+                                        <option value="../image/drink_5.png">Drink 5</option>
+                                        <option value="../image/hot_drink_1.png">Hot Drink 1</option>
+                                        <option value="../image/hot_drink_2.png">Hot Drink 2</option>
+                                        <option value="../image/hot_drink_3.png">Hot Drink 3</option>
+                                        <option value="../image/cold_drink_1.png">Cold Drink 1</option>
+                                        <option value="../image/cold_drink_2.png">Cold Drink 2</option>
+                                        <option value="../image/cold_drink_3.png">Cold Drink 3</option>
+                                    </optgroup>
+                                    <optgroup label="Desserts">
+                                        <option value="../image/Desserts_1.png">Dessert 1</option>
+                                        <option value="../image/Desserts_2.png">Dessert 2</option>
+                                        <option value="../image/Desserts_3.png">Dessert 3</option>
+                                        <option value="../image/Deals_1.png">Deals 1</option>
+                                        <option value="../image/Deals_2.png">Deals 2</option>
+                                        <option value="../image/Deals_3.png">Deals 3</option>
+                                    </optgroup>
+                                    <optgroup label="Sides">
+                                        <option value="../image/garlic_bread_1.png">Garlic Bread 1</option>
+                                        <option value="../image/garlic_bread_2.png">Garlic Bread 2</option>
+                                        <option value="../image/garlic_bread_3.png">Garlic Bread 3</option>
+                                        <option value="../image/garlic_bread_4.png">Garlic Bread 4</option>
+                                        <option value="../image/garlic_bread_5.png">Garlic Bread 5</option>
+                                        <option value="../image/khoai_tay.png">Khoai Tây</option>
+                                    </optgroup>
+                                </select>
+                                <p class="help-text">These will be used if upload fails</p>
+                            </div>
+                        </div>
                         <div class="image-preview" style="margin-top: 10px; display: none;">
-                            <img src="" alt="Preview" style="max-width: 200px; max-height: 200px;">
+                            <img src="" alt="Preview">
                         </div>
                     </div>
                     <div class="form-group">
@@ -650,34 +689,34 @@
 
 <!-- Modal for Add/Edit Customer -->
 <div class="modal" id="customer-modal">
-    <div class="modal-content">
+    <div class="modal-content" onclick="event.stopPropagation();">
         <div class="modal-header">
             <h3 id="customer-modal-title">Add New Customer</h3>
-            <button class="close-modal">
+            <button type="button" id="modal-close-x">
                 <i class="fas fa-times"></i>
             </button>
         </div>
         <div class="modal-body">
             <form id="customer-form">
                 <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" name="name" required>
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" name="name" class="form-input" placeholder="Enter customer name">
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
-                    <input type="email" name="email" required>
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" name="email" class="form-input" placeholder="Enter customer email">
                 </div>
                 <div class="form-group">
-                    <label>Phone</label>
-                    <input type="tel" name="phone" required>
+                    <label><i class="fas fa-phone"></i> Phone</label>
+                    <input type="tel" name="phone" class="form-input" placeholder="Enter phone number">
                 </div>
                 <div class="form-group">
-                    <label>Address</label>
-                    <input type="text" name="address" required>
+                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                    <input type="text" name="address" class="form-input" placeholder="Enter customer address">
                 </div>
                 <div class="form-group">
-                    <label>Status</label>
-                    <select name="status" required>
+                    <label><i class="fas fa-toggle-on"></i> Status</label>
+                    <select name="status" class="form-select">
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                     </select>
@@ -685,8 +724,8 @@
             </form>
         </div>
         <div class="modal-footer">
-            <button class="btn-secondary close-modal">Cancel</button>
-            <button class="btn-primary" id="save-customer-btn">Save Customer</button>
+            <button type="button" id="cancel-customer-btn">Cancel</button>
+            <button type="button" id="save-customer-btn">Add Customer</button>
         </div>
     </div>
 </div>
@@ -789,5 +828,6 @@
 </div>
 
     <script src="admin.js"></script>
+    <script src="customer-handler.js"></script>
 </body>
 </html>
