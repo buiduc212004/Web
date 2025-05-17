@@ -12,8 +12,16 @@ document.addEventListener('DOMContentLoaded', function() {
             // Simulate form submission
             console.log('Sign In Form Submitted:', { email, password });
             
+            // Simulate successful login by setting a token
+            localStorage.setItem('token', 'sample-token');
+            localStorage.setItem('userRole', 'user');
+            localStorage.setItem('userId', '123');
+            localStorage.setItem('userName', 'User');
+            
             // Show success message
-            showSuccessMessage(this, 'Login successful! Redirecting...');
+            showSuccessMessage(this, 'Đăng nhập thành công! Đang chuyển hướng...', function() {
+                window.location.href = 'Home.html';
+            });
         });
     }
     

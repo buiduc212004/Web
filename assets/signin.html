@@ -113,11 +113,25 @@
             height: 48px;
         }
     </style>
+    <script>
+        // Kiểm tra nếu người dùng đã đăng nhập thì chuyển hướng luôn đến trang Home
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (token) {
+                const userRole = localStorage.getItem('userRole');
+                if (userRole === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'Home.html';
+                }
+            }
+        };
+    </script>
 </head>
 <body>
     <div class="login-container">
         <div class="login-header">
-            <img src=""http://localhost:5000/uploads/1746852380212-717215463.png" alt="Logo">
+            <img src="../image/Foodieland.png" alt="Logo">
             <h2>Đăng nhập</h2>
             <p>Chào mừng bạn quay trở lại!</p>
         </div>

@@ -3431,3 +3431,659 @@ function showAuthenticationModal() {
         }
     });
 }
+
+// Image Manager functionality
+const imageManager = {
+    images: [],
+    currentPage: 1,
+    imagesPerPage: 20,
+    totalPages: 1,
+    filters: {
+        type: 'all',
+        startDate: '',
+        endDate: '',
+        search: ''
+    },
+    referenceOptions: {
+        Food: [],
+        Restaurant: [],
+        Category: [],
+        Banner: [],
+        Profile: []
+    },
+
+    init: function() {
+        // Elements
+        this.imageGrid = document.getElementById('image-grid');
+        this.pagination = document.getElementById('image-pagination');
+        this.typeFilter = document.getElementById('image-type-filter');
+        this.startDateFilter = document.getElementById('image-start-date');
+        this.endDateFilter = document.getElementById('image-end-date');
+        this.searchInput = document.getElementById('image-search');
+        this.uploadBtn = document.getElementById('upload-new-image-btn');
+        this.applyFiltersBtn = document.getElementById('apply-image-filters');
+        this.resetFiltersBtn = document.getElementById('reset-image-filters');
+
+        // Modal elements
+        this.uploadModal = document.getElementById('image-upload-modal');
+        this.closeModalBtn = document.getElementById('close-image-modal');
+        this.imageFile = document.getElementById('image-file');
+        this.imagePreview = document.getElementById('image-preview-img');
+        this.referenceType = document.getElementById('reference-type');
+        this.referenceId = document.getElementById('reference-id');
+        this.isMain = document.getElementById('is-main');
+        this.cancelUploadBtn = document.getElementById('cancel-upload-btn');
+        this.submitUploadBtn = document.getElementById('submit-upload-btn');
+
+        // Detail modal elements
+        this.detailModal = document.getElementById('image-detail-modal');
+        this.closeDetailBtn = document.getElementById('close-detail-modal');
+        this.detailImage = document.getElementById('detail-image');
+        this.detailFilename = document.getElementById('detail-filename');
+        this.detailOriginalname = document.getElementById('detail-originalname');
+        this.detailMimetype = document.getElementById('detail-mimetype');
+        this.detailSize = document.getElementById('detail-size');
+        this.detailDate = document.getElementById('detail-date');
+        this.detailRefType = document.getElementById('detail-reftype');
+        this.detailRefId = document.getElementById('detail-refid');
+        this.detailIsMain = document.getElementById('detail-ismain');
+        this.detailUrl = document.getElementById('detail-url');
+        this.copyUrlBtn = document.getElementById('copy-url-btn');
+        this.closeDetailBtn2 = document.getElementById('close-detail-btn');
+        this.deleteImageBtn = document.getElementById('delete-image-btn');
+
+        // Event listeners
+        this.bindEvents();
+
+        // Load reference options for dropdown
+        this.loadReferenceOptions();
+
+        // Initial load
+        this.loadImages();
+    },
+
+    bindEvents: function() {
+        // Filter events
+        this.typeFilter.addEventListener('change', () => {
+            this.filters.type = this.typeFilter.value;
+        });
+
+        this.startDateFilter.addEventListener('change', () => {
+            this.filters.startDate = this.startDateFilter.value;
+        });
+
+        this.endDateFilter.addEventListener('change', () => {
+            this.filters.endDate = this.endDateFilter.value;
+        });
+
+        this.searchInput.addEventListener('input', () => {
+            this.filters.search = this.searchInput.value;
+        });
+
+        this.applyFiltersBtn.addEventListener('click', () => {
+            this.currentPage = 1;
+            this.loadImages();
+        });
+
+        this.resetFiltersBtn.addEventListener('click', () => {
+            this.resetFilters();
+        });
+
+        // Upload events
+        this.uploadBtn.addEventListener('click', () => {
+            this.openUploadModal();
+        });
+
+        this.closeModalBtn.addEventListener('click', () => {
+            this.closeUploadModal();
+        });
+
+        this.cancelUploadBtn.addEventListener('click', () => {
+            this.closeUploadModal();
+        });
+
+        this.imageFile.addEventListener('change', (e) => {
+            this.previewImage(e);
+        });
+
+        this.referenceType.addEventListener('change', () => {
+            this.updateReferenceIdOptions();
+        });
+
+        this.submitUploadBtn.addEventListener('click', () => {
+            this.uploadImage();
+        });
+
+        // Detail modal events
+        this.closeDetailBtn.addEventListener('click', () => {
+            this.closeDetailModal();
+        });
+
+        this.closeDetailBtn2.addEventListener('click', () => {
+            this.closeDetailModal();
+        });
+
+        this.copyUrlBtn.addEventListener('click', () => {
+            this.copyImageUrl();
+        });
+
+        this.deleteImageBtn.addEventListener('click', () => {
+            this.deleteImage();
+        });
+    },
+
+    loadImages: function() {
+        this.showLoading();
+
+        // Build query string with filters
+        let queryParams = new URLSearchParams();
+        if (this.filters.type !== 'all') {
+            queryParams.append('referenceType', this.filters.type);
+        }
+        if (this.filters.startDate) {
+            queryParams.append('startDate', this.filters.startDate);
+        }
+        if (this.filters.endDate) {
+            queryParams.append('endDate', this.filters.endDate);
+        }
+        if (this.filters.search) {
+            queryParams.append('search', this.filters.search);
+        }
+
+        // fetch images from API
+        fetch(`http://localhost:5000/api/images?${queryParams.toString()}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load images');
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.images = data;
+                this.totalPages = Math.ceil(this.images.length / this.imagesPerPage);
+                this.renderImages();
+                this.renderPagination();
+                this.hideLoading();
+            })
+            .catch(error => {
+                console.error('Error loading images:', error);
+                this.showToast('Error', 'Failed to load images. ' + error.message, 'error');
+                this.hideLoading();
+                
+                // Show no images state (for demo or if API fails)
+                this.showNoImagesState();
+            });
+    },
+
+    renderImages: function() {
+        // Clear existing images
+        this.imageGrid.innerHTML = '';
+
+        // Get current page images
+        const startIndex = (this.currentPage - 1) * this.imagesPerPage;
+        const endIndex = startIndex + this.imagesPerPage;
+        const currentImages = this.images.slice(startIndex, endIndex);
+
+        if (currentImages.length === 0) {
+            this.showNoImagesState();
+            return;
+        }
+
+        // Render each image
+        currentImages.forEach(image => {
+            const card = document.createElement('div');
+            card.className = 'image-card';
+            card.dataset.id = image.id;
+            
+            // Format date
+            const uploadDate = new Date(image.uploadDate);
+            const formattedDate = uploadDate.toLocaleDateString();
+            
+            card.innerHTML = `
+                <img class="image-card-img" src="${image.fullPath || image.path}" alt="${image.originalname}">
+                ${image.is_main ? '<span class="image-card-badge">Main</span>' : ''}
+                <div class="image-card-overlay">
+                    <h4 class="image-card-title">${image.originalname}</h4>
+                    <p class="image-card-type">${image.referenceType} - ${formattedDate}</p>
+                </div>
+            `;
+            
+            // Add click event to open detail modal
+            card.addEventListener('click', () => {
+                this.openDetailModal(image);
+            });
+            
+            this.imageGrid.appendChild(card);
+        });
+    },
+
+    renderPagination: function() {
+        this.pagination.innerHTML = '';
+        
+        if (this.totalPages <= 1) return;
+        
+        // Previous button
+        const prevBtn = document.createElement('button');
+        prevBtn.className = 'pagination-btn';
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevBtn.disabled = this.currentPage === 1;
+        prevBtn.addEventListener('click', () => {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.renderImages();
+                this.renderPagination();
+            }
+        });
+        this.pagination.appendChild(prevBtn);
+        
+        // Page numbers
+        const maxPageButtons = 5;
+        let startPage = Math.max(1, this.currentPage - Math.floor(maxPageButtons / 2));
+        let endPage = Math.min(this.totalPages, startPage + maxPageButtons - 1);
+        
+        if (endPage - startPage + 1 < maxPageButtons) {
+            startPage = Math.max(1, endPage - maxPageButtons + 1);
+        }
+        
+        if (startPage > 1) {
+            const firstPageBtn = document.createElement('button');
+            firstPageBtn.className = 'pagination-btn';
+            firstPageBtn.textContent = '1';
+            firstPageBtn.addEventListener('click', () => {
+                this.currentPage = 1;
+                this.renderImages();
+                this.renderPagination();
+            });
+            this.pagination.appendChild(firstPageBtn);
+            
+            if (startPage > 2) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-ellipsis';
+                ellipsis.textContent = '...';
+                this.pagination.appendChild(ellipsis);
+            }
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            const pageBtn = document.createElement('button');
+            pageBtn.className = 'pagination-btn';
+            if (i === this.currentPage) {
+                pageBtn.classList.add('active');
+            }
+            pageBtn.textContent = i;
+            pageBtn.addEventListener('click', () => {
+                this.currentPage = i;
+                this.renderImages();
+                this.renderPagination();
+            });
+            this.pagination.appendChild(pageBtn);
+        }
+        
+        if (endPage < this.totalPages) {
+            if (endPage < this.totalPages - 1) {
+                const ellipsis = document.createElement('span');
+                ellipsis.className = 'pagination-ellipsis';
+                ellipsis.textContent = '...';
+                this.pagination.appendChild(ellipsis);
+            }
+            
+            const lastPageBtn = document.createElement('button');
+            lastPageBtn.className = 'pagination-btn';
+            lastPageBtn.textContent = this.totalPages;
+            lastPageBtn.addEventListener('click', () => {
+                this.currentPage = this.totalPages;
+                this.renderImages();
+                this.renderPagination();
+            });
+            this.pagination.appendChild(lastPageBtn);
+        }
+        
+        // Next button
+        const nextBtn = document.createElement('button');
+        nextBtn.className = 'pagination-btn';
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextBtn.disabled = this.currentPage === this.totalPages;
+        nextBtn.addEventListener('click', () => {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+                this.renderImages();
+                this.renderPagination();
+            }
+        });
+        this.pagination.appendChild(nextBtn);
+    },
+
+    resetFilters: function() {
+        this.typeFilter.value = 'all';
+        this.startDateFilter.value = '';
+        this.endDateFilter.value = '';
+        this.searchInput.value = '';
+        
+        this.filters = {
+            type: 'all',
+            startDate: '',
+            endDate: '',
+            search: ''
+        };
+        
+        this.currentPage = 1;
+        this.loadImages();
+    },
+
+    showNoImagesState: function() {
+        this.imageGrid.innerHTML = `
+            <div class="no-images">
+                <i class="fas fa-images"></i>
+                <p>No images found matching your criteria.</p>
+                <button class="upload-prompt-btn" id="no-images-upload-btn">
+                    <i class="fas fa-upload"></i> Upload New Image
+                </button>
+            </div>
+        `;
+        
+        document.getElementById('no-images-upload-btn').addEventListener('click', () => {
+            this.openUploadModal();
+        });
+    },
+
+    showLoading: function() {
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.className = 'loading-overlay';
+        loadingOverlay.id = 'image-loading';
+        loadingOverlay.innerHTML = '<div class="loading-spinner"></div>';
+        
+        const container = document.querySelector('.image-gallery-container');
+        container.style.position = 'relative';
+        container.appendChild(loadingOverlay);
+    },
+
+    hideLoading: function() {
+        const loadingOverlay = document.getElementById('image-loading');
+        if (loadingOverlay) {
+            loadingOverlay.remove();
+        }
+    },
+
+    loadReferenceOptions: function() {
+        // For demo, load mock data
+        // In production, fetch from API
+        this.referenceOptions = {
+            Food: [
+                { id: 1, name: 'Pizza Margherita' },
+                { id: 2, name: 'Hamburger' },
+                { id: 3, name: 'Pasta Carbonara' },
+                { id: 4, name: 'Caesar Salad' }
+            ],
+            Restaurant: [
+                { id: 1, name: 'Main Restaurant' },
+                { id: 2, name: 'Branch Office 1' },
+                { id: 3, name: 'Branch Office 2' }
+            ],
+            Category: [
+                { id: 1, name: 'Pizza' },
+                { id: 2, name: 'Burger' },
+                { id: 3, name: 'Pasta' },
+                { id: 4, name: 'Salad' }
+            ],
+            Banner: [
+                { id: 1, name: 'Home Banner' },
+                { id: 2, name: 'Promotion Banner' },
+                { id: 3, name: 'Special Offers Banner' }
+            ],
+            Profile: [
+                { id: 1, name: 'Admin Avatar' },
+                { id: 2, name: 'Chef Profile' },
+                { id: 3, name: 'Staff Profile' }
+            ]
+        };
+    },
+
+    updateReferenceIdOptions: function() {
+        const selectedType = this.referenceType.value;
+        const options = this.referenceOptions[selectedType] || [];
+        
+        this.referenceId.innerHTML = '<option value="">Select a reference</option>';
+        
+        options.forEach(option => {
+            const optionEl = document.createElement('option');
+            optionEl.value = option.id;
+            optionEl.textContent = `${option.id} - ${option.name}`;
+            this.referenceId.appendChild(optionEl);
+        });
+    },
+
+    openUploadModal: function() {
+        // Reset form
+        document.getElementById('image-upload-form').reset();
+        this.imagePreview.parentElement.style.display = 'none';
+        this.uploadModal.style.display = 'block';
+        setTimeout(() => {
+            this.uploadModal.classList.add('show');
+        }, 10);
+    },
+
+    closeUploadModal: function() {
+        this.uploadModal.classList.remove('show');
+        setTimeout(() => {
+            this.uploadModal.style.display = 'none';
+        }, 300);
+    },
+
+    previewImage: function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                this.imagePreview.src = e.target.result;
+                this.imagePreview.parentElement.style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            this.imagePreview.parentElement.style.display = 'none';
+        }
+    },
+
+    uploadImage: function() {
+        // Validation
+        const file = this.imageFile.files[0];
+        const referenceType = this.referenceType.value;
+        const referenceId = this.referenceId.value;
+        
+        if (!file) {
+            this.showToast('Error', 'Please select an image file', 'error');
+            return;
+        }
+        
+        if (!referenceType) {
+            this.showToast('Error', 'Please select a reference type', 'error');
+            return;
+        }
+        
+        if (!referenceId) {
+            this.showToast('Error', 'Please select a reference ID', 'error');
+            return;
+        }
+        
+        // Create form data
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('referenceType', referenceType);
+        formData.append('referenceId', referenceId);
+        formData.append('isMain', this.isMain.checked ? '1' : '0');
+        
+        // Show loading
+        this.submitUploadBtn.disabled = true;
+        this.submitUploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+        
+        // Upload image
+        // In production, use actual API
+        // For demo, simulate upload
+        setTimeout(() => {
+            // Simulate successful upload
+            const newImage = {
+                id: Date.now(),
+                filename: `${Date.now()}_${file.name}`,
+                originalname: file.name,
+                path: URL.createObjectURL(file),
+                fullPath: URL.createObjectURL(file),
+                mimetype: file.type,
+                size: file.size,
+                referenceType: referenceType,
+                referenceId: referenceId,
+                is_main: this.isMain.checked,
+                uploadDate: new Date().toISOString()
+            };
+            
+            // Add to images array
+            this.images.unshift(newImage);
+            this.totalPages = Math.ceil(this.images.length / this.imagesPerPage);
+            
+            // Reset UI
+            this.submitUploadBtn.disabled = false;
+            this.submitUploadBtn.innerHTML = 'Upload Image';
+            this.closeUploadModal();
+            
+            // Show success message
+            this.showToast('Success', 'Image uploaded successfully', 'success');
+            
+            // Reload images
+            this.currentPage = 1;
+            this.renderImages();
+            this.renderPagination();
+        }, 1500);
+    },
+
+    openDetailModal: function(image) {
+        // Set image details
+        this.detailImage.src = image.fullPath || image.path;
+        this.detailFilename.textContent = image.filename;
+        this.detailOriginalname.textContent = image.originalname;
+        this.detailMimetype.textContent = image.mimetype;
+        this.detailSize.textContent = this.formatFileSize(image.size);
+        this.detailDate.textContent = new Date(image.uploadDate).toLocaleString();
+        this.detailRefType.textContent = image.referenceType;
+        this.detailRefId.textContent = image.referenceId;
+        this.detailIsMain.textContent = image.is_main ? 'Yes' : 'No';
+        this.detailUrl.value = image.fullPath || image.path;
+        
+        // Store current image id for delete
+        this.deleteImageBtn.dataset.id = image.id;
+        
+        // Show modal
+        this.detailModal.style.display = 'block';
+        setTimeout(() => {
+            this.detailModal.classList.add('show');
+        }, 10);
+    },
+
+    closeDetailModal: function() {
+        this.detailModal.classList.remove('show');
+        setTimeout(() => {
+            this.detailModal.style.display = 'none';
+        }, 300);
+    },
+
+    copyImageUrl: function() {
+        this.detailUrl.select();
+        document.execCommand('copy');
+        this.showToast('Success', 'URL copied to clipboard', 'success');
+    },
+
+    deleteImage: function() {
+        const imageId = this.deleteImageBtn.dataset.id;
+        
+        if (!imageId) return;
+        
+        if (!confirm('Are you sure you want to delete this image? This action cannot be undone.')) {
+            return;
+        }
+        
+        // Show loading
+        this.deleteImageBtn.disabled = true;
+        this.deleteImageBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+        
+        // In production, use actual API
+        // For demo, simulate delete
+        setTimeout(() => {
+            // Remove from array
+            this.images = this.images.filter(img => img.id != imageId);
+            this.totalPages = Math.ceil(this.images.length / this.imagesPerPage);
+            
+            // Reset UI
+            this.deleteImageBtn.disabled = false;
+            this.deleteImageBtn.innerHTML = 'Delete Image';
+            this.closeDetailModal();
+            
+            // Show success message
+            this.showToast('Success', 'Image deleted successfully', 'success');
+            
+            // Reload images
+            if (this.currentPage > this.totalPages && this.totalPages > 0) {
+                this.currentPage = this.totalPages;
+            }
+            this.renderImages();
+            this.renderPagination();
+        }, 1000);
+    },
+
+    formatFileSize: function(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    },
+
+    showToast: function(title, message, type = 'success') {
+        // Create toast element
+        const toast = document.createElement('div');
+        toast.className = `toast-notification toast-${type}`;
+        toast.innerHTML = `
+            <div class="toast-header">
+                <h4 class="toast-title">${title}</h4>
+                <button class="toast-close">&times;</button>
+            </div>
+            <div class="toast-body">${message}</div>
+        `;
+        
+        // Add to document
+        document.body.appendChild(toast);
+        
+        // Show toast
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
+        
+        // Add close event
+        toast.querySelector('.toast-close').addEventListener('click', () => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        });
+        
+        // Auto hide after 5 seconds
+        setTimeout(() => {
+            if (document.body.contains(toast)) {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (document.body.contains(toast)) {
+                        toast.remove();
+                    }
+                }, 300);
+            }
+        }, 5000);
+    }
+};
+
+// Initialize all modules when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing code ...
+
+    // Initialize image manager
+    if (document.getElementById('images')) {
+        imageManager.init();
+    }
+});

@@ -1,6 +1,6 @@
 // File: login.js
 
-const API_URL = 'http://localhost:3000/api';
+const API_URL = 'http://localhost:5000/api';
 
 // Hàm hiển thị thông báo lỗi
 function showError(message) {

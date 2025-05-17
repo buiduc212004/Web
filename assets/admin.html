@@ -14,7 +14,7 @@
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="logo-container">
-                <img src="../image/Foodieland..png" alt="Foodieland Logo" class="logo">
+                <img src="../image/Foodieland.png" alt="Foodieland Logo" class="logo">
             </div>
             <div class="admin-info">
                 <img src="../image/Banner.png" alt="Admin Avatar" class="admin-avatar">
@@ -59,6 +59,12 @@
                         <a href="#customers">
                             <i class="fas fa-person"></i>
                             <span>Customers</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#images">
+                            <i class="fas fa-images"></i>
+                            <span>Image Manager</span>
                         </a>
                     </li>
                     <li class="nav-item">
@@ -333,6 +339,184 @@
                             <!-- Promotions will be loaded dynamically -->
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            <!-- Images Content -->
+            <div class="content-section hidden" id="images">
+                <div class="image-management-header">
+                    <h1>Image Manager</h1>
+                </div>
+                
+                <div class="filters-container">
+                    <div class="filter-group">
+                        <span class="filter-label">Filter by Type:</span>
+                        <select class="status-filter-select" id="image-type-filter">
+                            <option value="all">All Types</option>
+                            <option value="Food">Food</option>
+                            <option value="Restaurant">Restaurant</option>
+                            <option value="Category">Category</option>
+                            <option value="Banner">Banner</option>
+                            <option value="Profile">Profile</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <span class="filter-label">Date Range:</span>
+                        <div class="date-range-inputs">
+                            <input type="date" id="image-start-date" class="date-input" placeholder="Start Date">
+                            <span class="date-separator">to</span>
+                            <input type="date" id="image-end-date" class="date-input" placeholder="End Date">
+                        </div>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button class="apply-filters-btn" id="apply-image-filters">
+                            <i class="fas fa-filter"></i>
+                            Apply Filters
+                        </button>
+                        <button class="reset-filters-btn" id="reset-image-filters">
+                            <i class="fas fa-undo"></i>
+                            Reset Filters
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="action-bar">
+                    <div class="search-container">
+                        <input type="text" id="image-search" placeholder="Search images...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="add-new-btn" id="upload-new-image-btn">
+                        <i class="fas fa-plus"></i>
+                        Upload New Image
+                    </button>
+                </div>
+                
+                <div class="image-gallery-container">
+                    <div class="image-grid" id="image-grid">
+                        <!-- Images will be loaded here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="pagination" id="image-pagination">
+                    <!-- Pagination will be generated dynamically -->
+                </div>
+                
+                <!-- Image Upload Modal -->
+                <div class="modal" id="image-upload-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Upload New Image</h3>
+                            <button class="close-modal" id="close-image-modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="image-upload-form">
+                                <div class="form-group">
+                                    <label for="image-file">Select Image</label>
+                                    <input type="file" id="image-file" name="image" accept="image/*" required>
+                                    <div class="image-preview">
+                                        <img id="image-preview-img" src="../image/placeholder.png" alt="Preview">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="reference-type">Reference Type</label>
+                                    <select id="reference-type" name="referenceType" required>
+                                        <option value="">Select type</option>
+                                        <option value="Food">Food</option>
+                                        <option value="Restaurant">Restaurant</option>
+                                        <option value="Category">Category</option>
+                                        <option value="Banner">Banner</option>
+                                        <option value="Profile">Profile</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group" id="reference-id-group">
+                                    <label for="reference-id">Reference ID</label>
+                                    <select id="reference-id" name="referenceId" required>
+                                        <option value="">Select Reference Type first</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" id="is-main" name="isMain">
+                                        <label for="is-main">Set as Main Image</label>
+                                    </div>
+                                    <p class="help-text">If checked, this will be the main image for the selected reference.</p>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" id="cancel-upload-btn">Cancel</button>
+                            <button class="btn-primary" id="submit-upload-btn">Upload Image</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Image Detail Modal -->
+                <div class="modal" id="image-detail-modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Image Details</h3>
+                            <button class="close-modal" id="close-detail-modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="image-detail-container">
+                                <div class="image-detail-preview">
+                                    <img id="detail-image" src="" alt="Image Detail">
+                                </div>
+                                <div class="image-detail-info">
+                                    <div class="info-group">
+                                        <label>File Name:</label>
+                                        <span id="detail-filename"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Original Name:</label>
+                                        <span id="detail-originalname"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Image Type:</label>
+                                        <span id="detail-mimetype"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Size:</label>
+                                        <span id="detail-size"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Upload Date:</label>
+                                        <span id="detail-date"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Reference Type:</label>
+                                        <span id="detail-reftype"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Reference ID:</label>
+                                        <span id="detail-refid"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Is Main Image:</label>
+                                        <span id="detail-ismain"></span>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Image URL:</label>
+                                        <div class="copy-url-container">
+                                            <input type="text" id="detail-url" readonly>
+                                            <button id="copy-url-btn" class="btn-small">
+                                                <i class="fas fa-copy"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" id="close-detail-btn">Close</button>
+                            <button class="btn-danger" id="delete-image-btn">Delete Image</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
