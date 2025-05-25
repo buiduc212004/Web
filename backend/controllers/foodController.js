@@ -4,13 +4,39 @@ exports.getAll = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 4;
   const offset = (page - 1) * limit;
+  const search = req.query.search || '';
+  const category = req.query.category || '';
+  const type = req.query.type || '';
+
+  let where = 'WHERE 1=1';
+  if (search) {
+    where += ` AND (f.name LIKE N'%${search}%' OR f.description LIKE N'%${search}%')`;
+  }
+  if (category && category !== 'all') {
+    where += ` AND f.category = N'${category}'`;
+  }
+  if (type && type !== 'all') {
+    where += ` AND f.type = N'${type}'`;
+  }
+
+  const sqlCount = `SELECT COUNT(*) as total FROM Food f ${where}`;
+  const sqlData = `
+    SELECT f.*, i.filename, i.path
+    FROM Food f
+    LEFT JOIN images i ON f.image_id = i.id
+    ${where}
+    ORDER BY f.id
+    OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY
+  `;
+
   try {
     const pool = await sql.connect();
+    const total = (await pool.request().query(sqlCount)).recordset[0].total;
     const result = await pool.request()
-      .input('limit', sql.Int, limit)
       .input('offset', sql.Int, offset)
-      .query('SELECT * FROM Food ORDER BY Id OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY');
-    res.json(result.recordset);
+      .input('limit', sql.Int, limit)
+      .query(sqlData);
+    res.json({ products: result.recordset, total });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

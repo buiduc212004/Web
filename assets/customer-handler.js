@@ -2,7 +2,7 @@
 console.log('Customer handler script loaded');
 
 // Global variable for customers
-let customers = JSON.parse(localStorage.getItem('allCustomers') || '[]');
+window.customers = window.customers || JSON.parse(localStorage.getItem('allCustomers') || '[]');
 
 // Function to open the customer modal
 function openCustomerModal(mode) {
@@ -90,10 +90,10 @@ function saveCustomer() {
     
     try {
         // Add to customers array
-        customers.push(newCustomer);
+        window.customers.push(newCustomer);
         
         // Save to localStorage
-        localStorage.setItem('allCustomers', JSON.stringify(customers));
+        localStorage.setItem('allCustomers', JSON.stringify(window.customers));
         
         // Show success message
         alert('Customer added successfully!');
@@ -128,34 +128,36 @@ function displayCustomers() {
     tableBody.innerHTML = '';
     
     // Display customers
-    customers.forEach(customer => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td><input type="checkbox" class="row-checkbox"></td>
-            <td>${customer.id}</td>
-            <td>${customer.name}</td>
-            <td>${customer.email}</td>
-            <td>${customer.phone}</td>
-            <td>${customer.orders}</td>
-            <td>${customer.totalSpent} đ</td>
-            <td><span class="status-badge ${customer.status}">${customer.status}</span></td>
-            <td class="actions">
-                <button class="action-btn view-btn" data-id="${customer.id}"><i class="fas fa-eye"></i></button>
-                <button class="action-btn edit-btn" data-id="${customer.id}"><i class="fas fa-edit"></i></button>
-                <button class="action-btn delete-btn" data-id="${customer.id}"><i class="fas fa-trash"></i></button>
-            </td>
-        `;
-        tableBody.appendChild(row);
-    });
+    if (Array.isArray(window.customers)) {
+        window.customers.forEach(customer => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="checkbox" class="row-checkbox"></td>
+                <td>${customer.id}</td>
+                <td>${customer.name}</td>
+                <td>${customer.email}</td>
+                <td>${customer.phone}</td>
+                <td>${customer.orders}</td>
+                <td>${customer.totalSpent} đ</td>
+                <td><span class="status-badge ${customer.status}">${customer.status}</span></td>
+                <td class="actions">
+                    <button class="action-btn view-btn" data-id="${customer.id}"><i class="fas fa-eye"></i></button>
+                    <button class="action-btn edit-btn" data-id="${customer.id}"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn" data-id="${customer.id}"><i class="fas fa-trash"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
 }
 
 // Function to delete a customer
 function deleteCustomer(customerId) {
     // Filter out the customer to delete
-    customers = customers.filter(c => c.id !== customerId);
+    window.customers = window.customers.filter(c => c.id !== customerId);
     
     // Update localStorage
-    localStorage.setItem('allCustomers', JSON.stringify(customers));
+    localStorage.setItem('allCustomers', JSON.stringify(window.customers));
     
     // Refresh the display
     displayCustomers();

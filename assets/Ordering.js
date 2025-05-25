@@ -15,7 +15,7 @@ import {
 import { getMainImage, displayImage } from './image-utils.js';
 
 // Kết nối WebSocket
-const socket = io('http://localhost:3000');
+const socket = io('http://localhost:5000');
 
 // Xác thực socket connection
 socket.on('connect', () => {
@@ -565,7 +565,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           return;
         }
 
-        const response = await fetch('http://localhost:3000/api/orders', {
+        const response = await fetch('http://localhost:5000/api/orders', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -1228,7 +1228,7 @@ function updateOrderStatus(orderId, status) {
 // Hàm gửi đơn hàng
 async function submitOrder(orderData) {
     try {
-        const response = await fetch('http://localhost:3000/api/orders', {
+        const response = await fetch('http://localhost:5000/api/orders', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`,

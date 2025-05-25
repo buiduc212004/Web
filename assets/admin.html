@@ -61,7 +61,7 @@
                             <span>Customers</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" style="display:none">
                         <a href="#images">
                             <i class="fas fa-images"></i>
                             <span>Image Manager</span>
@@ -145,10 +145,13 @@
                             <thead>
                                 <tr>
                                     <th>Order ID</th>
-                                    <th>Customer</th>
-                                    <th>Amount</th>
+                                    <th>Customer ID</th>
+                                    <th>Restaurant ID</th>
+                                    <th>Promotion ID</th>
+                                    <th>Category</th>
+                                    <th>Total Price</th>
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    <th>Date/Time</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -214,15 +217,15 @@
                     <table class="data-table" id="orders-table">
                         <thead>
                             <tr>
-                                <th>
-                                    <input type="checkbox" class="select-all-checkbox">
-                                </th>
+                                <th><input type="checkbox" class="select-all-checkbox"></th>
                                 <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Items</th>
-                                <th>Total</th>
+                                <th>Customer ID</th>
+                                <th>Restaurant ID</th>
+                                <th>Promotion ID</th>
+                                <th>Category</th>
+                                <th>Total Price</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th>Date/Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -238,14 +241,9 @@
                 
                 <div class="filter-container">
                     <div class="filter-group">
-                        <label>Filter by Category:</label>
-                        <select class="filter-select" id="product-category-filter">
-                            <option value="all">All Categories</option>
-                            <option value="pizzas">Pizzas</option>
-                            <option value="burgers">Burgers</option>
-                            <option value="salads">Salads</option>
-                            <option value="drinks">Drinks</option>
-                            <option value="desserts">Desserts</option>
+                        <label for="product-type-filter">Filter by Type:</label>
+                        <select class="filter-select" id="product-type-filter">
+                            <option value="all">All Types</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -259,6 +257,7 @@
                 <div class="products-grid" id="products-grid">
                     <!-- Products will be loaded dynamically -->
                 </div>
+                <div id="products-pagination" class="pagination"></div>
             </div>
 
             <!-- Categories Content -->
@@ -270,9 +269,17 @@
                         <i class="fas fa-plus"></i>
                         Add New Category
                     </button>
-                    <div class="search-container">
-                        <input type="text" placeholder="Search categories..." id="category-search">
-                        <i class="fas fa-search"></i>
+                    <div class="filter-group">
+                        <label for="category-status-filter">Status:</label>
+                        <select id="category-status-filter">
+                            <option value="all">All</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="category-search">Search:</label>
+                        <input type="text" id="category-search" placeholder="Search by name...">
                     </div>
                 </div>
                 
@@ -343,7 +350,7 @@
             </div>
 
             <!-- Images Content -->
-            <div class="content-section hidden" id="images">
+            <div class="content-section hidden" id="images" style="display:none">
                 <div class="image-management-header">
                     <h1>Image Manager</h1>
                 </div>
@@ -531,9 +538,9 @@
                     </button>
                     <div class="filter-group">
                         <select class="filter-select" id="customer-status-filter">
-                            <option value="all">All Status</option>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                            <option value="all">All Roles</option>
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
                         </select>
                     </div>
                     <div class="search-container">
@@ -546,16 +553,12 @@
                     <table class="data-table" id="customers-table">
                         <thead>
                             <tr>
-                                <th>
-                                    <input type="checkbox" class="select-all-checkbox">
-                                </th>
+                                <th><input type="checkbox" class="select-all-checkbox"></th>
                                 <th>Customer ID</th>
                                 <th>Name</th>
-                                <th>Email</th>
                                 <th>Phone</th>
-                                <th>Orders</th>
-                                <th>Total Spent</th>
-                                <th>Status</th>
+                                <th>Address</th>
+                                <th>Role</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -1030,6 +1033,7 @@
     </div>
 </div>
 
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="admin.js" type="module"></script>
     <script src="customer-handler.js"></script>
 </body>

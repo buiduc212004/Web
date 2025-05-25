@@ -16,6 +16,7 @@ const jwt = require('jsonwebtoken');
 const winston = require('winston');
 const helmet = require('helmet');
 const compression = require('compression');
+const categoryRoutes = require('./routes/categoryRoutes');
 // Thêm các route khác nếu có
 
 const app = express();
@@ -63,6 +64,7 @@ app.use('/api/orders', orderRoutes);
 app.use('/api/promotions', promotionRoutes);
 app.use('/api/restaurants', restaurantRoutes);
 app.use('/api/upload', uploadRoutes);
+app.use('/api/categories', categoryRoutes);
 // Thêm các route khác nếu có
 
 // WebSocket connection handling

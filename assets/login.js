@@ -50,7 +50,7 @@ async function handleLogin(username, password) {
         }
 
         // Lưu token và thông tin người dùng
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('authToken', data.token);
         localStorage.setItem('userRole', data.user.role);
         localStorage.setItem('userId', data.user.id);
         localStorage.setItem('userName', data.user.name);
@@ -86,22 +86,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Kiểm tra trạng thái đăng nhập
-    const token = localStorage.getItem('token');
-    if (token) {
-        const userRole = localStorage.getItem('userRole');
-        if (userRole === 'admin') {
-            window.location.href = 'admin.html';
-        } else {
-            window.location.href = 'Home.html';
+    // Kiểm tra trạng thái đăng nhập, chỉ redirect nếu KHÔNG ở trang signin.html hoặc signup.html
+    const path = window.location.pathname;
+    if (!path.endsWith('signin.html') && !path.endsWith('signup.html')) {
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) {
+            const userRole = localStorage.getItem('userRole');
+            if (userRole === 'admin') {
+                window.location.href = 'admin.html';
+            } else {
+                window.location.href = 'Home.html';
+            }
         }
+    } else if (path.endsWith('signin.html')) {
+        // Nếu đã đăng nhập mà truy cập signin.html thì xóa token để tránh redirect vòng lặp
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
     }
 });
 
 // Hàm đăng xuất
 async function handleLogout() {
     try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         if (token) {
             await fetch(`${API_URL}/auth/logout`, {
                 method: 'POST',
@@ -114,11 +124,11 @@ async function handleLogout() {
         console.error('Logout error:', error);
     } finally {
         // Xóa thông tin người dùng
+        localStorage.removeItem('authToken');
         localStorage.removeItem('token');
         localStorage.removeItem('userRole');
         localStorage.removeItem('userId');
         localStorage.removeItem('userName');
-        
         // Chuyển hướng về trang đăng nhập
         window.location.href = 'signin.html';
     }

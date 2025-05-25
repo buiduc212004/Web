@@ -764,29 +764,184 @@ body {
 /* Action Bar */
 .action-bar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    gap: 18px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
 }
 
-.add-new-btn {
-    padding: 10px 15px;
-    background-color: var(--primary-color);
-    color: white;
+.action-bar .add-new-btn {
+    background: #ff6b00;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 7px;
+    padding: 10px 22px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(255,107,0,0.08);
+}
+
+.action-bar .add-new-btn:hover {
+    background: #ff8c1a;
+}
+
+.filter-group {
     display: flex;
     align-items: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    gap: 6px;
+    font-size: 15px;
 }
 
-.add-new-btn i {
-    margin-right: 5px;
+#category-status-filter, #category-search {
+    padding: 6px 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    font-size: 15px;
+    min-width: 110px;
+}
+
+#category-search {
+    min-width: 180px;
+}
+
+.table-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    padding: 0 0 10px 0;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+.data-table th, .data-table td {
+    padding: 13px 10px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 15px;
+}
+
+.data-table th {
+    background: #fafafa;
+    font-weight: 700;
+    color: #222;
+}
+
+.data-table tr:last-child td {
+    border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+    background: #f8f8f8;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background: #bdbdbd;
+    min-width: 70px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+    background: #4caf50;
+    color: #fff;
+}
+
+.status-badge.inactive {
+    background: #f44336;
+    color: #fff;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.action-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 7px 10px;
+    border-radius: 6px;
+    transition: background 0.15s;
+    font-size: 17px;
+}
+
+.action-btn.edit-btn {
+    background: #fff7e6;
+    color: #ff9800;
+}
+
+.action-btn.edit-btn:hover {
+    background: #ffe0b2;
+    color: #ff6b00;
+}
+
+.action-btn.delete-btn {
+    background: #ffeaea;
+    color: #f44336;
+}
+
+.action-btn.delete-btn:hover {
+    background: #ffcdd2;
+    color: #b71c1c;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 18px;
+    gap: 4px;
+}
+
+.pagination-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    color: #222;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-btn.active {
+    background: #ff6b00;
+    color: #fff;
+    border-color: #ff6b00;
+}
+
+.pagination-btn:hover:not(.active) {
+    background: #f5f5f5;
+}
+
+@media (max-width: 900px) {
+    .action-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .table-container {
+        padding: 0 0 5px 0;
+    }
+    .data-table th, .data-table td {
+        font-size: 14px;
+        padding: 10px 6px;
+    }
 }
 
 /* Admin Product Card */
