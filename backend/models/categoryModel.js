@@ -22,7 +22,7 @@ exports.createCategory = async (name, description = '', status = 'active', produ
     .input('name', sql.NVarChar, name)
     .input('description', sql.NVarChar, description)
     .input('status', sql.NVarChar, status)
-    .input('products', sql.Int, products)
+    .input('products', sql.Int, parseInt(products) || 0)
     .query('INSERT INTO Categories (name, description, status, products) OUTPUT INSERTED.* VALUES (@name, @description, @status, @products)');
   return result.recordset[0];
 };
@@ -44,7 +44,7 @@ exports.updateCategory = async (id, name, description, status, products) => {
     .input('name', sql.NVarChar, name)
     .input('description', sql.NVarChar, description)
     .input('status', sql.NVarChar, status)
-    .input('products', sql.Int, products)
+    .input('products', sql.Int, parseInt(products) || 0)
     .query('UPDATE Categories SET name = @name, description = @description, status = @status, products = @products WHERE id = @id');
   return result.rowsAffected[0] > 0;
 }; 

@@ -21,7 +21,6 @@ exports.getAll = async (req, res) => {
   const { status, search, fromDate, toDate } = req.query;
   try {
     const pool = await sql.connect();
-    await autoUpdatePromotionStatus(pool);
     // Xây dựng query động
     let where = 'WHERE 1=1';
     if (status && status !== 'all') {
@@ -77,15 +76,15 @@ exports.getById = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const { name, discount_percentage, min_order_value, max_discount_amount, status, startDate, endDate } = req.body;
-    if (!name || !discount_percentage || !min_order_value || !max_discount_amount || !status || !startDate || !endDate) {
+    if (!name || discount_percentage == null || min_order_value == null || max_discount_amount == null || !status || !startDate || !endDate) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     const pool = await sql.connect();
     const result = await pool.request()
       .input('name', sql.NVarChar, name)
-      .input('discount_percentage', sql.Float, discount_percentage)
-      .input('min_order_value', sql.Float, min_order_value)
-      .input('max_discount_amount', sql.Float, max_discount_amount)
+      .input('discount_percentage', sql.Float, parseFloat(discount_percentage))
+      .input('min_order_value', sql.Float, parseFloat(min_order_value))
+      .input('max_discount_amount', sql.Float, parseFloat(max_discount_amount))
       .input('status', sql.NVarChar, status)
       .input('startDate', sql.Date, startDate)
       .input('endDate', sql.Date, endDate)
@@ -99,16 +98,16 @@ exports.create = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const { name, discount_percentage, min_order_value, max_discount_amount, status, startDate, endDate } = req.body;
-    if (!name || !discount_percentage || !min_order_value || !max_discount_amount || !status || !startDate || !endDate) {
+    if (!name || discount_percentage == null || min_order_value == null || max_discount_amount == null || !status || !startDate || !endDate) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     const pool = await sql.connect();
     const result = await pool.request()
       .input('id', sql.Int, req.params.id)
       .input('name', sql.NVarChar, name)
-      .input('discount_percentage', sql.Float, discount_percentage)
-      .input('min_order_value', sql.Float, min_order_value)
-      .input('max_discount_amount', sql.Float, max_discount_amount)
+      .input('discount_percentage', sql.Float, parseFloat(discount_percentage))
+      .input('min_order_value', sql.Float, parseFloat(min_order_value))
+      .input('max_discount_amount', sql.Float, parseFloat(max_discount_amount))
       .input('status', sql.NVarChar, status)
       .input('startDate', sql.Date, startDate)
       .input('endDate', sql.Date, endDate)

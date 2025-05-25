@@ -49,6 +49,9 @@ app.use(express.urlencoded({ extended: true }));
 // Cấu hình static file serving cho thư mục uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+// === Thêm cấu hình static cho ảnh ===
+app.use('/image', cors(), express.static(path.join(__dirname, 'uploads'))); // hoặc 'public/image' nếu ảnh ở đó
+
 app.use(helmet());
 app.use(compression());
 

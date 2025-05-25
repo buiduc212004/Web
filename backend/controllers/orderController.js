@@ -33,22 +33,20 @@ exports.create = async (req, res) => {
   console.log('Order create body:', req.body);
   try {
     const { id_KH, id_NH, id_PROMO, category, total_price, order_status, date, time } = req.body;
-    if (!id_KH || !id_NH || !category || !total_price || !order_status) {
+    if (!id_KH || !id_NH || !category || total_price == null || !order_status) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    
     // Tự động tạo date, time nếu không được cung cấp
     const now = new Date();
     const currentDate = date || now.toISOString().split('T')[0];
     const currentTime = time || `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-    
     const pool = await sql.connect();
     await pool.request()
-      .input('id_KH', sql.Int, id_KH)
-      .input('id_NH', sql.Int, id_NH)
-      .input('id_PROMO', sql.Int, id_PROMO)
+      .input('id_KH', sql.Int, parseInt(id_KH))
+      .input('id_NH', sql.Int, parseInt(id_NH))
+      .input('id_PROMO', sql.Int, id_PROMO ? parseInt(id_PROMO) : null)
       .input('category', sql.NVarChar, category)
-      .input('total_price', sql.Float, total_price)
+      .input('total_price', sql.Float, parseFloat(total_price))
       .input('order_status', sql.NVarChar, order_status)
       .input('date', sql.Date, currentDate)
       .input('time', sql.VarChar, currentTime)
@@ -63,23 +61,21 @@ exports.update = async (req, res) => {
   console.log('Order update body:', req.body);
   try {
     const { id_KH, id_NH, id_PROMO, category, total_price, order_status, date, time } = req.body;
-    if (!id_KH || !id_NH || !category || !total_price || !order_status) {
+    if (!id_KH || !id_NH || !category || total_price == null || !order_status) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-
     // Tự động tạo date, time nếu không được cung cấp
     const now = new Date();
     const currentDate = date || now.toISOString().split('T')[0];
     const currentTime = time || `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
-    
     const pool = await sql.connect();
     const result = await pool.request()
       .input('Id', sql.Int, req.params.id)
-      .input('id_KH', sql.Int, id_KH)
-      .input('id_NH', sql.Int, id_NH)
-      .input('id_PROMO', sql.Int, id_PROMO)
+      .input('id_KH', sql.Int, parseInt(id_KH))
+      .input('id_NH', sql.Int, parseInt(id_NH))
+      .input('id_PROMO', sql.Int, id_PROMO ? parseInt(id_PROMO) : null)
       .input('category', sql.NVarChar, category)
-      .input('total_price', sql.Float, total_price)
+      .input('total_price', sql.Float, parseFloat(total_price))
       .input('order_status', sql.NVarChar, order_status)
       .input('date', sql.Date, currentDate)
       .input('time', sql.VarChar, currentTime)

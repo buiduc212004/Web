@@ -17,7 +17,8 @@ router.get('/', async (req, res) => {
 // Thêm category mới
 router.post('/', async (req, res) => {
   try {
-    const { name, description, status, products } = req.body;
+    const { name, description, status } = req.body;
+    const products = req.body.products || [];
     const newCategory = await categoryModel.createCategory(name, description, status, products);
     res.status(201).json(newCategory);
   } catch (err) {
@@ -46,7 +47,8 @@ router.put('/:id', async (req, res) => {
   try {
     const id = parseInt(req.params.id);
     if (isNaN(id)) return res.status(400).json({ error: 'Invalid id' });
-    const { name, description, status, products } = req.body;
+    const { name, description, status } = req.body;
+    const products = req.body.products || [];
     const updated = await categoryModel.updateCategory(id, name, description, status, products);
     if (updated) {
       res.json({ message: 'Category updated' });

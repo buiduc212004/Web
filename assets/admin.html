@@ -183,11 +183,9 @@
                     <div class="filter-group">
                         <span class="filter-label">Filter by Status:</span>
                         <select class="status-filter-select" id="order-status-filter">
-                            <option value="all">All Orders</option>
-                            <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
+                            <option value="all">All</option>
                             <option value="completed">Completed</option>
-                            <option value="delivered">Delivered</option>
+                            <option value="processing">Processing</option>
                             <option value="cancelled">Cancelled</option>
                         </select>
                     </div>
@@ -195,9 +193,9 @@
                     <div class="filter-group">
                         <span class="filter-label">Date Range:</span>
                         <div class="date-range-inputs">
-                            <input type="date" id="start-date" class="date-input" placeholder="Start Date">
+                            <input type="date" id="order-date-from" class="date-input" placeholder="Start Date">
                             <span class="date-separator">to</span>
-                            <input type="date" id="end-date" class="date-input" placeholder="End Date">
+                            <input type="date" id="order-date-to" class="date-input" placeholder="End Date">
                         </div>
                     </div>
                     
@@ -318,6 +316,7 @@
                             <option value="all">All Status</option>
                             <option value="Hoat Dong">Active</option>
                             <option value="Khong Hoat Dong">Expired</option>
+                            <option value="scheduled">Scheduled</option>
                         </select>
                     </div>
                     <div class="search-container">
@@ -675,29 +674,19 @@
 
     <!-- Modal for Add/Edit Product -->
     <div class="modal" id="product-modal">
-        <div class="modal-content">
+        <div class="modal-content product-modal-content">
             <div class="modal-header">
                 <h3 id="product-modal-title">Add New Product</h3>
-                <button class="close-modal">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
-            <div class="modal-body">
-                <form id="product-form">
+            <form id="product-form">
+                <div class="modal-body">
                     <div class="form-group">
                         <label>Product Name</label>
                         <input type="text" name="name" required>
                     </div>
                     <div class="form-group">
-                        <label>Category</label>
-                        <select name="category" required>
-                            <option value="">Select Category</option>
-                            <option value="pizzas">Pizzas</option>
-                            <option value="burgers">Burgers</option>
-                            <option value="salads">Salads</option>
-                            <option value="drinks">Drinks</option>
-                            <option value="desserts">Desserts</option>
-                        </select>
+                        <label>Type</label>
+                        <input type="text" name="type" required>
                     </div>
                     <div class="form-group">
                         <label>Price (đ)</label>
@@ -705,76 +694,9 @@
                     </div>
                     <div class="form-group">
                         <label>Product Image</label>
-                        <div class="image-options">
-                            <div class="upload-option">
-                                <label>Upload New Image:</label>
-                                <input type="file" name="image" accept="image/*">
-                                <p class="help-text">Images will be uploaded via API</p>
-                            </div>
-                            <div class="or-divider">OR</div>
-                            <div class="select-option">
-                                <label>Select Existing Image:</label>
-                                <select name="existingImage">
-                                    <option value="">Select an image</option>
-                                    <optgroup label="Pizzas">
-                                        <option value="../image/pizza_1.png">Pizza 1</option>
-                                        <option value="../image/pizza_2.png">Pizza 2</option>
-                                        <option value="../image/pizza_3.png">Pizza 3</option>
-                                        <option value="../image/pizza_4.png">Pizza 4</option>
-                                        <option value="../image/pizza_5.png">Pizza 5</option>
-                                        <option value="../image/pizza_6.png">Pizza 6</option>
-                                    </optgroup>
-                                    <optgroup label="Burgers/Combos">
-                                        <option value="../image/Combo_1.png">Combo 1</option>
-                                        <option value="../image/combo_2.png">Combo 2</option>
-                                        <option value="../image/combo_3.png">Combo 3</option>
-                                        <option value="../image/combo_4.png">Combo 4</option>
-                                        <option value="../image/combo_5.png">Combo 5</option>
-                                        <option value="../image/combo_6.png">Combo 6</option>
-                                        <option value="../image/combo_7.png">Combo 7</option>
-                                        <option value="../image/combo_8.png">Combo 8</option>
-                                    </optgroup>
-                                    <optgroup label="Salads">
-                                        <option value="../image/salad_1.png">Salad 1</option>
-                                        <option value="../image/salad_2.png">Salad 2</option>
-                                        <option value="../image/salad_3.png">Salad 3</option>
-                                        <option value="../image/salad_4.png">Salad 4</option>
-                                    </optgroup>
-                                    <optgroup label="Drinks">
-                                        <option value="../image/drink_1.png">Drink 1</option>
-                                        <option value="../image/drink_2.png">Drink 2</option>
-                                        <option value="../image/drink_3.png">Drink 3</option>
-                                        <option value="../image/drink_4.png">Drink 4</option>
-                                        <option value="../image/drink_5.png">Drink 5</option>
-                                        <option value="../image/hot_drink_1.png">Hot Drink 1</option>
-                                        <option value="../image/hot_drink_2.png">Hot Drink 2</option>
-                                        <option value="../image/hot_drink_3.png">Hot Drink 3</option>
-                                        <option value="../image/cold_drink_1.png">Cold Drink 1</option>
-                                        <option value="../image/cold_drink_2.png">Cold Drink 2</option>
-                                        <option value="../image/cold_drink_3.png">Cold Drink 3</option>
-                                    </optgroup>
-                                    <optgroup label="Desserts">
-                                        <option value="../image/Desserts_1.png">Dessert 1</option>
-                                        <option value="../image/Desserts_2.png">Dessert 2</option>
-                                        <option value="../image/Desserts_3.png">Dessert 3</option>
-                                        <option value="../image/Deals_1.png">Deals 1</option>
-                                        <option value="../image/Deals_2.png">Deals 2</option>
-                                        <option value="../image/Deals_3.png">Deals 3</option>
-                                    </optgroup>
-                                    <optgroup label="Sides">
-                                        <option value="../image/garlic_bread_1.png">Garlic Bread 1</option>
-                                        <option value="../image/garlic_bread_2.png">Garlic Bread 2</option>
-                                        <option value="../image/garlic_bread_3.png">Garlic Bread 3</option>
-                                        <option value="../image/garlic_bread_4.png">Garlic Bread 4</option>
-                                        <option value="../image/garlic_bread_5.png">Garlic Bread 5</option>
-                                        <option value="../image/khoai_tay.png">Khoai Tây</option>
-                                    </optgroup>
-                                </select>
-                                <p class="help-text">These will be used if upload fails</p>
-                            </div>
-                        </div>
-                        <div class="image-preview" style="margin-top: 10px; display: none;">
-                            <img src="" alt="Preview">
+                        <input type="file" name="image" accept="image/*">
+                        <div class="image-preview" id="product-image-preview" style="margin-top: 10px; display: none;">
+                            <img src="" alt="Preview" style="max-width: 100%; max-height: 140px;">
                         </div>
                     </div>
                     <div class="form-group">
@@ -784,257 +706,291 @@
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary close-modal">Cancel</button>
-                <button class="btn-primary" id="save-product-btn">Save Product</button>
-            </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <input type="text" name="description" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <input type="text" name="category" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="cancel-product-btn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="save-product-btn">Save Product</button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <!-- Modal for Add/Edit Category -->
-    <div class="modal" id="category-modal">
+    <!-- Category Modal -->
+    <div id="category-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 id="category-modal-title">Add New Category</h3>
+                <h3>Add Category</h3>
+                <button class="close-modal" id="close-category-modal">&times;</button>
+            </div>
+            <form id="category-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="category-name">Name</label>
+                        <input type="text" id="category-name" name="name" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="category-status">Status</label>
+                        <select id="category-status" name="status">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn-secondary modal-cancel-btn" id="cancel-category-btn" type="button">Cancel</button>
+                    <button class="btn-primary" id="save-category-btn" type="submit">Save Category</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Promotion -->
+    <div class="modal" id="promotion-modal">
+        <div class="modal-content promotion-modal-content">
+            <div class="modal-header">
+                <h3 id="promotion-modal-title">Add New Promotion</h3>
+            </div>
+            <form id="promotion-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-ticket-alt"></i>
+                            Promo Code
+                        </label>
+                        <input type="text" name="code" required placeholder="Enter promotion code">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-info-circle"></i>
+                            Description
+                        </label>
+                        <input type="text" name="description" required placeholder="Enter promotion description">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-percent"></i>
+                            Discount
+                        </label>
+                        <input type="text" name="discount" required placeholder="e.g. 10%">
+                    </div>
+                    <div class="date-range-group">
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-calendar-alt"></i>
+                                Start Date
+                            </label>
+                            <input type="date" name="startDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-calendar-alt"></i>
+                                End Date
+                            </label>
+                            <input type="date" name="endDate" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-toggle-on"></i>
+                            Status
+                        </label>
+                        <select name="status" required>
+                            <option value="active">Active</option>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="expired">Expired</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary close-modal" id="cancel-promotion-btn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="save-promotion-btn">Save Promotion</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Customer -->
+    <div class="modal" id="customer-modal">
+        <div class="modal-content" onclick="event.stopPropagation();">
+            <div class="modal-header">
+                <h3 id="customer-modal-title">Add New Customer</h3>
+                <button type="button" id="modal-close-x">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="customer-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" name="name" class="form-input" placeholder="Enter customer name">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" name="email" class="form-input" placeholder="Enter customer email">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone</label>
+                        <input type="tel" name="phone" class="form-input" placeholder="Enter phone number">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-map-marker-alt"></i> Address</label>
+                        <input type="text" name="address" class="form-input" placeholder="Enter customer address">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-toggle-on"></i> Status</label>
+                        <select name="status" class="form-select">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel-customer-btn">Cancel</button>
+                    <button type="submit" id="save-customer-btn">Add Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Customer Details -->
+    <div class="modal" id="customer-details-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Customer Details: <span id="customer-name"></span></h3>
                 <button class="close-modal">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="modal-body">
-                <form id="category-form">
-                    <div class="form-group">
-                        <label>Category Name</label>
-                        <input type="text" name="name" required>
+                <div class="customer-profile">
+                    <div class="customer-avatar-large">
+                        <img src="../image/Banner.png" alt="Customer Avatar" id="modal-customer-avatar">
                     </div>
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
+                    <div class="customer-info-details">
+                        <div class="info-row">
+                            <span>Customer ID:</span>
+                            <span id="modal-customer-id"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Email:</span>
+                            <span id="modal-customer-email"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Phone:</span>
+                            <span id="modal-customer-phone"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Address:</span>
+                            <span id="modal-customer-address"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Status:</span>
+                            <span id="modal-customer-status"></span>
+                        </div>
+                        <div class="info-row">
+                            <span>Joined Date:</span>
+                            <span id="modal-customer-joined"></span>
+                        </div>
                     </div>
-                </form>
+                </div>
+                
+                <div class="customer-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Orders</h3>
+                            <p class="stat-number" id="modal-customer-orders">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Total Spent</h3>
+                            <p class="stat-number" id="modal-customer-spent">0 đ</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="stat-details">
+                            <h3>Last Order</h3>
+                            <p class="stat-number" id="modal-customer-last-order">N/A</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-activity">
+                    <h4>Recent Orders</h4>
+                    <table class="items-table" id="modal-customer-orders-table">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Items</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Customer orders will be loaded dynamically -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
-                <button class="btn-secondary close-modal">Cancel</button>
-                <button class="btn-primary" id="save-category-btn">Save Category</button>
+                <button class="btn-secondary close-modal">Close</button>
+                <button class="btn-primary" id="edit-customer-btn">Edit Customer</button>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal for Add/Edit Promotion -->
-<div class="modal" id="promotion-modal">
-    <div class="modal-content promotion-modal-content">
-        <div class="modal-header">
-            <h3 id="promotion-modal-title">Add New Promotion</h3>
-            <button class="close-modal">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form id="promotion-form">
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-ticket-alt"></i>
-                        Promo Code
-                    </label>
-                    <input type="text" name="code" required placeholder="Enter promotion code">
-                </div>
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-info-circle"></i>
-                        Description
-                    </label>
-                    <input type="text" name="description" required placeholder="Enter promotion description">
-                </div>
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-percent"></i>
-                        Discount
-                    </label>
-                    <input type="text" name="discount" required placeholder="e.g. 10%">
-                </div>
-                <div class="date-range-group">
-                    <div class="form-group">
-                        <label>
-                            <i class="fas fa-calendar-alt"></i>
-                            Start Date
-                        </label>
-                        <input type="date" name="startDate" required>
+    <!-- Modal for Edit Order -->
+    <div class="modal" id="order-modal">
+        <div class="modal-content" style="max-width: 480px; border-radius: 18px;">
+            <div class="modal-header" style="background: linear-gradient(90deg, #ff8a00 80%, #ffb347 100%); color: #fff; border-radius: 18px 18px 0 0; padding: 22px 28px 12px 28px;">
+                <h3 id="order-modal-title">Edit Order</h3>
+            </div>
+            <form id="order-form">
+                <div class="modal-body" style="padding: 28px 28px 10px 28px;">
+                    <div class="form-group"><label>Order ID</label><input type="text" name="id" readonly></div>
+                    <div class="form-group"><label>Customer ID</label><input type="text" name="customer_id" readonly></div>
+                    <div class="form-group"><label>Restaurant ID</label><input type="text" name="restaurant_id" readonly></div>
+                    <div class="form-group"><label>Promotion ID</label><input type="text" name="promotion_id" readonly></div>
+                    <div class="form-group"><label>Category</label><input type="text" name="category" readonly></div>
+                    <div class="form-group"><label>Total Price</label><input type="text" name="total_price" readonly></div>
+                    <div class="form-group"><label>Status</label>
+                        <select name="status" required>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
                     </div>
-                    <div class="form-group">
-                        <label>
-                            <i class="fas fa-calendar-alt"></i>
-                            End Date
-                        </label>
-                        <input type="date" name="endDate" required>
-                    </div>
+                    <div class="form-group"><label>Date/Time</label><input type="text" name="date" readonly></div>
                 </div>
-                <div class="form-group">
-                    <label>
-                        <i class="fas fa-toggle-on"></i>
-                        Status
-                    </label>
-                    <select name="status" required>
-                        <option value="active">Active</option>
-                        <option value="scheduled">Scheduled</option>
-                        <option value="expired">Expired</option>
-                    </select>
+                <div class="modal-footer" style="display: flex; justify-content: flex-end; gap: 14px; padding: 22px 28px 22px 28px; border-top: 1px solid #eee; background: #fafafa; border-radius: 0 0 18px 18px;">
+                    <button type="button" class="btn-secondary" id="cancel-order-btn">Cancel</button>
+                    <button type="submit" class="btn-primary" id="save-order-btn">Save</button>
                 </div>
             </form>
         </div>
-        <div class="modal-footer">
-            <button class="btn-secondary close-modal">Cancel</button>
-            <button class="btn-primary" id="save-promotion-btn">Save Promotion</button>
-        </div>
     </div>
-</div>
-
-<!-- Modal for Add/Edit Customer -->
-<div class="modal" id="customer-modal">
-    <div class="modal-content" onclick="event.stopPropagation();">
-        <div class="modal-header">
-            <h3 id="customer-modal-title">Add New Customer</h3>
-            <button type="button" id="modal-close-x">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <form id="customer-form">
-                <div class="form-group">
-                    <label><i class="fas fa-user"></i> Full Name</label>
-                    <input type="text" name="name" class="form-input" placeholder="Enter customer name">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-envelope"></i> Email</label>
-                    <input type="email" name="email" class="form-input" placeholder="Enter customer email">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-phone"></i> Phone</label>
-                    <input type="tel" name="phone" class="form-input" placeholder="Enter phone number">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-map-marker-alt"></i> Address</label>
-                    <input type="text" name="address" class="form-input" placeholder="Enter customer address">
-                </div>
-                <div class="form-group">
-                    <label><i class="fas fa-toggle-on"></i> Status</label>
-                    <select name="status" class="form-select">
-                        <option value="active">Active</option>
-                        <option value="inactive">Inactive</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" id="cancel-customer-btn">Cancel</button>
-            <button type="button" id="save-customer-btn">Add Customer</button>
-        </div>
-    </div>
-</div>
-
-<!-- Modal for Customer Details -->
-<div class="modal" id="customer-details-modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3>Customer Details: <span id="customer-name"></span></h3>
-            <button class="close-modal">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="customer-profile">
-                <div class="customer-avatar-large">
-                    <img src="../image/Banner.png" alt="Customer Avatar" id="modal-customer-avatar">
-                </div>
-                <div class="customer-info-details">
-                    <div class="info-row">
-                        <span>Customer ID:</span>
-                        <span id="modal-customer-id"></span>
-                    </div>
-                    <div class="info-row">
-                        <span>Email:</span>
-                        <span id="modal-customer-email"></span>
-                    </div>
-                    <div class="info-row">
-                        <span>Phone:</span>
-                        <span id="modal-customer-phone"></span>
-                    </div>
-                    <div class="info-row">
-                        <span>Address:</span>
-                        <span id="modal-customer-address"></span>
-                    </div>
-                    <div class="info-row">
-                        <span>Status:</span>
-                        <span id="modal-customer-status"></span>
-                    </div>
-                    <div class="info-row">
-                        <span>Joined Date:</span>
-                        <span id="modal-customer-joined"></span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="customer-stats">
-                <div class="stat-card">
-                    <div class="stat-icon orange">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Total Orders</h3>
-                        <p class="stat-number" id="modal-customer-orders">0</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Total Spent</h3>
-                        <p class="stat-number" id="modal-customer-spent">0 đ</p>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon blue">
-                        <i class="fas fa-calendar-alt"></i>
-                    </div>
-                    <div class="stat-details">
-                        <h3>Last Order</h3>
-                        <p class="stat-number" id="modal-customer-last-order">N/A</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="recent-activity">
-                <h4>Recent Orders</h4>
-                <table class="items-table" id="modal-customer-orders-table">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Items</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Customer orders will be loaded dynamically -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn-secondary close-modal">Close</button>
-            <button class="btn-primary" id="edit-customer-btn">Edit Customer</button>
-        </div>
-    </div>
-</div>
 
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     <script src="admin.js" type="module"></script>
     <script src="customer-handler.js"></script>
+    <script src="loaders.js" type="module"></script>
 </body>
 </html>

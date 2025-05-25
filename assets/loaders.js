@@ -35,7 +35,7 @@ export async function loadRecentOrders() {
                 <td>${order.category || ''}</td>
                 <td>${order.total_price ? order.total_price.toLocaleString('vi-VN') : ''}</td>
                 <td>${order.order_status || ''}</td>
-                <td>${order.date || ''} ${order.time || ''}</td>
+                <td>${order.date ? order.date.split('T')[0] : ''}</td>
             `;
             tbody.appendChild(tr);
         });
@@ -52,21 +52,18 @@ export async function loadTopProducts() {
     topProductsGrid.innerHTML = '';
     try {
         const token = getAdminToken ? getAdminToken() : localStorage.getItem('authToken');
-        // Lấy danh sách sản phẩm (Foods)
-        const resFood = await fetch('http://localhost:5000/api/foods?page=1&limit=1000', {
+        // Lấy top 4 sản phẩm bán chạy nhất từ API mới
+        const resFood = await fetch('http://localhost:5000/api/foods/top-products', {
             headers: { 'Authorization': token ? `Bearer ${token}` : '' }
         });
         let foods = [];
         if (resFood.ok) {
-            const dataFood = await resFood.json();
-            foods = Array.isArray(dataFood.products) ? dataFood.products : dataFood;
+            foods = await resFood.json();
         }
-        // Sắp xếp giảm dần theo giá tiền và lấy 4 sản phẩm đầu tiên
-        const topFoods = foods.sort((a, b) => (b.price || 0) - (a.price || 0)).slice(0, 4);
-        for (const food of topFoods) {
-            let imgHtml = `<img src="../image/Combo_1.png" alt="${food.name}" onerror="this.src='../image/Combo_1.png'">`;
-            if (food.filename && food.path) {
-                imgHtml = `<img src="http://localhost:5000/${food.path}" alt="${food.name}" onerror="this.src='../image/Combo_1.png'">`;
+        for (const food of foods) {
+            let imgHtml = `<img src="../image/Combo_7.png" alt="${food.name}" onerror="this.src='../image/Combo_7.png'">`;
+            if (food.image_id) {
+                imgHtml = `<img src="../image/${food.image_id}.png" alt="${food.name}" onerror="this.src='../image/Combo_6.png'">`;
             }
             const card = document.createElement('div');
             card.className = 'product-card';
@@ -78,16 +75,15 @@ export async function loadTopProducts() {
                     <h3>${food.name}</h3>
                     <div class="product-stats">
                         <div class="product-sales">
-                            <i class="fas fa-money-bill"></i>
-                            <span>${formatPrice(food.price)}</span>
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Đã bán: ${food.sold_quantity}</span>
                         </div>
                     </div>
                 </div>
             `;
             topProductsGrid.appendChild(card);
         }
-    } catch (error) {
-        console.error('Error loading top products:', error);
+    } catch (e) {
         topProductsGrid.innerHTML = '<div class="error-message">Failed to load top products</div>';
     }
 }
@@ -96,6 +92,27 @@ let currentOrderPage = 1;
 const ORDERS_PER_PAGE = 4;
 let totalOrders = 0;
 let allOrdersCache = [];
+
+// --- GÁN SỰ KIỆN CHO NÚT APPLY FILTERS (DATE RANGE) ---
+const applyFiltersBtn = document.getElementById('apply-order-filters');
+if (applyFiltersBtn) {
+    applyFiltersBtn.addEventListener('click', function() {
+        loadOrdersTable(1);
+    });
+}
+
+const resetFiltersBtn = document.getElementById('reset-order-filters');
+if (resetFiltersBtn) {
+    resetFiltersBtn.addEventListener('click', function() {
+        const from = document.getElementById('order-date-from');
+        const to = document.getElementById('order-date-to');
+        if (from) from.value = '';
+        if (to) to.value = '';
+        const status = document.getElementById('order-status-filter');
+        if (status) status.value = 'all';
+        loadOrdersTable(1);
+    });
+}
 
 export async function loadOrdersTable(page = 1) {
     const ordersTable = document.getElementById('orders-table');
@@ -117,12 +134,56 @@ export async function loadOrdersTable(page = 1) {
         tbody.innerHTML = `<tr><td colspan="9" class="text-center">Error loading orders</td></tr>`;
     }
     totalOrders = allOrdersCache.length;
+    // Lấy giá trị filter ngày
+    let dateFrom = document.getElementById('order-date-from')?.value;
+    let dateTo = document.getElementById('order-date-to')?.value;
+    // Chuyển đổi dd/mm/yyyy sang yyyy-mm-dd nếu có
+    function toISODate(str) {
+        if (!str) return '';
+        if (str.includes('/')) {
+            // dd/mm/yyyy
+            const parts = str.split('/');
+            if (parts.length === 3) return `${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`;
+        }
+        if (str.includes('-')) {
+            // yyyy-mm-dd
+            return str;
+        }
+        return str;
+    }
+    function getDateOnly(str) {
+        if (!str) return '';
+        if (str.includes('T')) return str.split('T')[0];
+        return str;
+    }
+    dateFrom = toISODate(dateFrom);
+    dateTo = toISODate(dateTo);
+    console.log('Filter dateFrom:', dateFrom, 'dateTo:', dateTo);
+    // --- FILTER BY STATUS ---
+    const status = document.getElementById('order-status-filter')?.value || 'all';
+    let filteredOrders = allOrdersCache;
+    if (status !== 'all') {
+        filteredOrders = filteredOrders.filter(order => (order.order_status || '').toLowerCase() === status.toLowerCase());
+    }
+    // --- FILTER BY DATE RANGE ---
+    if (dateFrom) {
+        filteredOrders = filteredOrders.filter(order => {
+            if (!order.date) return false;
+            return getDateOnly(order.date) >= dateFrom;
+        });
+    }
+    if (dateTo) {
+        filteredOrders = filteredOrders.filter(order => {
+            if (!order.date) return false;
+            return getDateOnly(order.date) <= dateTo;
+        });
+    }
     // --- PHÂN TRANG ---
     const startIdx = (page - 1) * ORDERS_PER_PAGE;
-    const paged = allOrdersCache.slice(startIdx, startIdx + ORDERS_PER_PAGE);
+    const paged = filteredOrders.slice(startIdx, startIdx + ORDERS_PER_PAGE);
     if (!paged || paged.length === 0) {
         tbody.innerHTML = `<tr><td colspan="9" class="text-center">No orders found</td></tr>`;
-        renderOrdersPagination(page, Math.ceil(totalOrders / ORDERS_PER_PAGE));
+        renderOrdersPagination(page, Math.ceil(filteredOrders.length / ORDERS_PER_PAGE));
         return;
     }
     paged.forEach(order => {
@@ -137,7 +198,7 @@ export async function loadOrdersTable(page = 1) {
             <td>${order.category || ''}</td>
             <td>${order.total_price ? order.total_price.toLocaleString('vi-VN') : ''}</td>
             <td>${order.order_status || ''}</td>
-            <td>${order.date || ''} ${order.time || ''}</td>
+            <td>${order.date ? order.date.split('T')[0] : ''}</td>
             <td>
                 <div class="action-buttons">
                     <button class="action-btn edit-btn" data-id="${order.id}" title="Edit"><i class="fas fa-edit"></i></button>
@@ -153,36 +214,18 @@ export async function loadOrdersTable(page = 1) {
     editBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             const orderId = this.getAttribute('data-id');
-            if (typeof openOrderEditModal === 'function') {
-                openOrderEditModal(orderId);
-            } else {
-                alert('Edit order modal not implemented!');
-            }
+            openOrderModal(orderId);
         });
     });
     deleteBtns.forEach(btn => {
         btn.addEventListener('click', async function() {
             const orderId = this.getAttribute('data-id');
-            if (confirm(`Are you sure you want to delete order ${orderId}?`)) {
-                try {
-                    const token = localStorage.getItem('authToken');
-                    const res = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
-                        method: 'DELETE',
-                        headers: { 'Authorization': token ? `Bearer ${token}` : '' }
-                    });
-                    if (res.ok) {
-                        showNotification('Success', 'Order deleted', 'success');
-                        loadOrdersTable(currentOrderPage);
-                    } else {
-                        showNotification('Error', 'Failed to delete order', 'error');
-                    }
-                } catch (err) {
-                    showNotification('Error', 'Failed to delete order', 'error');
-                }
+            if (confirm('Are you sure you want to delete this order?')) {
+                // Thêm logic xoá đơn hàng nếu cần
             }
         });
     });
-    renderOrdersPagination(page, Math.ceil(totalOrders / ORDERS_PER_PAGE));
+    renderOrdersPagination(page, Math.ceil(filteredOrders.length / ORDERS_PER_PAGE));
 }
 
 function renderOrdersPagination(current, totalPages) {
@@ -208,6 +251,14 @@ function renderOrdersPagination(current, totalPages) {
         };
         pagination.appendChild(btn);
     }
+}
+
+// Thêm sự kiện cho filter
+const orderStatusFilterEl = document.getElementById('order-status-filter');
+if (orderStatusFilterEl) {
+    orderStatusFilterEl.addEventListener('change', function() {
+        loadOrdersTable(1);
+    });
 }
 
 // Gọi lần đầu khi vào trang
@@ -260,6 +311,10 @@ export async function loadProductsGrid(page = 1, type = 'all', search = '') {
                     imgHtml = `<img src="http://localhost:5000/${product.path}" alt="${product.name}" onerror="this.src='../image/Combo_1.png'">`;
                 }
                 card.innerHTML = `
+                    <div class="product-actions">
+                        <button class="product-action-btn edit" data-product-id="${product.id}" title="Edit"><i class="fas fa-edit"></i></button>
+                        <button class="product-action-btn delete" data-product-id="${product.id}" title="Delete"><i class="fas fa-trash"></i></button>
+                    </div>
                     <div class="product-badge ${statusClass}">${product.status}</div>
                     <div class="product-image" id="product-img-wrap-${product.id}">
                         ${imgHtml}
@@ -281,20 +336,13 @@ export async function loadProductsGrid(page = 1, type = 'all', search = '') {
                             </div>
                         </div>
                     </div>
-                    <div class="product-actions">
-                        <button class="product-action-btn edit" data-product-id="${product.id}">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button class="product-action-btn delete" data-product-id="${product.id}">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
                 `;
                 productsGrid.appendChild(card);
             }
             // Add event listeners to buttons
             const editButtons = productsGrid.querySelectorAll('.product-action-btn.edit');
             const deleteButtons = productsGrid.querySelectorAll('.product-action-btn.delete');
+            const statusButtons = productsGrid.querySelectorAll('.product-action-btn.status');
             editButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const productId = this.getAttribute('data-product-id');
@@ -326,6 +374,38 @@ export async function loadProductsGrid(page = 1, type = 'all', search = '') {
                             button.innerHTML = '<i class="fas fa-trash"></i>';
                             button.disabled = false;
                         }
+                    }
+                });
+            });
+            statusButtons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    const productId = this.getAttribute('data-product-id');
+                    const currentStatus = this.getAttribute('data-status');
+                    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+                    try {
+                        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                        this.disabled = true;
+                        const token = localStorage.getItem('authToken');
+                        const res = await fetch(`http://localhost:5000/api/foods/${productId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': token ? `Bearer ${token}` : ''
+                            },
+                            body: JSON.stringify({ status: newStatus })
+                        });
+                        if (res.ok) {
+                            showNotification('Status Updated', 'Product status updated', 'success');
+                            loadProductsGrid(currentProductPage, currentType, productSearchTerm);
+                        } else {
+                            showNotification('Error', 'Failed to update status', 'error');
+                            this.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                            this.disabled = false;
+                        }
+                    } catch (error) {
+                        showNotification('Error', 'Failed to update status', 'error');
+                        this.innerHTML = '<i class="fas fa-sync-alt"></i>';
+                        this.disabled = false;
                     }
                 });
             });
@@ -438,6 +518,7 @@ let totalCategories = 0;
 let categoryStatusFilter = 'all';
 let categorySearchTerm = '';
 let allCategoriesCache = [];
+let currentEditCategoryId = null;
 
 export async function loadCategoriesTable(page = 1) {
     const categoriesTable = document.getElementById('categories-table');
@@ -574,10 +655,8 @@ function renderCategoriesPagination(current, totalPages) {
 
 // Gọi lần đầu khi vào trang
 if (document.getElementById('categories-table')) {
-    if (typeof currentCategoryPage === 'undefined' || currentCategoryPage !== 1) {
-        currentCategoryPage = 1;
-    }
-    setTimeout(() => loadCategoriesTable(currentCategoryPage), 0);
+    currentCategoryPage = 1;
+    loadCategoriesTable(currentCategoryPage);
 }
 
 // --- GLOBALS FOR PROMOTIONS ---
@@ -670,14 +749,17 @@ export async function loadPromotionsTable(page = 1) {
         } else if (statusText === 'expired') {
             statusClass = 'cancelled'; statusText = 'Expired';
         }
+        // Chỉ lấy phần yyyy-mm-dd của ngày
+        const startDate = promotion.startDate ? promotion.startDate.split('T')[0] : '';
+        const endDate = promotion.endDate ? promotion.endDate.split('T')[0] : '';
         const row = document.createElement('tr');
         row.innerHTML = `
             <td><input type="checkbox" class="row-checkbox"></td>
             <td><span class="promo-code">${promotion.code}</span></td>
             <td>${promotion.description}</td>
             <td><span class="discount-badge">${promotion.discount}</span></td>
-            <td class="date-column">${promotion.startDate}</td>
-            <td class="date-column">${promotion.endDate}</td>
+            <td class="date-column">${startDate}</td>
+            <td class="date-column">${endDate}</td>
             <td><span class="status-badge ${statusClass}" data-status="${promotion.status}">${statusText}</span></td>
             <td><div class="action-buttons">
                 <button class="action-btn edit-btn" data-promo-code="${promotion.code}" title="Edit promotion"><i class="fas fa-edit"></i></button>
@@ -1153,75 +1235,774 @@ if (document.getElementById('products-grid')) {
 }
 
 function openCategoryModal(mode, categoryId = null) {
-    const categoryModal = document.getElementById('category-modal');
-    if (!categoryModal) return;
-    const modalTitle = document.getElementById('category-modal-title');
-    const categoryForm = document.getElementById('category-form');
+    const modal = document.getElementById('category-modal');
+    if (!modal) return;
+
+    // Sửa tiêu đề modal
+    const title = modal.querySelector('.modal-header h3');
+    const form = document.getElementById('category-form');
     const saveBtn = document.getElementById('save-category-btn');
-    window.currentEditMode = mode;
-    window.currentCategoryId = categoryId;
-    if (mode === 'add') {
-        modalTitle.textContent = 'Add New Category';
-        categoryForm.reset();
-        saveBtn.textContent = 'Add Category';
-    } else if (mode === 'edit') {
-        modalTitle.textContent = 'Edit Category';
-        // Lấy dữ liệu từ bảng (không dùng local)
-        const row = document.querySelector(`#categories-table tr[data-id='${categoryId}']`);
-        if (!row) return;
-        categoryForm.elements['name'].value = row.children[2]?.textContent.trim() || '';
-        categoryForm.elements['status'].value = row.querySelector('.status-badge')?.textContent.trim().toLowerCase() || 'active';
-        saveBtn.textContent = 'Update Category';
+    if (title) {
+        title.textContent = (mode === 'add') ? 'Add Category' : 'Edit Category';
     }
-    categoryModal.classList.add('show');
-    // Đảm bảo không bị trùng event submit
-    categoryForm.onsubmit = async function(e) {
+
+    if (mode === 'add') {
+    if (form) form.reset();
+        if (form.elements['status']) form.elements['status'].value = 'active';
+        if (saveBtn) saveBtn.textContent = 'Add Category';
+        window.currentEditCategoryId = null;
+    } else if (mode === 'edit' && categoryId) {
+        // Không reset form khi edit, chỉ fill lại dữ liệu
+        const row = document.querySelector(`#categories-table tr[data-id='${categoryId}']`);
+        if (row) {
+            form.elements['name'].value = row.children[2]?.textContent.trim() || '';
+            // Lấy status từ badge (giống logic promotions)
+            let statusValue = row.querySelector('.status-badge')?.textContent.trim().toLowerCase() || 'active';
+            if (statusValue === 'hoat dong') statusValue = 'active';
+            if (statusValue === 'khong hoat dong') statusValue = 'inactive';
+            form.elements['status'].value = statusValue;
+            // Nếu có trường description thì lấy luôn
+            if (form.elements['description'] && row.children[3]) {
+                form.elements['description'].value = row.children[3]?.textContent.trim() || '';
+            }
+        }
+        if (saveBtn) saveBtn.textContent = 'Save Category';
+        window.currentEditCategoryId = categoryId;
+    }
+
+    // Gán lại sự kiện submit cho form mỗi lần mở modal
+    form.onsubmit = async function(e) {
         e.preventDefault();
-        const name = categoryForm.elements['name'].value.trim();
-        const status = categoryForm.elements['status'].value;
-        if (!name) {
-            showNotification('Error', 'Category name is required', 'error');
+        const name = form.elements['name'].value.trim();
+        const status = form.elements['status'].value;
+        const description = form.elements['description'] ? form.elements['description'].value.trim() : "";
+        const products = 0;
+        if (!name || !status) {
+            showNotification('Error', 'Category name and status are required', 'error');
             return;
         }
+        const body = JSON.stringify({ name, description, status, products });
         try {
             const token = localStorage.getItem('authToken');
-            if (window.currentEditMode === 'edit' && window.currentCategoryId) {
-                // Gọi API cập nhật
-                const res = await fetch(`http://localhost:5000/api/categories/${window.currentCategoryId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': token ? `Bearer ${token}` : ''
-                    },
-                    body: JSON.stringify({ name, status })
-                });
-                if (res.ok) {
-                    showNotification('Success', 'Category updated', 'success');
-                    categoryModal.classList.remove('show');
-                    loadCategoriesTable(1);
-                } else {
-                    showNotification('Error', 'Failed to update category', 'error');
-                }
+            let url = 'http://localhost:5000/api/categories';
+            let method = 'POST';
+            if (window.currentEditCategoryId) {
+                url = `${url}/${window.currentEditCategoryId}`;
+                method = 'PUT';
+            }
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
+                body
+            });
+            if (res.ok) {
+                showNotification('Success', `Category ${window.currentEditCategoryId ? 'updated' : 'added'} successfully`, 'success');
+                modal.classList.remove('show');
+                loadCategoriesTable(1);
             } else {
-                // Thêm mới
-                const res = await fetch('http://localhost:5000/api/categories', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': token ? `Bearer ${token}` : ''
-                    },
-                    body: JSON.stringify({ name, status })
-                });
-                if (res.ok) {
-                    showNotification('Success', 'Category added', 'success');
-                    categoryModal.classList.remove('show');
-                    loadCategoriesTable(1);
-                } else {
-                    showNotification('Error', 'Failed to add category', 'error');
-                }
+                showNotification('Error', 'Failed to save category', 'error');
             }
         } catch (err) {
             showNotification('Error', 'Failed to save category', 'error');
         }
     };
+
+    // Hiện modal
+    modal.classList.add('show');
 }
+window.openCategoryModal = openCategoryModal;
+
+document.addEventListener('DOMContentLoaded', function() {
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    if (addCategoryBtn) {
+        addCategoryBtn.onclick = function() {
+            openCategoryModal('add');
+        };
+    }
+});
+
+// Đảm bảo luôn gán lại sự kiện submit cho form khi trang load
+function setupPromotionFormSubmit() {
+    const promotionForm = document.getElementById('promotion-form');
+    if (promotionForm) {
+        promotionForm.onsubmit = async function(e) {
+            e.preventDefault();
+            const name = promotionForm.elements['description'].value.trim();
+            const discount_percentage = parseFloat(promotionForm.elements['discount'].value.trim());
+            const min_order_value = parseFloat(promotionForm.elements['min_order_value']?.value.trim() || '0');
+            const max_discount_amount = parseFloat(promotionForm.elements['max_discount_amount']?.value.trim() || '0');
+            const status = promotionForm.elements['status'].value;
+            const startDate = promotionForm.elements['startDate'].value;
+            const endDate = promotionForm.elements['endDate'].value;
+            if (!name || isNaN(discount_percentage) || !status || !startDate || !endDate) {
+                showNotification('Error', 'Please fill all fields', 'error');
+                return;
+            }
+            const body = JSON.stringify({
+                name,
+                discount_percentage,
+                min_order_value,
+                max_discount_amount,
+                status,
+                startDate,
+                endDate
+            });
+            const token = localStorage.getItem('authToken');
+            try {
+                let url = 'http://localhost:5000/api/promotions';
+            let method = 'POST';
+                // Lấy mode từ thuộc tính data-mode của form
+                const mode = promotionForm.getAttribute('data-mode');
+                const promoCode = promotionForm.getAttribute('data-promo-code');
+                if (mode === 'edit' && promoCode) {
+                    let promotion = (window.promotions || []).find(p => p.code === promoCode);
+                    if (!promotion && window.allPromotionsCache) promotion = window.allPromotionsCache.find(p => p.code === promoCode);
+                    if (!promotion || !promotion.id) {
+                        showNotification('Error', 'Promotion not found', 'error');
+                        return;
+                    }
+                    url = `${url}/${promotion.id}`;
+                method = 'PUT';
+            }
+                const res = await fetch(url, {
+                    method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    },
+                    body: body
+                });
+                if (res.ok) {
+                    showNotification('Success', `Promotion ${mode === 'edit' ? 'updated' : 'added'} successfully`, 'success');
+                    document.getElementById('promotion-modal').classList.remove('show');
+                    localStorage.removeItem('allPromotions');
+                    if (typeof loadPromotionsTable === 'function') loadPromotionsTable(currentPromotionPage);
+                } else {
+                    showNotification('Error', 'Failed to save promotion', 'error');
+                }
+            } catch (err) {
+                showNotification('Error', 'Failed to save promotion', 'error');
+            }
+        };
+    }
+    // Gán lại sự kiện cho nút Cancel Promotion
+    const cancelPromotionBtn = document.getElementById('cancel-promotion-btn');
+    if (cancelPromotionBtn) {
+        cancelPromotionBtn.onclick = function(e) {
+            e.preventDefault();
+            const modal = document.getElementById('promotion-modal');
+            if (modal) modal.classList.remove('show');
+        };
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    setupPromotionFormSubmit();
+    // Gán lại sự kiện cho nút Add Promotion (chỉ lấy đúng id)
+    const addPromotionBtn = document.getElementById('add-promotion-btn');
+    if (addPromotionBtn) {
+        addPromotionBtn.onclick = function() {
+            openPromotionModal('add');
+        };
+    }
+    // Event delegation cho nút Edit Promotion trong bảng
+    const promotionsTable = document.getElementById('promotions-table');
+    if (promotionsTable) {
+        promotionsTable.addEventListener('click', function(e) {
+            const editBtn = e.target.closest('.edit-btn');
+            if (editBtn) {
+                const promoCode = editBtn.getAttribute('data-promo-code');
+                openPromotionModal('edit', promoCode);
+            }
+        });
+    }
+});
+
+function openPromotionModal(mode, promoCode = null) {
+    const modal = document.getElementById('promotion-modal');
+    if (!modal) return;
+    const modalTitle = document.getElementById('promotion-modal-title');
+    const promotionForm = document.getElementById('promotion-form');
+    const saveBtn = document.getElementById('save-promotion-btn');
+
+    // Reset form
+    if (promotionForm) promotionForm.reset();
+
+    // Gán thuộc tính để biết mode khi submit
+    promotionForm.setAttribute('data-mode', mode);
+    promotionForm.setAttribute('data-promo-code', promoCode || '');
+
+    if (mode === 'add') {
+        if (promotionForm) promotionForm.reset();
+        modalTitle.textContent = 'Add New Promotion';
+        saveBtn.textContent = 'Add Promotion';
+        if (promotionForm.elements['status']) {
+            promotionForm.elements['status'].value = 'active';
+        }
+    } else if (mode === 'edit' && promoCode) {
+        modalTitle.textContent = 'Edit Promotion';
+        saveBtn.textContent = 'Save Promotion';
+        // Không reset form khi edit, chỉ fill lại dữ liệu
+        let promotion = (window.promotions || []).find(p => p.code === promoCode);
+        if (!promotion && window.allPromotionsCache) promotion = window.allPromotionsCache.find(p => p.code === promoCode);
+        if (!promotion) return;
+        promotionForm.elements['code'].value = promotion.code;
+        promotionForm.elements['description'].value = promotion.description;
+        promotionForm.elements['discount'].value = promotion.discount.replace('%','');
+        promotionForm.elements['startDate'].value = promotion.startDate ? promotion.startDate.split('T')[0] : '';
+        promotionForm.elements['endDate'].value = promotion.endDate ? promotion.endDate.split('T')[0] : '';
+        let statusValue = promotion.status.toLowerCase();
+        if (statusValue === 'hoat dong') statusValue = 'active';
+        if (statusValue === 'khong hoat dong') statusValue = 'inactive';
+        promotionForm.elements['status'].value = statusValue;
+    }
+    // Gán lại sự kiện submit và cancel mỗi lần mở modal
+    setupPromotionFormSubmit();
+    // Hiện modal
+    modal.classList.add('show');
+}
+window.openPromotionModal = openPromotionModal;
+
+// Khởi tạo tất cả chức năng admin khi trang được load
+document.addEventListener('DOMContentLoaded', async function() {
+    // Kiểm tra xác thực trước
+    await checkAuthentication();
+    
+    // Khởi tạo dashboard nếu đang ở trang dashboard
+    if (document.getElementById('dashboard')) {
+        initDashboard();
+    }
+
+    // Khởi tạo các bảng dữ liệu
+    // loadOrdersTable();
+    // // loadProductsGrid();
+    // loadCategoriesTable();
+    // loadPromotionsTable();
+    // loadCustomersTable();
+
+    // Khởi tạo các event listeners cho các nút
+    setupEventListeners();
+});
+
+// Hàm setup tất cả event listeners
+function setupEventListeners() {
+    // Add Product button
+    const addProductBtn = document.getElementById('add-product-btn');
+    if (addProductBtn) {
+        addProductBtn.onclick = () => openProductModal('add');
+    }
+
+    // Add Category button
+    const addCategoryBtn = document.getElementById('add-category-btn');
+    if (addCategoryBtn) {
+        addCategoryBtn.onclick = () => openCategoryModal('add');
+    }
+
+    // Add Promotion button
+    const addPromotionBtn = document.getElementById('add-promotion-btn');
+    if (addPromotionBtn) {
+        addPromotionBtn.onclick = () => openPromotionModal('add');
+    }
+
+    // Add Customer button
+    const addCustomerBtn = document.getElementById('add-customer-btn');
+    if (addCustomerBtn) {
+        addCustomerBtn.onclick = () => openCustomerModal('add');
+    }
+
+    // Save buttons
+    setupSaveButtons();
+}
+
+// Hàm setup các nút Save
+function setupSaveButtons() {
+    // Save Product
+    const saveProductBtn = document.getElementById('save-product-btn');
+    if (saveProductBtn) {
+        saveProductBtn.onclick = handleSaveProduct;
+    }
+
+    // Save Category
+    const saveCategoryBtn = document.getElementById('save-category-btn');
+    if (saveCategoryBtn) {
+        saveCategoryBtn.onclick = handleSaveCategory;
+    }
+
+    // Save Customer
+    const saveCustomerBtn = document.getElementById('save-customer-btn');
+    if (saveCustomerBtn) {
+        saveCustomerBtn.onclick = handleSaveCustomer;
+    }
+}
+
+// Hàm xử lý save Product
+async function handleSaveProduct(e) {
+    e.preventDefault();
+    const form = document.getElementById('product-form');
+    if (!form) return;
+    const name = form.elements['name'].value.trim();
+    const description = form.elements['description'] ? form.elements['description'].value.trim() : "";
+    const price = parseFloat(form.elements['price'].value.trim());
+    const category = form.elements['category'].value;
+    const status = form.elements['status'].value;
+    const type = form.elements['type'] ? form.elements['type'].value : "";
+    const image_id = parseInt(form.elements['image_id']?.value || '0');
+    const sold_quantity = parseInt(form.elements['sold_quantity']?.value || '0');
+    if (!name || !description || !category || isNaN(price) || !status || !type || !image_id) {
+        showNotification('Error', 'Please fill all required fields and select an image', 'error');
+        return;
+    }
+    const body = JSON.stringify({
+        name,
+        description,
+        price,
+        category,
+        status,
+        type,
+        image_id,
+        sold_quantity
+    });
+    try {
+        const token = localStorage.getItem('authToken');
+        const url = currentEditMode === 'edit' && currentProductId 
+            ? `http://localhost:5000/api/foods/${currentProductId}`
+            : 'http://localhost:5000/api/foods';
+        
+        const res = await fetch(url, {
+            method: currentEditMode === 'edit' ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
+            },
+            body: body
+        });
+
+        if (res.ok) {
+            showNotification('Success', `Product ${currentEditMode === 'edit' ? 'updated' : 'added'} successfully`, 'success');
+            document.getElementById('product-modal').classList.remove('show');
+            loadProductsGrid();
+                } else {
+                    showNotification('Error', 'Failed to save product', 'error');
+                }
+            } catch (err) {
+                showNotification('Error', 'Failed to save product', 'error');
+    }
+}
+
+// Hàm xử lý save Category
+async function handleSaveCategory(e) {
+    e.preventDefault();
+    const form = document.getElementById('category-form');
+    if (!form) return;
+    const name = form.elements['name'].value.trim();
+    const description = form.elements['description'] ? form.elements['description'].value.trim() : "";
+    const status = form.elements['status'].value;
+    const products = parseInt(form.elements['products']?.value || '0');
+    if (!name || !status) {
+        showNotification('Error', 'Category name and status are required', 'error');
+        return;
+    }
+    const body = JSON.stringify({
+        name,
+        description,
+        status,
+        products
+    });
+    try {
+        const token = localStorage.getItem('authToken');
+        const url = currentEditMode === 'edit' && currentCategoryId
+            ? `http://localhost:5000/api/categories/${currentCategoryId}`
+            : 'http://localhost:5000/api/categories';
+
+        const res = await fetch(url, {
+            method: currentEditMode === 'edit' ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
+            },
+            body: body
+        });
+
+        if (res.ok) {
+            showNotification('Success', `Category ${currentEditMode === 'edit' ? 'updated' : 'added'} successfully`, 'success');
+            document.getElementById('category-modal').classList.remove('show');
+            loadCategoriesTable();
+        } else {
+            showNotification('Error', 'Failed to save category', 'error');
+        }
+    } catch (err) {
+        showNotification('Error', 'Failed to save category', 'error');
+    }
+}
+
+// Hàm xử lý save Promotion
+async function handleSavePromotion(e) {
+    e.preventDefault();
+    const form = document.getElementById('promotion-form');
+    if (!form) return;
+    const name = form.elements['description'].value.trim();
+    const discount_percentage = parseFloat(form.elements['discount'].value.trim());
+    const status = form.elements['status'].value;
+    const startDate = form.elements['startDate'].value;
+    const endDate = form.elements['endDate'].value;
+    if (!name || isNaN(discount_percentage) || !status || !startDate || !endDate) {
+        showNotification('Error', 'Please fill all fields', 'error');
+        return;
+    }
+    const body = JSON.stringify({
+        name,
+        discount_percentage,
+        status,
+        startDate,
+        endDate
+    });
+    const token = localStorage.getItem('authToken');
+    try {
+        let url = 'http://localhost:5000/api/promotions';
+        let method = 'POST';
+
+        if (currentEditMode === 'edit') {
+            const code = form.elements['code'].value;
+            const promo = window.promotions.find(p => p.code === code);
+            if (promo && promo.id) {
+                url = `${url}/${promo.id}`;
+                method = 'PUT';
+            }
+        }
+
+        const res = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
+            },
+            body: body
+        });
+
+        if (res.ok) {
+            showNotification('Success', `Promotion ${currentEditMode === 'edit' ? 'updated' : 'added'} successfully`, 'success');
+            document.getElementById('promotion-modal').classList.remove('show');
+            loadPromotionsTable();
+        } else {
+            showNotification('Error', 'Failed to save promotion', 'error');
+        }
+    } catch (err) {
+        showNotification('Error', 'Failed to save promotion', 'error');
+    }
+}
+
+// Hàm xử lý save Customer
+async function handleSaveCustomer(e) {
+    e.preventDefault();
+    const form = document.getElementById('customer-form');
+    if (!form) return;
+
+    const formData = {
+        name: form.elements['name'].value,
+        email: form.elements['email'].value,
+        phone: form.elements['phone'].value,
+        address: form.elements['address'].value,
+        status: form.elements['status'].value
+    };
+
+    try {
+        const token = localStorage.getItem('authToken');
+        const url = currentEditMode === 'edit' && currentCustomerId
+            ? `http://localhost:5000/api/customers/${currentCustomerId}`
+            : 'http://localhost:5000/api/customers';
+
+        const res = await fetch(url, {
+            method: currentEditMode === 'edit' ? 'PUT' : 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': token ? `Bearer ${token}` : ''
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (res.ok) {
+            showNotification('Success', `Customer ${currentEditMode === 'edit' ? 'updated' : 'added'} successfully`, 'success');
+            document.getElementById('customer-modal').classList.remove('show');
+            loadCustomersTable();
+        } else {
+            showNotification('Error', 'Failed to save customer', 'error');
+        }
+    } catch (err) {
+        showNotification('Error', 'Failed to save customer', 'error');
+    }
+}
+
+// --- XỬ LÝ CHUYỂN SECTION KHI CLICK MENU ---
+document.querySelectorAll('.nav-item a').forEach(item => {
+    item.addEventListener('click', function(e) {
+        // Nếu là link ngoài thì bỏ qua
+        if (!this.getAttribute('href').startsWith('#')) return;
+        e.preventDefault();
+        // Lấy id section từ href
+        const targetId = this.getAttribute('href').substring(1);
+        // Ẩn tất cả section
+        document.querySelectorAll('.content-section').forEach(sec => sec.classList.add('hidden'));
+        // Hiện section được chọn
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) targetSection.classList.remove('hidden');
+        // Đánh dấu active cho menu
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        this.parentElement.classList.add('active');
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const cancelCategoryBtn = document.getElementById('cancel-category-btn');
+    if (cancelCategoryBtn) {
+        cancelCategoryBtn.onclick = function(e) {
+            e.preventDefault();
+            const modal = document.getElementById('category-modal');
+            if (modal) modal.classList.remove('show');
+        };
+    }
+});
+
+function deletePromotion(promoCode) {
+    // Xóa promotion khỏi mảng promotions và localStorage
+    promotions = promotions.filter(p => p.code !== promoCode);
+    window.promotions = promotions;
+    localStorage.setItem('allPromotions', JSON.stringify(promotions));
+}
+
+// --- ORDER MODAL LOGIC ---
+function openOrderModal(orderId) {
+    const modal = document.getElementById('order-modal');
+    if (!modal) return;
+    const form = document.getElementById('order-form');
+    const saveBtn = document.getElementById('save-order-btn');
+    const order = allOrdersCache.find(o => o.id == orderId);
+    if (!order) return;
+    // Fill form
+    form.elements['id'].value = order.id;
+    form.elements['customer_id'].value = order.id_KH;
+    form.elements['restaurant_id'].value = order.id_NH;
+    form.elements['promotion_id'].value = order.id_PROMO;
+    form.elements['category'].value = order.category;
+    form.elements['total_price'].value = order.total_price;
+    form.elements['status'].value = order.order_status;
+    form.elements['date'].value = order.date ? order.date.split('T')[0] : '';
+    // Gán lại submit
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        const status = form.elements['status'].value;
+        try {
+            const token = localStorage.getItem('authToken');
+            const body = JSON.stringify({ ...order, order_status: status });
+            const res = await fetch(`http://localhost:5000/api/orders/${order.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': token ? `Bearer ${token}` : '' },
+                body
+            });
+            if (res.ok) {
+                showNotification('Success', 'Order updated successfully', 'success');
+                modal.classList.remove('show');
+                loadOrdersTable(currentOrderPage);
+            } else {
+                showNotification('Error', 'Failed to update order', 'error');
+            }
+        } catch (err) {
+            showNotification('Error', 'Failed to update order', 'error');
+        }
+    };
+    // Cancel button
+    const cancelBtn = document.getElementById('cancel-order-btn');
+    if (cancelBtn) {
+        cancelBtn.onclick = function(e) {
+            e.preventDefault();
+            modal.classList.remove('show');
+        };
+    }
+    modal.classList.add('show');
+}
+window.openOrderModal = openOrderModal;
+// Gán event cho nút edit order
+if (document.getElementById('orders-table')) {
+    document.getElementById('orders-table').addEventListener('click', function(e) {
+        const editBtn = e.target.closest('.edit-btn');
+        if (editBtn) {
+            const orderId = editBtn.getAttribute('data-id');
+            openOrderModal(orderId);
+        }
+    });
+}
+
+function openProductModal(mode, productId = null) {
+    const modal = document.getElementById('product-modal');
+    if (!modal) return;
+    const form = document.getElementById('product-form');
+    const saveBtn = document.getElementById('save-product-btn');
+    const preview = document.getElementById('product-image-preview');
+    if (form) form.reset();
+    if (preview) { preview.style.display = 'none'; preview.querySelector('img').src = ''; }
+    form.setAttribute('data-mode', mode);
+    form.setAttribute('data-product-id', productId || '');
+    if (mode === 'add') {
+        const modalTitle = document.getElementById('product-modal-title');
+        if (modalTitle) modalTitle.textContent = 'Add New Product';
+        saveBtn.textContent = 'Add Product';
+    } else if (mode === 'edit' && productId) {
+        const modalTitle = document.getElementById('product-modal-title');
+        if (modalTitle) modalTitle.textContent = 'Edit Product';
+        saveBtn.textContent = 'Save Product';
+        const product = window.allProductsCache?.find(p => p.id == productId);
+        if (product) {
+            form.elements['name'].value = product.name;
+            form.elements['type'].value = product.type;
+            form.elements['price'].value = product.price;
+            form.elements['status'].value = product.status;
+            if (form.elements['description']) form.elements['description'].value = product.description || '';
+            if (form.elements['category']) form.elements['category'].value = product.category || '';
+            if (form.elements['sold_quantity']) form.elements['sold_quantity'].value = product.sold_quantity || 0;
+            if (form.elements['image_id']) form.elements['image_id'].value = product.image_id || 0;
+            if (product.image_url && preview) {
+                preview.style.display = 'block';
+                preview.querySelector('img').src = product.image_url;
+            }
+        }
+    }
+    // Preview ảnh khi chọn file
+    form.elements['image'].onchange = function(e) {
+        const file = e.target.files[0];
+        if (file && preview) {
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                preview.style.display = 'block';
+                preview.querySelector('img').src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        } else if (preview) {
+            preview.style.display = 'none';
+            preview.querySelector('img').src = '';
+        }
+    };
+    // Gán lại onsubmit
+    form.onsubmit = async function(e) {
+        e.preventDefault();
+        const name = form.elements['name'].value.trim();
+        const description = form.elements['description'] ? form.elements['description'].value.trim() : '';
+        const price = parseFloat(form.elements['price'].value.trim());
+        const category = form.elements['category'] ? form.elements['category'].value.trim() : '';
+        const status = form.elements['status'].value;
+        const type = form.elements['type'].value.trim();
+        const sold_quantity = parseInt(form.elements['sold_quantity']?.value || '0');
+        const imageFile = form.elements['image'].files[0];
+        let image_id = 0;
+        // Nếu có upload ảnh thì upload trước, lấy image_id
+        if (imageFile) {
+            const imgForm = new FormData();
+            imgForm.append('image', imageFile);
+            const token = localStorage.getItem('authToken');
+            const imgRes = await fetch('http://localhost:5000/api/images/upload', {
+                method: 'POST',
+                headers: { 'Authorization': token ? `Bearer ${token}` : '' },
+                body: imgForm
+            });
+            if (imgRes.ok) {
+                const imgData = await imgRes.json();
+                image_id = imgData.image_id || 0;
+            }
+        } else if (form.elements['image_id']) {
+            image_id = parseInt(form.elements['image_id'].value) || 0;
+        }
+        if (!name || isNaN(price) || !status || !type) {
+            showNotification('Error', 'Please fill all required fields', 'error');
+            return;
+        }
+        const body = JSON.stringify({
+            name,
+            description,
+            price,
+            category,
+            status,
+            type,
+            image_id,
+            sold_quantity
+        });
+        const token = localStorage.getItem('authToken');
+        let url = 'http://localhost:5000/api/foods';
+        let method = 'POST';
+        if (mode === 'edit' && productId) {
+            url = `${url}/${productId}`;
+            method = 'PUT';
+        }
+        try {
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token ? `Bearer ${token}` : ''
+                },
+                body
+            });
+            if (res.ok) {
+                showNotification('Success', `Product ${mode === 'edit' ? 'updated' : 'added'} successfully`, 'success');
+                modal.classList.remove('show');
+                loadProductsGrid();
+            } else {
+                showNotification('Error', 'Failed to save product', 'error');
+            }
+        } catch (err) {
+            showNotification('Error', 'Failed to save product', 'error');
+        }
+    };
+    // Cancel button
+    const cancelBtn = document.getElementById('cancel-product-btn');
+    if (cancelBtn) {
+        cancelBtn.onclick = function(e) {
+            e.preventDefault();
+            modal.classList.remove('show');
+        };
+    }
+    modal.classList.add('show');
+}
+window.openProductModal = openProductModal;
+// Gán event cho nút Add Product
+const addProductBtn = document.getElementById('add-product-btn');
+if (addProductBtn) {
+    addProductBtn.onclick = function() {
+        openProductModal('add');
+    };
+}
+// Gán event cho nút Edit/Delete trên card
+function setupProductCardEvents() {
+    const grid = document.getElementById('products-grid');
+    if (!grid) return;
+    grid.querySelectorAll('.product-card .edit').forEach(btn => {
+        btn.onclick = function() {
+            const id = this.getAttribute('data-product-id');
+            openProductModal('edit', id);
+        };
+    });
+    grid.querySelectorAll('.product-card .delete').forEach(btn => {
+        btn.onclick = async function() {
+            const id = this.getAttribute('data-product-id');
+            if (confirm('Are you sure you want to delete this product?')) {
+                const token = localStorage.getItem('authToken');
+                const res = await fetch(`http://localhost:5000/api/foods/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': token ? `Bearer ${token}` : '' }
+                });
+                if (res.ok) {
+                    showNotification('Success', 'Product deleted', 'success');
+                    loadProductsGrid();
+                } else {
+                    showNotification('Error', 'Failed to delete product', 'error');
+                }
+            }
+        };
+    });
+}
+// Gọi lại sau mỗi lần loadProductsGrid
+const origLoadProductsGrid = loadProductsGrid;
+window.loadProductsGrid = async function(...args) {
+    await origLoadProductsGrid.apply(this, args);
+    setupProductCardEvents();
+};
