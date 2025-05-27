@@ -89,8 +89,9 @@ function addItemToCart(id, name, category, size, price, quantity, image, isFree 
   }
 
   saveCart();
-  updateCartUI();
   updateCartTotals();
+  updateCartUI();
+  updateBasketUI();
 }
 
 // Remove item from cart
@@ -136,6 +137,10 @@ function updateCartUI() {
   const dropdownServiceFee = document.getElementById("dropdown-service-fee");
   const dropdownDiscount = document.getElementById("dropdown-discount");
   const dropdownTotal = document.getElementById("dropdown-total");
+  const subtotalEl = document.getElementById("subtotal");
+  const serviceFeeEl = document.getElementById("service-fee");
+  const discountEl = document.getElementById("discount");
+  const totalEl = document.getElementById("total");
 
   if (cartItems) {
     cartItems.innerHTML = "";
@@ -207,6 +212,12 @@ function updateCartUI() {
   if (dropdownServiceFee) dropdownServiceFee.textContent = formatPrice(cart.serviceFee);
   if (dropdownDiscount) dropdownDiscount.textContent = `-${formatPrice(cart.discount)}`;
   if (dropdownTotal) dropdownTotal.textContent = formatPrice(cart.total);
+
+  // Update cart totals in main basket (nếu có)
+  if (subtotalEl) subtotalEl.textContent = formatPrice(cart.subtotal);
+  if (serviceFeeEl) serviceFeeEl.textContent = formatPrice(cart.serviceFee);
+  if (discountEl) discountEl.textContent = `-${formatPrice(cart.discount)}`;
+  if (totalEl) totalEl.textContent = formatPrice(cart.total);
 }
 
 // Helper function to get category icon

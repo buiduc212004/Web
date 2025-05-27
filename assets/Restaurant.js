@@ -12,7 +12,7 @@ import {
 } from './cart.js';
 
 // Import hàm lấy ảnh từ API
-import { getMainImage, displayImage } from './image-utils.js';
+import { getMainImage, displayImage, FOOD_IMAGES } from './image-utils.js';
 
 // Load cart from localStorage and update UI immediately
 loadCart();
@@ -31,6 +31,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       { id: "combo-1", name: "Mixed Tropical Fruit Salad with Superfood Berries", price: 120000, category: "all", image: "../image/Combo_1.png", rating: 4.8, reviews: 74 },
       // ... các món mẫu khác ...
     ];
+  }
+  // Sau khi lấy được foods, gán lại image cho từng món:
+  if (Array.isArray(foods)) {
+    foods = foods.map((food, idx) => ({ ...food, image: FOOD_IMAGES[idx % FOOD_IMAGES.length] }));
   }
   // Phân trang foods trên client, render ra giao diện như cũ
   // ...
@@ -861,8 +865,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       return
     }
 
-    products.forEach((product) => {
-      const productCard = createProductCard(product)
+    products.forEach((product, idx) => {
+      const productCard = createProductCard(product, idx)
       productsGrid.appendChild(productCard)
     })
 
@@ -887,22 +891,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Create cards for each item
-    items.forEach((item) => {
-      const productCard = createProductCard(item)
+    items.forEach((item, idx) => {
+      const productCard = createProductCard(item, idx)
       productsGrid.appendChild(productCard)
     })
   }
 
   // Create product card
-  function createProductCard(item) {
+  function createProductCard(item, idx) {
     // Lấy ID số từ item.id (ví dụ "pizza-1" -> "1")
     const itemId = item.id.replace(/[^\d]/g, '');
-    
+    // Lấy ảnh từ FOOD_IMAGES theo index
+    const imageSrc = FOOD_IMAGES[idx % FOOD_IMAGES.length];
     const card = document.createElement("div")
     card.className = "product-card"
     card.innerHTML = `
         <div class="product-image">
-          <img id="product-image-${itemId}" src="../image/loading.png" alt="${item.name}">
+          <img id="product-image-${itemId}" src="${imageSrc}" alt="${item.name}">
           <button class="add-btn" data-id="${item.id}" data-name="${item.name}" data-price="${item.price}" data-category="${item.category}"><i class="fas fa-plus"></i></button>
         </div>
         <div class="product-info">
@@ -910,17 +915,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           <p class="price">${formatPrice(item.price)}</p>
         </div>
       `
-    
-    // Lấy ảnh từ API
-    getMainImage('Food', itemId, (imageUrl) => {
-      const imgElement = document.getElementById(`product-image-${itemId}`);
-      if (imgElement) {
-        imgElement.src = imageUrl;
-        // Lưu URL ảnh vào item để sử dụng khi thêm vào giỏ hàng
-        item.image = imageUrl;
-      }
-    }, item.image); // Sử dụng ảnh hiện tại làm fallback
-    
     // Thêm sự kiện click cho nút Add
     setTimeout(() => {
       const addButton = card.querySelector('.add-btn');
@@ -930,17 +924,13 @@ document.addEventListener("DOMContentLoaded", async () => {
           const name = this.getAttribute('data-name');
           const price = Number.parseInt(this.getAttribute('data-price'));
           const category = this.getAttribute('data-category');
-          
           // Lấy đường dẫn ảnh từ DOM
           const img = document.getElementById(`product-image-${itemId}`);
           const image = img ? img.getAttribute("src") : "../image/error.png";
-          
           // Thêm vào giỏ hàng
           addItemToCart(id, name, category, "Regular", price, 1, image);
-          
           // Hiển thị thông báo
           showNotification(`${name} added to cart!`);
-          
           // Animation khi thêm
           this.classList.add("added");
           setTimeout(() => {
@@ -949,8 +939,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       }
     }, 0);
-    
-    return card
+    return card;
   }
 
   // Check minimum order
@@ -992,10 +981,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       value,
       type,
     }
-
-    updateCartTotals()
-    saveCart()
-    updateBasketUI()
+    updateCartTotals();
+    saveCart();
+    updateCartUI();
+    if (typeof updateCartCount === 'function') updateCartCount();
+    if (typeof updateBasketUI === 'function') updateBasketUI();
   }
 
   // Show notification

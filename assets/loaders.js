@@ -19,11 +19,9 @@ export async function loadRecentOrders() {
         }
         const data = await response.json();
         let orders = Array.isArray(data.orders) ? data.orders : data;
-        // Lấy 4 orders mới nhất (theo date hoặc id giảm dần)
-        orders = orders.sort((a, b) => {
-            if (a.date && b.date) return new Date(b.date) - new Date(a.date);
-            return (b.id || 0) - (a.id || 0);
-        }).slice(0, 4);
+        // Luôn lấy đúng 4 đơn hàng mới nhất (id lớn nhất trước)
+        orders = orders.sort((a, b) => (b.id || 0) - (a.id || 0)).slice(0, 4);
+        console.log('Recent Orders:', orders);
         tbody.innerHTML = '';
         orders.forEach(order => {
             const tr = document.createElement('tr');
@@ -43,7 +41,11 @@ export async function loadRecentOrders() {
         console.error('Error loading recent orders:', error);
         tbody.innerHTML = '<tr><td colspan="8">Không thể tải đơn hàng gần đây</td></tr>';
     }
+
 }
+
+// Tự động cập nhật Recent Orders mỗi 3 giây
+// setInterval(loadRecentOrders, 5000);
 
 // --- TOP PRODUCTS: LẤY 4 SẢN PHẨM BÁN CHẠY NHẤT ---
 export async function loadTopProducts() {

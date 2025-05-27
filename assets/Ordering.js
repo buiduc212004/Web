@@ -12,7 +12,7 @@ import {
 } from './cart.js';
 
 // Import hàm lấy ảnh từ API
-import { getMainImage, displayImage } from './image-utils.js';
+import { getMainImage, displayImage, FOOD_IMAGES } from './image-utils.js';
 
 // Kết nối WebSocket
 const socket = io('http://localhost:5000');
@@ -28,14 +28,39 @@ socket.on('connect', () => {
 // Xử lý cập nhật trạng thái đơn hàng
 socket.on('order_status_changed', (data) => {
     updateOrderStatus(data.orderId, data.status);
-    showNotification('Cập nhật đơn hàng', `Đơn hàng của bạn đã được cập nhật: ${data.status}`);
 });
 
 // Xử lý tin nhắn từ admin
 socket.on('admin_message', (message) => {
     showChatMessage(message);
-    showNotification('Tin nhắn từ admin', message.content);
 });
+
+// Đảm bảo hai hàm này ở đầu file, phạm vi toàn cục
+function showNotification(title, message = '') {
+  const toast = document.createElement('div');
+  toast.className = 'toast-notification';
+  toast.innerHTML = `
+    <div class="toast-header">
+      <strong>${title}</strong>
+      <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+    </div>
+    <div class="toast-body">${message}</div>
+  `;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 5000);
+}
+
+function getStatusClass(status) {
+  const statusMap = {
+    'pending': 'processing',
+    'processing': 'processing',
+    'completed': 'completed',
+    'delivered': 'completed',
+    'cancelled': 'cancelled',
+    'refunded': 'cancelled'
+  };
+  return statusMap[status && status.toLowerCase ? status.toLowerCase() : ''] || 'processing';
+}
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
@@ -204,9 +229,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           this.classList.remove("added")
           this.textContent = originalText
         }, 1500)
-  
-        // Show notification
-        showNotification(`${itemName} added to basket!`)
       })
     })
   
@@ -241,7 +263,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     function checkFreeItemAvailability() {
       const freeItemBtn = document.getElementById("choose-free-item")
   
-      if (cart.subtotal >= 300000) {
+      if (cart.subtotal >= 100000) {
         freeItemBtn.classList.add("active")
         freeItemBtn.disabled = false
       } else {
@@ -299,7 +321,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const locationInput = document.getElementById("location-input")
       if (locationInput.value.trim() !== "") {
         document.querySelector(".promo-center span").textContent = locationInput.value
-        showNotification("Location updated successfully!")
       }
       locationModal.style.display = "none"
     })
@@ -309,7 +330,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         const locationDetails = this.closest(".location-item").querySelector(".location-details p").textContent
         document.querySelector(".promo-center span").textContent = locationDetails
         locationModal.style.display = "none"
-        showNotification("Location updated successfully!")
       })
     })
   
@@ -335,7 +355,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       // Simulate refreshing
       setTimeout(() => {
         this.innerHTML = '<i class="fas fa-sync-alt"></i> Refresh'
-        showNotification("Orders refreshed successfully!")
       }, 1500)
     })
   
@@ -361,7 +380,6 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
         // Cập nhật giao diện
         renderOrderHistoryFromStorage();
-        showNotification(`Order #${orderNumber} cancelled successfully!`);
       }
     });
   
@@ -396,8 +414,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           if (document.getElementById("order-details-modal").style.display === "flex") {
             document.getElementById("order-details-modal").style.display = "none"
           }
-  
-          showNotification(`Order #${orderNumber} has been reordered!`)
         }, 1500)
       }
     })
@@ -423,47 +439,48 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Checkout button with animation
     const checkoutBtn = document.getElementById("checkout-btn")
     if (checkoutBtn) {
-      checkoutBtn.addEventListener("click", function () {
+      checkoutBtn.addEventListener("click", async function () {
         try {
           if (cart.items.length === 0) {
-            showNotification("Your basket is empty")
             return
           }
   
           if (cart.subtotal < minimumOrderAmount) {
-            showNotification("Minimum order amount not reached")
             return
           }
   
           this.classList.add("processing")
           this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...'
   
-          // Simulate processing
+          // Use the real order data for submission
+          const orderData = {
+            items: cart.items,
+            subtotal: cart.subtotal,
+            serviceFee: cart.serviceFee,
+            discount: cart.discount,
+            total: cart.total,
+            freeItem: cart.freeItem,
+            appliedVoucher: cart.appliedVoucher,
+            dateTime: new Date().toISOString(),
+            status: 'pending'
+          };
+          await submitOrder(orderData);
+  
+          // Reset cart
+          cart.items = []
+          cart.freeItem = null
+          cart.appliedVoucher = null
+          updateCartUI()
+          updateCartTotals()
+          updateBasketUI()
+          checkMinimumOrder()
+  
+          // Reset after 2 seconds
           setTimeout(() => {
-            this.classList.remove("processing")
-            this.innerHTML = '<i class="fas fa-check"></i> Order Placed!'
-  
-            // Add to order history
-            addToOrderHistory()
-  
-            // Reset cart
-            cart.items = []
-            cart.freeItem = null
-            cart.appliedVoucher = null
-            updateCartUI()
-            updateCartTotals()
-            updateBasketUI()
-            checkMinimumOrder()
-  
-            // Reset after 2 seconds
-            setTimeout(() => {
-              this.innerHTML = '<i class="fas fa-arrow-right"></i> Checkout!'
-              showNotification("Thank you for your order!")
-            }, 2000)
-          }, 1500)
+            this.innerHTML = '<i class="fas fa-arrow-right"></i> Checkout!'
+          }, 2000)
         } catch (error) {
           console.error("Error during checkout:", error);
-          showNotification("Error during checkout", "Please try again later.");
         }
       })
     }
@@ -538,52 +555,36 @@ document.addEventListener("DOMContentLoaded", async () => {
         allOrders.push(order);
         localStorage.setItem('allOrders', JSON.stringify(allOrders));
 
-        // Submit order to server if available
-        try {
-          submitOrder(order);
-        } catch (err) {
-          console.error('Error submitting order to server:', err);
-        }
-
         // Render the updated order history
         renderOrderHistoryFromStorage();
 
         return order;
       } catch (error) {
         console.error('Error adding order to history:', error);
-        showNotification('Error adding order', 'An error occurred while processing your order. Please try again.');
         return null;
       }
     }
   
     // Submit order to server
     async function submitOrder(orderData) {
+      const payload = {
+        id_KH: 2,
+        id_NH: 2,
+        id_PROMO: 3,
+        category: 'pizza, burger',
+        total_price: 200000,
+        order_status: 'processing'
+      };
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.log('User not logged in, storing order locally only');
-          return;
-        }
-
         const response = await fetch('http://localhost:5000/api/orders', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify(orderData)
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
         });
-
-        if (!response.ok) {
-          throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
-        }
-
-        const result = await response.json();
-        console.log('Order submitted successfully:', result);
-        return result;
-      } catch (error) {
-        console.error('Error submitting order:', error);
-        // Proceed anyway since we've stored the order locally
+        if (!response.ok) throw new Error('Failed to save order');
+        return await response.json();
+      } catch (err) {
+        console.error('Error saving order:', err);
       }
     }
   
@@ -613,7 +614,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.getElementById("detail-order-number").textContent = orderNumber;
         document.getElementById("detail-order-date").textContent = formattedDate;
         document.getElementById("detail-order-status").textContent = status;
-        document.getElementById("detail-order-status").className = `detail-status ${getStatusClass(status)}`;
+        document.getElementById("detail-order-status").setAttribute('class', `detail-status ${getStatusClass(status)}`);
 
         // Set up reorder/cancel button
         const actionBtn = document.getElementById("secondary-action-btn");
@@ -684,26 +685,10 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Add click event to tracking button
         document.getElementById("track-order-btn").addEventListener("click", () => {
           // Replace this with actual tracking logic
-          showNotification("Tracking Order", `Tracking information for Order #${orderNumber} will be available soon!`);
         });
       } catch (error) {
         console.error('Error showing order details:', error);
-        showNotification('Error showing details', 'Could not load order details. Please try again.');
       }
-    }
-  
-    // Helper function to get status class
-    function getStatusClass(status) {
-      const statusMap = {
-        'pending': 'processing',
-        'processing': 'processing',
-        'completed': 'completed',
-        'delivered': 'completed',
-        'cancelled': 'cancelled',
-        'refunded': 'cancelled'
-      };
-      
-      return statusMap[status.toLowerCase()] || 'processing';
     }
   
     // Order history tab functionality
@@ -779,10 +764,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const cancelFreeItemBtn = document.getElementById("cancel-free-item-btn")
   
     chooseFreeItemBtn.addEventListener("click", () => {
-      if (cart.subtotal >= 300000) {
+      if (cart.subtotal >= 100000) {
         freeItemModal.style.display = "flex"
-      } else {
-        showNotification("Free items available with orders over 300.000đ")
       }
     })
   
@@ -795,6 +778,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         const freeItemId = this.getAttribute("data-id")
         const freeItemName = this.getAttribute("data-name")
         const freeItemPrice = Number.parseInt(this.getAttribute("data-price"))
+  
+        // Lấy đúng ảnh từ DOM
+        const freeItemDiv = this.closest('.free-item');
+        const imgEl = freeItemDiv.querySelector('.free-item-image img');
+        const imageSrc = imgEl ? imgEl.getAttribute('src') : '';
   
         // Remove existing free item if any
         const existingFreeItemIndex = cart.items.findIndex((item) => item.isFree)
@@ -817,13 +805,12 @@ document.addEventListener("DOMContentLoaded", async () => {
           "Regular",
           freeItemPrice,
           1,
-          "/placeholder.svg?height=80&width=80",
+          imageSrc,
           true,
         )
   
         cart.freeItem = freeItemId
         freeItemModal.style.display = "none"
-        showNotification(`${freeItemName} added as a free item!`)
       })
     })
   
@@ -853,7 +840,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       promoCodeElement.innerHTML = 'Promo: ORDERS <i class="fas fa-check-circle"></i>'
       promoCodeElement.classList.add("claimed")
       promoModal.style.display = "none"
-      showNotification("Promo code claimed successfully!")
     })
   
     copyCodeBtn.addEventListener("click", function () {
@@ -890,61 +876,85 @@ document.addEventListener("DOMContentLoaded", async () => {
             type: "percentage",
             value: 5,
           }
-          updateCartTotals()
-          checkMinimumOrder()
-          showNotification("5% discount applied successfully!")
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
         } else if (voucherCode === "WEEKEND10") {
           cart.appliedVoucher = {
             code: "WEEKEND10",
             type: "percentage",
             value: 10,
           }
-          updateCartTotals()
-          checkMinimumOrder()
-          showNotification("10% weekend discount applied successfully!")
-        } else if (voucherCode === "BIG50K" && cart.subtotal >= 500000) {
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "BIG50K" && cart.subtotal >= 200000) {
           cart.appliedVoucher = {
             code: "BIG50K",
             type: "fixed",
             value: 50000,
           }
-          updateCartTotals()
-          checkMinimumOrder()
-          showNotification("50K discount applied successfully!")
-        } else if (voucherCode === "BIG50K" && cart.subtotal < 500000) {
-          showNotification("This voucher requires a minimum order of 500.000đ")
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "FREESHIP" && cart.subtotal >= 200000) {
+          cart.appliedVoucher = {
+            code: "FREESHIP",
+            type: "fixed",
+            value: cart.serviceFee, // miễn phí ship
+          }
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "PIZZA20" && cart.subtotal >= 200000) {
+          cart.appliedVoucher = {
+            code: "PIZZA20",
+            type: "percentage",
+            value: 20,
+          }
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "SALAD15" && cart.subtotal >= 200000) {
+          cart.appliedVoucher = {
+            code: "SALAD15",
+            type: "percentage",
+            value: 15,
+          }
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "COMBO100K" && cart.subtotal >= 200000) {
+          cart.appliedVoucher = {
+            code: "COMBO100K",
+            type: "fixed",
+            value: 100000,
+          }
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "DRINK10" && cart.subtotal >= 200000) {
+          cart.appliedVoucher = {
+            code: "DRINK10",
+            type: "percentage",
+            value: 10,
+          }
+          updateCartTotals();
+          updateCartUI();
+          updateBasketUI();
+          checkMinimumOrder();
+        } else if (voucherCode === "BIG50K" && cart.subtotal < 200000) {
         } else {
-          showNotification("This voucher cannot be applied to your current order")
         }
       })
     })
-  
-    // Helper function to show notification
-    function showNotification(title, message) {
-      if ('Notification' in window) {
-        Notification.requestPermission().then(permission => {
-          if (permission === 'granted') {
-            new Notification(title, {
-              body: message,
-              icon: 'image/logo.png'
-            });
-          }
-        });
-      }
-
-      // Hiển thị toast notification
-      const toast = document.createElement('div');
-      toast.className = 'toast-notification';
-      toast.innerHTML = `
-        <div class="toast-header">
-          <strong>${title}</strong>
-          <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
-        </div>
-        <div class="toast-body">${message}</div>
-      `;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 5000);
-    }
   
     // Initialize minimum order check
     checkMinimumOrder()
@@ -1017,32 +1027,202 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     });
 
-    // Hàm để tải ảnh từ API cho tất cả các món ăn trên trang
+    // Hàm để tải ảnh local cho tất cả các món ăn trên trang
     function loadImagesFromAPI() {
       // Lấy tất cả hình ảnh món ăn trong trang
       const menuItems = document.querySelectorAll('.menu-item');
-      
-      menuItems.forEach(item => {
-        const itemId = item.getAttribute('data-item-id').replace(/[^\d]/g, '');
+      menuItems.forEach((item, idx) => {
         const imgElement = item.querySelector('.item-image img');
-        
         if (imgElement) {
-          // Lưu đường dẫn ảnh hiện tại làm fallback
-          const currentSrc = imgElement.src;
-          
-          // Thay bằng ảnh loading trước
-          imgElement.src = '../image/loading.png';
-          
-          // Lấy ảnh từ API
-          getMainImage('Food', itemId, (imageUrl) => {
-            imgElement.src = imageUrl;
-          }, currentSrc); // Sử dụng ảnh hiện tại làm fallback
+          imgElement.src = FOOD_IMAGES[idx % FOOD_IMAGES.length];
         }
       });
     }
+
+    // Phân trang lịch sử đơn hàng (frontend)
+    let currentOrderPage = 1;
+    const ORDERS_PER_PAGE = 4;
+
+    function renderOrderHistoryFromStorage(page = 1, statusFilter = 'all') {
+      try {
+        const orderList = document.getElementById("order-list");
+        if (!orderList) return;
+
+        // Get stored orders
+        let orderHistory = [];
+        try {
+          const storedHistory = localStorage.getItem('orderHistory');
+          if (storedHistory) {
+            orderHistory = JSON.parse(storedHistory);
+          }
+        } catch (err) {
+          console.error('Error parsing order history:', err);
+          orderHistory = [];
+        }
+
+        // Lọc chỉ lấy các đơn hàng hợp lệ (có orderNumber và status hoặc dateTime)
+        orderHistory = orderHistory.filter(order => {
+          if (order.orderNumber && (order.status || order.dateTime)) return true;
+          if (order.orderNumber && order.dateTimeStr && order.itemsCount) return true;
+          return false;
+        });
+
+        // Filter theo trạng thái
+        let filteredOrders = orderHistory;
+        if (statusFilter !== 'all') {
+          // Chỉ filter theo 3 trạng thái: completed, processing, cancelled
+          const validStatus = ['completed', 'processing', 'cancelled'];
+          if (validStatus.includes(statusFilter)) {
+            filteredOrders = orderHistory.filter(order => (order.status || '').toLowerCase() === statusFilter);
+          }
+        }
+
+        // Clear current list
+        orderList.innerHTML = '';
+
+        // If no orders, show empty state
+        if (filteredOrders.length === 0) {
+          orderList.innerHTML = `
+            <div class="empty-orders">
+              <i class="fas fa-receipt"></i>
+              <p>You have no orders yet</p>
+              <button class="btn-primary browse-menu">Browse Menu</button>
+            </div>
+          `;
+          const browseMenuBtn = orderList.querySelector('.browse-menu');
+          if (browseMenuBtn) {
+            browseMenuBtn.addEventListener('click', () => {
+              const menuSection = document.querySelector('.order-section');
+              if (menuSection) {
+                menuSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            });
+          }
+          renderOrdersPagination(1, 1);
+          return;
+        }
+
+        // Phân trang
+        const totalPages = Math.ceil(filteredOrders.length / ORDERS_PER_PAGE);
+        if (page > totalPages) page = totalPages;
+        if (page < 1) page = 1;
+        currentOrderPage = page;
+        const startIdx = (page - 1) * ORDERS_PER_PAGE;
+        const endIdx = startIdx + ORDERS_PER_PAGE;
+        const pagedOrders = filteredOrders.slice(startIdx, endIdx);
+
+        pagedOrders.forEach(order => {
+          if (order.status && order.dateTime) {
+            const orderNumber = order.orderNumber;
+            let dateTimeStr = order.dateTime;
+            try {
+              const date = new Date(order.dateTime);
+              const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+              const timeOptions = { hour: "2-digit", minute: "2-digit" };
+              const dateStr = date.toLocaleDateString("en-US", dateOptions);
+              const timeStr = date.toLocaleTimeString("en-US", timeOptions);
+              dateTimeStr = `${dateStr} - ${timeStr}`;
+            } catch (err) {}
+            let itemNames = '';
+            if (order.items && Array.isArray(order.items)) {
+              itemNames = order.items.map(item => item.name).join(', ');
+            } else if (order.itemNames) {
+              itemNames = order.itemNames;
+            }
+            const status = order.status || 'pending';
+            const statusClass = getStatusClass(status);
+            const orderItem = document.createElement("div");
+            orderItem.className = "order-item";
+            orderItem.innerHTML = `
+              <div class="order-item-header">
+                  <span class="order-number">Order #${orderNumber}</span>
+                  <span class="order-date">${dateTimeStr}</span>
+              </div>
+              <div class="order-summary-row">
+                  <span>${order.items ? order.items.length : 0} items</span>
+                  <span class="order-status ${statusClass}">${status}</span>
+              </div>
+              <div class="order-summary-row">
+                  <span>${itemNames}</span>
+                  <span class="order-total">${formatPrice(order.total)}</span>
+              </div>
+              <div class="order-actions">
+                  ${status === 'pending' || status === 'processing' ? 
+                    `<button class="order-action-btn secondary" data-order="${orderNumber}">Cancel Order</button>` :
+                    `<button class="order-action-btn secondary" data-order="${orderNumber}">Reorder</button>`
+                  }
+                  <button class="order-action-btn primary view-details-btn" data-order="${orderNumber}">View Details</button>
+              </div>
+            `;
+            orderList.appendChild(orderItem);
+          } else if (order.dateTimeStr && order.itemsCount) {
+            const orderItem = document.createElement("div");
+            orderItem.className = "order-item";
+            orderItem.innerHTML = `
+              <div class="order-item-header">
+                  <span class="order-number">Order #${order.orderNumber}</span>
+                  <span class="order-date">${order.dateTimeStr}</span>
+              </div>
+              <div class="order-summary-row">
+                  <span>${order.itemsCount} items</span>
+                  <span class="order-status completed">completed</span>
+              </div>
+              <div class="order-summary-row">
+                  <span>Legacy order</span>
+                  <span class="order-total">-</span>
+              </div>
+              <div class="order-actions">
+                  <button class="order-action-btn secondary" data-order="${order.orderNumber}">Reorder</button>
+              </div>
+            `;
+            orderList.appendChild(orderItem);
+          }
+        });
+
+        // Add event listeners to view details buttons
+        const viewDetailsBtns = orderList.querySelectorAll('.view-details-btn');
+        viewDetailsBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            const orderNumber = this.getAttribute('data-order');
+            const order = orderHistory.find(o => o.orderNumber == orderNumber);
+            if (order) {
+              showOrderDetails(
+                orderNumber,
+                order.dateTime, 
+                order.status,
+                order.items,
+                order.subtotal,
+                order.serviceFee,
+                order.discount,
+                order.total
+              );
+            }
+          });
+        });
+
+        // Render phân trang
+        renderOrdersPagination(page, totalPages);
+      } catch (error) {
+        console.error('Error rendering order history:', error);
+      }
+    }
+
+    function renderOrdersPagination(page, totalPages) {
+      let html = '';
+      if (totalPages > 1) {
+        html += `<button ${page === 1 ? 'disabled' : ''} onclick="changeOrderPage(${page - 1})">Prev</button>`;
+        html += `<span style="margin:0 8px;">Page ${page} / ${totalPages}</span>`;
+        html += `<button ${page === totalPages ? 'disabled' : ''} onclick="changeOrderPage(${page + 1})">Next</button>`;
+      }
+      const pagDiv = document.getElementById('order-pagination');
+      if (pagDiv) pagDiv.innerHTML = html;
+    }
+
+    window.changeOrderPage = function(page) {
+      renderOrderHistoryFromStorage(page);
+    }
   } catch (error) {
     console.error("Error initializing Ordering page:", error);
-    showNotification("Error loading page", "Please refresh the page and try again.");
   }
 })
   
@@ -1089,139 +1269,13 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
   
-// Render order history from localStorage
-function renderOrderHistoryFromStorage() {
-  try {
-    const orderList = document.getElementById("order-list");
-    if (!orderList) return;
-
-    // Get stored orders
-    let orderHistory = [];
-    try {
-      const storedHistory = localStorage.getItem('orderHistory');
-      if (storedHistory) {
-        orderHistory = JSON.parse(storedHistory);
-      }
-    } catch (err) {
-      console.error('Error parsing order history:', err);
-      orderHistory = [];
-    }
-
-    // Clear current list
-    orderList.innerHTML = '';
-
-    // If no orders, show empty state
-    if (orderHistory.length === 0) {
-      orderList.innerHTML = `
-        <div class="empty-orders">
-          <i class="fas fa-receipt"></i>
-          <p>You have no orders yet</p>
-          <button class="btn-primary browse-menu">Browse Menu</button>
-        </div>
-      `;
-      const browseMenuBtn = orderList.querySelector('.browse-menu');
-      if (browseMenuBtn) {
-        browseMenuBtn.addEventListener('click', () => {
-          const menuSection = document.querySelector('.order-section');
-          if (menuSection) {
-            menuSection.scrollIntoView({ behavior: 'smooth' });
-          }
-        });
-      }
-      return;
-    }
-
-    // Add each order to the list
-    orderHistory.forEach(order => {
-      const orderNumber = order.orderNumber;
-      
-      // Format date
-      let dateTimeStr = order.dateTime;
-      try {
-        const date = new Date(order.dateTime);
-        const dateOptions = { year: "numeric", month: "long", day: "numeric" };
-        const timeOptions = { hour: "2-digit", minute: "2-digit" };
-        const dateStr = date.toLocaleDateString("en-US", dateOptions);
-        const timeStr = date.toLocaleTimeString("en-US", timeOptions);
-        dateTimeStr = `${dateStr} - ${timeStr}`;
-      } catch (err) {
-        console.error('Error formatting date:', err);
-      }
-
-      // Get item names
-      let itemNames = '';
-      if (order.items && Array.isArray(order.items)) {
-        itemNames = order.items.map(item => item.name).join(', ');
-      } else if (order.itemNames) {
-        itemNames = order.itemNames;
-      }
-
-      // Get status
-      const status = order.status || 'pending';
-      const statusClass = getStatusClass(status);
-
-      // Create order item element
-      const orderItem = document.createElement("div");
-      orderItem.className = "order-item";
-      orderItem.innerHTML = `
-        <div class="order-item-header">
-            <span class="order-number">Order #${orderNumber}</span>
-            <span class="order-date">${dateTimeStr}</span>
-        </div>
-        <div class="order-summary-row">
-            <span>${order.items ? order.items.length : 0} items</span>
-            <span class="order-status ${statusClass}">${status}</span>
-        </div>
-        <div class="order-summary-row">
-            <span>${itemNames}</span>
-            <span class="order-total">${formatPrice(order.total)}</span>
-        </div>
-        <div class="order-actions">
-            ${status === 'pending' || status === 'processing' ? 
-              `<button class="order-action-btn secondary" data-order="${orderNumber}">Cancel Order</button>` :
-              `<button class="order-action-btn secondary" data-order="${orderNumber}">Reorder</button>`
-            }
-            <button class="order-action-btn primary view-details-btn" data-order="${orderNumber}">View Details</button>
-        </div>
-      `;
-
-      // Add to order list
-      orderList.appendChild(orderItem);
-    });
-
-    // Add event listeners to view details buttons
-    const viewDetailsBtns = orderList.querySelectorAll('.view-details-btn');
-    viewDetailsBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        const orderNumber = this.getAttribute('data-order');
-        const order = orderHistory.find(o => o.orderNumber == orderNumber);
-        if (order) {
-          showOrderDetails(
-            orderNumber,
-            order.dateTime, 
-            order.status,
-            order.items,
-            order.subtotal,
-            order.serviceFee,
-            order.discount,
-            order.total
-          );
-        }
-      });
-    });
-  } catch (error) {
-    console.error('Error rendering order history:', error);
-    showNotification('Error loading orders', 'Could not load your order history. Please refresh the page.');
-  }
-}
-  
 // Hàm cập nhật trạng thái đơn hàng
 function updateOrderStatus(orderId, status) {
     const orderElement = document.querySelector(`[data-order-id="${orderId}"]`);
     if (orderElement) {
         const statusBadge = orderElement.querySelector('.order-status');
         statusBadge.textContent = status;
-        statusBadge.className = `order-status badge ${getStatusClass(status)}`;
+        statusBadge.setAttribute('class', `order-status badge ${getStatusClass(status)}`);
     }
 }
 
@@ -1242,15 +1296,12 @@ async function submitOrder(orderData) {
         if (response.ok) {
             // Gửi thông báo qua WebSocket
             socket.emit('new_order', data);
-            showNotification('Thành công', 'Đơn hàng của bạn đã được đặt thành công');
             return data;
         } else {
             throw new Error(data.message || 'Failed to place order');
         }
     } catch (error) {
         console.error('Error placing order:', error);
-        showNotification('Lỗi', 'Không thể đặt đơn hàng');
-        throw error;
     }
 }
 

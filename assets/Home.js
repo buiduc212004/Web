@@ -11,7 +11,7 @@ import {
 } from './cart.js';
 
 // Import hàm lấy ảnh từ API
-import { getMainImage, displayImage } from './image-utils.js';
+import { getMainImage, displayImage, FOOD_IMAGES } from './image-utils.js';
 
 document.addEventListener("DOMContentLoaded", async () => {
   let foods = [];
@@ -25,6 +25,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       // ... các món mẫu khác ...
     ];
   }
+  // Đảm bảo foods luôn là array
+  if (!Array.isArray(foods)) {
+    if (foods && Array.isArray(foods.foods)) {
+      foods = foods.foods;
+    } else {
+      foods = [];
+    }
+  }
+  foods = foods.map((food, idx) => ({ ...food, image: FOOD_IMAGES[idx % FOOD_IMAGES.length] }));
   // Phân trang foods trên client, render ra giao diện như cũ
   // ...
 
@@ -541,14 +550,15 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Create cards for each item
-    items.forEach((item) => {
+    items.forEach((item, idx) => {
       // Lấy ID số từ item.id (ví dụ "combo-1" -> "1")
       const itemId = item.id.replace(/[^\d]/g, '');
-      
+      // Dùng ảnh local đã gán ở item.image
+      const imageSrc = item.image;
       const card = document.createElement("div")
       card.className = "combo-card"
       card.innerHTML = `
-                  <img id="combo-image-${itemId}" src="../image/loading.png" alt="${item.name}">
+                  <img id="combo-image-${itemId}" src="${imageSrc}" alt="${item.name}">
                   <div class="combo-card-content">
                       <h3 class="combo-card-title">${item.name}</h3>
                       <div class="combo-card-footer">
@@ -564,17 +574,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                   </div>
               `
       comboCards.appendChild(card)
-      
-      // Lấy ảnh từ API dựa trên ID
-      getMainImage('Food', itemId, (imageUrl) => {
-        const imgElement = document.getElementById(`combo-image-${itemId}`);
-        if (imgElement) {
-          imgElement.src = imageUrl;
-          // Lưu URL ảnh vào item để sử dụng khi thêm vào giỏ hàng
-          item.image = imageUrl;
-        }
-      }, item.image); // Sử dụng ảnh hiện tại làm fallback
     })
+    // Sau khi render xong, gán lại event cho các nút động
+    setupEventListeners();
   }
 
   // Add to cart from combo section
@@ -660,9 +662,11 @@ document.addEventListener("DOMContentLoaded", async () => {
       value,
       type,
     }
-
-    updateCartTotals()
-    saveCart()
+    updateCartTotals();
+    saveCart();
+    updateCartUI();
+    updateCartCount();
+    if (typeof updateBasketUI === 'function') updateBasketUI();
   }
 
   // Show notification
