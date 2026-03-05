@@ -1,16 +1,12 @@
-const sql = require('mssql');
+const customerModel = require('../models/customerModel');
 
 exports.getAll = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 4;
   const offset = (page - 1) * limit;
   try {
-    const pool = await sql.connect();
-    const result = await pool.request()
-      .input('limit', sql.Int, limit)
-      .input('offset', sql.Int, offset)
-      .query('SELECT id, name, phone_number, address, role FROM Customer ORDER BY id OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY');
-    res.json(result.recordset);
+    const customers = await customerModel.getAll(limit, offset);
+    res.json(customers);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -18,32 +14,22 @@ exports.getAll = async (req, res) => {
 
 exports.getById = async (req, res) => {
   try {
-    const pool = await sql.connect();
-    const result = await pool.request()
-      .input('Id', sql.Int, req.params.id)
-      .query('SELECT id, name, phone_number, address, role FROM Customer WHERE id = @Id');
-    if (result.recordset.length === 0) return res.status(404).json({ error: 'Not found' });
-    res.json(result.recordset[0]);
+    const customer = await customerModel.getById(req.params.id);
+    if (!customer) return res.status(404).json({ error: 'Not found' });
+    res.json(customer);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
 exports.update = async (req, res) => {
-  console.log('Customer update body:', req.body);
   try {
     const { name, phone_number, address } = req.body;
     if (!name || !phone_number || !address) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
-    const pool = await sql.connect();
-    const result = await pool.request()
-      .input('Id', sql.Int, req.params.id)
-      .input('name', sql.NVarChar, name)
-      .input('phone_number', sql.NVarChar, phone_number)
-      .input('address', sql.NVarChar, address)
-      .query('UPDATE Customer SET name=@name, phone_number=@phone_number, address=@address WHERE id=@Id');
-    if (result.rowsAffected[0] === 0) return res.status(404).json({ error: 'Not found' });
+    const affected = await customerModel.update(req.params.id, { name, phone_number, address });
+    if (affected === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Customer updated' });
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -52,13 +38,10 @@ exports.update = async (req, res) => {
 
 exports.delete = async (req, res) => {
   try {
-    const pool = await sql.connect();
-    const result = await pool.request()
-      .input('Id', sql.Int, req.params.id)
-      .query('DELETE FROM Customer WHERE Id=@Id');
-    if (result.rowsAffected[0] === 0) return res.status(404).json({ error: 'Not found' });
+    const affected = await customerModel.delete(req.params.id);
+    if (affected === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Customer deleted' });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
-}; 
+};

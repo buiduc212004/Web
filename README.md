@@ -4,7 +4,7 @@
 
 ---
 
-## 🧠 MÔ TẢ HỆ THỐNG
+## MÔ TẢ HỆ THỐNG
 
 **Foodieland** là một nền tảng đặt đồ ăn trực tuyến hiện đại giúp:
 - **Khách hàng**: Duyệt menu, đặt món, theo dõi đơn hàng, áp dụng mã giảm giá
@@ -145,8 +145,8 @@ Client (Browser) <--> Express.js Server <--> MSSQL Database
 | **Real-time Communication** | Socket.IO |
 | **File Upload** | Multer (multipart/form-data) |
 | **Security** | Helmet.js, CORS |
+| **Performance** | compression |
 | **Logging** | Winston |
-| **Validation** | express-validator |
 | **API Architecture** | RESTful API |
 | **Database Driver** | mssql (node-mssql) |
 
@@ -185,6 +185,7 @@ npm install
   "multer": "^1.4.5-lts.1",
   "winston": "^3.8.2",
   "helmet": "^6.0.1",
+  "compression": "^1.7.4",
   "cors": "^2.8.5",
   "dotenv": "^16.0.3"
 }
@@ -205,7 +206,7 @@ sqlcmd -S localhost -d FoodielandDB -i database/seed.sql
 
 ### 5. Cấu hình môi trường
 
-Tạo file `.env` trong thư mục `backend/`:
+Tạo file `.env` trong thư mục `backend/` (tham khảo `.env.example`):
 ```env
 # Database Configuration
 DB_USER=your_db_username
@@ -220,9 +221,6 @@ JWT_EXPIRE=7d
 # Server Configuration
 PORT=3000
 NODE_ENV=development
-
-# Socket.IO
-SOCKET_PORT=3000
 ```
 
 ### 6. Chạy ứng dụng
@@ -273,7 +271,7 @@ Có 2 cách:
 
 **3. Duyệt menu**
 - Xem danh sách món ăn theo category (Pizza, Burger, Salad, Drinks...)
-- Lọc theo giá, rating, popularity
+- Lọc theo category và type
 
 **4. Đặt món**
 - Click "Add to cart" để thêm món vào giỏ
@@ -282,7 +280,7 @@ Có 2 cách:
 
 **5. Áp dụng voucher**
 - Click "Apply Coupon Code"
-- Chọn voucher hoặc nhập mã giảm giá (ví dụ: `BURGER30`, `WEEKEND10`)
+- Chọn voucher hoặc nhập mã giảm giá
 - Hệ thống tự động tính toán giảm giá
 
 **6. Đặt hàng**
@@ -309,40 +307,44 @@ Có 2 cách:
 - Xem biểu đồ xu hướng theo tháng
 
 **3. Quản lý Đơn hàng (Orders Management)**
-- Xem danh sách đơn hàng
+- Xem danh sách đơn hàng (phân trang)
 - Lọc theo trạng thái: All, Processing, Completed, Cancelled
 - Lọc theo khoảng thời gian
 - Cập nhật trạng thái đơn hàng
-- Xóa đơn hàng đã hủy
+- Xóa đơn hàng
 
 **4. Quản lý Sản phẩm (Products Management)**
-- Thêm sản phẩm mới (tên, giá, category, hình ảnh)
+- Thêm sản phẩm mới (tên, giá, category, type, hình ảnh)
 - Sửa thông tin sản phẩm
 - Xóa sản phẩm
 - Thay đổi trạng thái (Active/Inactive)
+- Upload ảnh sản phẩm (tích hợp với Images table)
 
 **5. Quản lý Danh mục (Categories Management)**
 - Tạo danh mục mới (Pizza, Burger, Salad, Drinks, Desserts...)
-- Sửa tên danh mục
-- Xóa danh mục (nếu không có sản phẩm)
+- Sửa tên và mô tả danh mục
+- Xóa danh mục
 - Kích hoạt/Vô hiệu hóa danh mục
 
 **6. Quản lý Khuyến mãi (Promotions Management)**
 - Tạo mã giảm giá mới:
-  - Promo Code (ví dụ: BURGER30)
-  - Mô tả
-  - Loại giảm giá (% hoặc số tiền cố định)
-  - Giá trị giảm
-  - Thời gian bắt đầu/kết thúc
+  - Tên promotion
+  - Phần trăm giảm giá (`discount_percentage`)
+  - Giá trị đơn hàng tối thiểu (`min_order_value`)
+  - Giảm tối đa (`max_discount_amount`)
+  - Thời gian bắt đầu/kết thúc (`startDate` / `endDate`)
 - Sửa promotion
-- Xóa promotion hết hạn
-- Xem trạng thái: Active, Scheduled, Expired
+- Xóa promotion (tự động xóa các đơn hàng liên quan)
+- Trạng thái tự động: `active`, `scheduled`, `expired`
 
-**7. Quản lý Khách hàng (Customers Management)**
-- Xem danh sách khách hàng
+**7. Quản lý Nhà hàng (Restaurants Management)**
+- Thêm/sửa/xóa nhà hàng
+- Thông tin: tên, mô tả, số điện thoại, giờ mở cửa, trạng thái
+
+**8. Quản lý Khách hàng (Customers Management)**
+- Xem danh sách khách hàng (phân trang)
 - Tìm kiếm theo tên, số điện thoại
-- Lọc theo vai trò (User/Admin)
-- Xem lịch sử đơn hàng của khách hàng
+- Xem/cập nhật thông tin cá nhân
 - Xóa tài khoản khách hàng
 
 ---
@@ -353,80 +355,90 @@ Có 2 cách:
 ```
 POST   /api/auth/register          # Đăng ký tài khoản mới
 POST   /api/auth/login             # Đăng nhập
-GET    /api/auth/me                # Lấy thông tin user hiện tại
 ```
 
 ### Foods (Products)
 ```
-GET    /api/foods                  # Lấy danh sách món ăn
+GET    /api/foods                  # Lấy danh sách món ăn (có filter: search, category, type; phân trang)
+GET    /api/foods/top-products     # Lấy top 4 sản phẩm bán chạy nhất
 GET    /api/foods/:id              # Lấy chi tiết món ăn
 POST   /api/foods                  # Thêm món ăn mới (Admin)
 PUT    /api/foods/:id              # Cập nhật món ăn (Admin)
 DELETE /api/foods/:id              # Xóa món ăn (Admin)
-GET    /api/foods/category/:id    # Lấy món ăn theo category
 ```
 
 ### Orders
 ```
-GET    /api/orders                 # Lấy danh sách đơn hàng
-GET    /api/orders/:id             # Lấy chi tiết đơn hàng
-POST   /api/orders                 # Tạo đơn hàng mới
-PUT    /api/orders/:id             # Cập nhật trạng thái (Admin)
+GET    /api/orders                 # Lấy danh sách đơn hàng (Admin, phân trang)
+GET    /api/orders/:id             # Lấy chi tiết đơn hàng (Auth)
+POST   /api/orders                 # Tạo đơn hàng mới (Admin)
+PUT    /api/orders/:id             # Cập nhật đơn hàng (Admin)
 DELETE /api/orders/:id             # Xóa đơn hàng (Admin)
-GET    /api/orders/user/:userId    # Lấy đơn hàng của user
 ```
 
 ### Categories
 ```
-GET    /api/categories             # Lấy danh sách categories
-GET    /api/categories/:id         # Lấy chi tiết category
-POST   /api/categories             # Thêm category (Admin)
-PUT    /api/categories/:id         # Cập nhật category (Admin)
-DELETE /api/categories/:id         # Xóa category (Admin)
+GET    /api/categories             # Lấy danh sách categories (phân trang)
+POST   /api/categories             # Thêm category mới
+PUT    /api/categories/:id         # Cập nhật category
+DELETE /api/categories/:id         # Xóa category
 ```
 
 ### Promotions
 ```
-GET    /api/promotions             # Lấy danh sách promotions
+GET    /api/promotions             # Lấy danh sách promotions (có filter: status, search, fromDate, toDate)
 GET    /api/promotions/:id         # Lấy chi tiết promotion
 POST   /api/promotions             # Thêm promotion (Admin)
 PUT    /api/promotions/:id         # Cập nhật promotion (Admin)
 DELETE /api/promotions/:id         # Xóa promotion (Admin)
-POST   /api/promotions/validate    # Validate mã giảm giá
+```
+
+### Restaurants
+```
+GET    /api/restaurants            # Lấy danh sách nhà hàng (phân trang)
+GET    /api/restaurants/:id        # Lấy chi tiết nhà hàng
+POST   /api/restaurants            # Thêm nhà hàng (Admin)
+PUT    /api/restaurants/:id        # Cập nhật nhà hàng (Admin)
+DELETE /api/restaurants/:id        # Xóa nhà hàng (Admin, tự động xóa đơn hàng liên quan)
 ```
 
 ### Customers
 ```
-GET    /api/customers              # Lấy danh sách khách hàng (Admin)
-GET    /api/customers/:id          # Lấy chi tiết khách hàng (Admin)
-PUT    /api/customers/:id          # Cập nhật thông tin khách hàng
+GET    /api/customers              # Lấy danh sách khách hàng (Admin, phân trang)
+GET    /api/customers/:id          # Lấy chi tiết khách hàng (Auth)
+PUT    /api/customers/:id          # Cập nhật thông tin khách hàng (Auth)
 DELETE /api/customers/:id          # Xóa khách hàng (Admin)
 ```
 
-### Upload
+### Upload / Images
 ```
-POST   /api/upload/image           # Upload hình ảnh sản phẩm
+POST   /api/upload                                      # Upload ảnh (multipart/form-data, key: image)
+GET    /api/upload/reference/:referenceType/:referenceId  # Lấy tất cả ảnh theo đối tượng
+GET    /api/upload/main/:referenceType/:referenceId       # Lấy ảnh chính của đối tượng
+DELETE /api/upload/:id                                  # Xóa ảnh theo id
 ```
+
+> **Upload body params**: `referenceType` (ví dụ: `food`, `restaurant`), `referenceId` (id đối tượng), `isMain` (`true`/`false`)
 
 ### WebSocket Events
 ```
 # Client → Server
-authenticate              # Xác thực socket connection
-new_order                # Thông báo đơn hàng mới
-order_status_update      # Cập nhật trạng thái đơn hàng
-chat_message             # Gửi tin nhắn chat
+authenticate              # Xác thực socket connection (gửi JWT token)
+new_order                 # Thông báo đơn hàng mới
+order_status_update       # Cập nhật trạng thái đơn hàng
+chat_message              # Gửi tin nhắn chat
 
 # Server → Client
-order_notification       # Nhận thông báo đơn hàng mới (Admin)
-order_update            # Nhận cập nhật đơn hàng (Admin)
-order_status_changed    # Thông báo thay đổi trạng thái (User)
-admin_message           # Nhận tin nhắn từ admin (User)
-user_message            # Nhận tin nhắn từ user (Admin)
+order_notification        # Nhận thông báo đơn hàng mới (Admin)
+order_update              # Nhận cập nhật đơn hàng (Admin)
+order_status_changed      # Thông báo thay đổi trạng thái (User)
+admin_message             # Nhận tin nhắn từ admin (User)
+user_message              # Nhận tin nhắn từ user (Admin)
 ```
 
 ---
 
-## 🧩 CẤU TRÚC DỰ ÁN
+##  CẤU TRÚC DỰ ÁN
 
 ```
 Web/
@@ -437,27 +449,35 @@ Web/
 │   ├── server.js                       # Entry point
 │   ├── package.json                    # Backend dependencies
 │   ├── package-lock.json
+│   ├── .env                            # Biến môi trường (không commit)
+│   ├── .env.example                    # Mẫu biến môi trường
 │   │
 │   ├── config/                         # Cấu hình
-│   │   ├── db.js                       # Database connection
+│   │   ├── db.js                       # Database connection (MSSQL)
 │   │   └── logger.js                   # Winston logger setup
 │   │
 │   ├── controllers/                    # Business logic
-│   │   ├── authController.js           # Authentication
-│   │   ├── foodController.js           # Foods/Products CRUD
+│   │   ├── authController.js           # Đăng ký / Đăng nhập
+│   │   ├── foodController.js           # Foods/Products CRUD + top-products
 │   │   ├── orderController.js          # Orders management
-│   │   ├── promotionController.js      # Promotions/Vouchers
-│   │   ├── restaurantController.js     # Restaurant info
+│   │   ├── promotionController.js      # Promotions/Vouchers CRUD
+│   │   ├── restaurantController.js     # Restaurant CRUD
 │   │   ├── customerController.js       # Customer management
-│   │   └── uploadController.js         # File upload handler
+│   │   └── uploadController.js         # Upload & quản lý ảnh
 │   │
 │   ├── middlewares/                    # Middleware functions
 │   │   ├── auth.js                     # JWT verification
 │   │   └── role.js                     # Role-based access control
 │   │
-│   ├── models/                         # Data models
-│   │   ├── userModel.js                # User/Customer model
-│   │   └── categoryModel.js            # Category model
+│   ├── models/                         # Data models (truy vấn MSSQL trực tiếp)
+│   │   ├── userModel.js                # Tạo user & tìm theo số điện thoại
+│   │   ├── customerModel.js            # Customer CRUD
+│   │   ├── foodModel.js                # Food CRUD + filter + top-products
+│   │   ├── orderModel.js               # Order CRUD
+│   │   ├── promotionModel.js           # Promotion CRUD + auto-update status
+│   │   ├── restaurantModel.js          # Restaurant CRUD
+│   │   ├── categoryModel.js            # Category CRUD
+│   │   └── imageModel.js               # Quản lý ảnh (upload, lấy, xóa theo referenceType/referenceId)
 │   │
 │   ├── routes/                         # API routes
 │   │   ├── auth.js                     # /api/auth/*
@@ -472,7 +492,7 @@ Web/
 │   ├── tests/                          # Unit tests
 │   │   └── food.test.js                # Food API tests
 │   │
-│   ├── uploads/                        # Uploaded images storage
+│   ├── uploads/                        # Thư mục lưu ảnh được upload
 │   │   └── [image files]
 │   │
 │   └── logs/                           # Application logs
@@ -531,8 +551,7 @@ Web/
     ├── 04-restaurants.png              # Danh sách nhà hàng
     ├── 05-menu-ordering.png            # Menu và đặt món
     ├── 06-vouchers.png                 # Áp dụng voucher
-    ├── 07-admin-dashboard.png          # Admin dashboard
-
+    └── 07-admin-dashboard.png          # Admin dashboard
 ```
 
 ---
@@ -543,8 +562,8 @@ Web/
 
 **User Features:**
 - ✅ Xác thực người dùng (JWT Authentication)
-- ✅ Đăng ký và đăng nhập
-- ✅ Duyệt menu theo danh mục
+- ✅ Đăng ký và đăng nhập bằng số điện thoại
+- ✅ Duyệt menu theo danh mục và type
 - ✅ Tìm kiếm món ăn
 - ✅ Thêm món vào giỏ hàng
 - ✅ Quản lý giỏ hàng (thêm/xóa/cập nhật số lượng)
@@ -557,11 +576,12 @@ Web/
 **Admin Features:**
 - ✅ Dashboard với thống kê tổng quan
 - ✅ Quản lý đơn hàng (xem, cập nhật, xóa)
-- ✅ Quản lý sản phẩm/món ăn (CRUD)
+- ✅ Quản lý sản phẩm/món ăn (CRUD + top-products)
 - ✅ Quản lý danh mục (CRUD)
-- ✅ Quản lý khuyến mãi/voucher (CRUD)
+- ✅ Quản lý khuyến mãi/voucher (CRUD, auto-update status)
+- ✅ Quản lý nhà hàng (CRUD)
 - ✅ Quản lý khách hàng
-- ✅ Upload hình ảnh sản phẩm
+- ✅ Upload và quản lý hình ảnh (referenceType/referenceId pattern)
 - ✅ Lọc và tìm kiếm dữ liệu
 - ✅ Real-time notifications với Socket.IO
 
